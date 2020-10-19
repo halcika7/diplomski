@@ -10,3 +10,5 @@ packages/backend/logs
 
 **/frontend/.next
 **/frontend/out
+
+**/backend/printshop-0684ed36281b.json
