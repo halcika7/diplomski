@@ -1,0 +1,12 @@
+**/node_modules
+**/.env
+**/dist
+**/build
+*.todo
+packages/backend/logs
+
+**/coverage
+**/.nyc_output
+
+**/frontend/.next
+**/frontend/out

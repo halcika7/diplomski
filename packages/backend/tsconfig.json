@@ -1,0 +1,26 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "baseUrl": ".",
+    "lib": ["es2019"],
+    "typeRoots": [
+      "./src/*.types",
+      "./node_modules/@types"
+    ],
+    "paths": {
+      "@env": ["src/configs/index"],
+      "@config/*": ["src/configs/*"],
+      "@controller/*": ["src/controllers/*"],
+      "@middleware/*": ["src/middlewares/*"],
+      "@model/*": ["src/models/*"],
+      "@service/*": ["src/services/*"],
+      "@logger": ["src/utils/logger/index"],
+      "@ctypes": ["src/utils/types/index"],
+      "@decorator/*": ["src/utils/decorators/*"],
+      "@repository/*": ["src/repositories/*"]
+    }
+  },
+  "include": ["src/**/*", "__tests__/**/*"],
+  "exclude": ["node_modules", "logs"]
+}

@@ -1,0 +1,67 @@
+.card-overflow {
+    position: relative;
+    overflow: hidden;
+}
+
+.card-overflow.box:before {
+    content: '\f466';
+    font-family: 'Font Awesome\ 5 Free';
+    font-weight: 900;
+    font-size: 50px;
+    color: rgba(0, 0, 0, 0.062);
+    position: absolute;
+    bottom: 0px;
+    right: 20px;
+    z-index: 0;
+}
+
+.card-overflow.box-check:before {
+    content: '\f466';
+    font-family: 'Font Awesome\ 5 Free';
+    font-weight: 900;
+    font-size: 50px;
+    color: rgba(0, 0, 0, 0.062);
+    position: absolute;
+    bottom: 0px;
+    right: 20px;
+    z-index: 0;
+}
+
+.card-overflow.box-usd:before {
+    content: '\f155';
+    font-family: 'Font Awesome\ 5 Free';
+    font-weight: 900;
+    font-size: 50px;
+    color: rgba(0, 0, 0, 0.062);
+    position: absolute;
+    bottom: 0px;
+    right: 20px;
+    z-index: 0;
+}
+
+.card-overflow.money-wave:before {
+    content: '\f53a';
+    font-family: 'Font Awesome\ 5 Free';
+    font-weight: 900;
+    font-size: 50px;
+    color: rgba(0, 0, 0, 0.062);
+    position: absolute;
+    bottom: 0px;
+    right: 20px;
+    z-index: 0;
+}
+
+@media (max-width: 350px) {
+    .card-overflow.box:before {
+        content: '';
+    }
+    .card-overflow.box-check:before {
+        content: '';
+    }
+    .card-overflow.box-usd:before {
+        content: '';
+    }
+    .card-overflow.money-wave:before {
+        content: '';
+    }
+}

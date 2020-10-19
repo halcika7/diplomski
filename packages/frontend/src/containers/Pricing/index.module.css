@@ -1,0 +1,7 @@
+.table tr td {
+    min-width: 120px;
+}
+
+.table tr td:not(:first-child) {
+    padding: 5px 15px;
+}

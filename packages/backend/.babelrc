@@ -1,0 +1,61 @@
+{
+  "presets": [
+    "@babel/preset-env",
+    ["@babel/preset-typescript", { "onlyRemoveTypeImports": true }]
+  ],
+  "plugins": [
+    "@babel/plugin-transform-runtime",
+    ["@babel/plugin-proposal-decorators", { "legacy": true }],
+    ["@babel/plugin-proposal-class-properties", { "loose": false }],
+    "babel-plugin-transform-typescript-metadata",
+    "babel-plugin-parameter-decorator",
+    "@babel/plugin-syntax-dynamic-import",
+    [
+      "babel-plugin-root-import",
+      {
+        "paths": [
+          {
+            "rootPathSuffix": "./src/configs/index",
+            "rootPathPrefix": "@env"
+          },
+          {
+            "rootPathSuffix": "./src/configs",
+            "rootPathPrefix": "@config/"
+          },
+          {
+            "rootPathSuffix": "./src/controllers",
+            "rootPathPrefix": "@controller/"
+          },
+          {
+            "rootPathSuffix": "./src/middlewares",
+            "rootPathPrefix": "@middleware/"
+          },
+          {
+            "rootPathSuffix": "./src/models",
+            "rootPathPrefix": "@model/"
+          },
+          {
+            "rootPathSuffix": "./src/services",
+            "rootPathPrefix": "@service/"
+          },
+          {
+            "rootPathSuffix": "./src/utils/logger/index",
+            "rootPathPrefix": "@logger"
+          },
+          {
+            "rootPathSuffix": "./src/utils/types/index",
+            "rootPathPrefix": "@ctypes"
+          },
+          {
+            "rootPathSuffix": "./src/utils/decorators",
+            "rootPathPrefix": "@decorator/"
+          },
+          {
+            "rootPathSuffix": "./src/repositories",
+            "rootPathPrefix": "@repository/"
+          }
+        ]
+      }
+    ]
+  ]
+}

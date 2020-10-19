@@ -1,0 +1,44 @@
+{
+  "presets": [
+    "@babel/preset-env",
+    ["@babel/preset-typescript", { "onlyRemoveTypeImports": true }]
+  ],
+  "plugins": [
+    "@babel/plugin-transform-runtime",
+    [
+      "babel-plugin-root-import",
+      {
+        "paths": [
+          {
+            "rootPathSuffix": "./src/library/axios",
+            "rootPathPrefix": "@axios"
+          },
+          {
+            "rootPathSuffix": "./src/library/decode",
+            "rootPathPrefix": "@decode"
+          },
+          {
+            "rootPathSuffix": "./src/redux/actions/index",
+            "rootPathPrefix": "@actions"
+          },
+          {
+            "rootPathSuffix": "./src/assets/img",
+            "rootPathPrefix": "@images/"
+          },
+          {
+            "rootPathSuffix": "./src/components",
+            "rootPathPrefix": "@components/"
+          },
+          {
+            "rootPathSuffix": "./src/redux/reducers",
+            "rootPathPrefix": "@reducers/"
+          },
+          {
+            "rootPathSuffix": "./src/redux/AppThunkDispatch",
+            "rootPathPrefix": "@dispatch"
+          }
+        ]
+      }
+    ]
+  ]
+}

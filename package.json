@@ -1,0 +1,43 @@
+{
+  "name": "diplomski",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
+  "scripts": {
+    "build": "lerna run build --scope={@job/backend,@job/frontend,@job/common}",
+    "test": "lerna run test --scope={@job/backend,@job/frontend}",
+    "test:coverage": "lerna run test --scope={@job/backend,@job/frontend}",
+    "server": "yarn --cwd packages/backend watch",
+    "server-prod": "yarn --cwd packages/backend start",
+    "frontend": "yarn --cwd packages/frontend start",
+    "frontend-prod": "yarn --cwd packages/frontend start",
+    "dev": "concurrently \"yarn server\" \"yarn frontend\"",
+    "prod": "concurrently \"yarn server-prod\" \"yarn frontend-prod\"",
+    "lint": "eslint --fix packages/frontend/**/*.{ts,tsx} packages/backend/src/**/*.ts"
+  },
+  "dependencies": {
+    "concurrently": "^5.2.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.34.0",
+    "@typescript-eslint/parser": "^2.34.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-react-hooks": "^2.5.0",
+    "eslint-plugin-security": "^1.4.0",
+    "lerna": "^3.21.0",
+    "prettier": "^2.0.5",
+    "typescript": "^3.9.2"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
