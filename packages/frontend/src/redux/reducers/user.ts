@@ -9,7 +9,7 @@ export interface ProfileErrors {
 }
 
 export interface UserState {
-  users: User[] | undefined;
+  users: User[] | null;
   userData: Record<string, string> | UserData;
   message: string;
   status: number | null;
@@ -18,7 +18,7 @@ export interface UserState {
 }
 
 export const INITIAL_STATE: UserState = {
-  users: undefined,
+  users: null,
   userData: {},
   message: '',
   status: null,

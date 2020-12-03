@@ -18919,3 +18919,7 @@ textarea.form-control {
 .cursor-pointer {
   cursor: pointer;
 }
+
+.min-height-75vh {
+  min-height: 75vh;
+}

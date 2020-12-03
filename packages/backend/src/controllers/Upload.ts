@@ -2,12 +2,12 @@ import { Controller } from '@decorator/class';
 import { BaseController } from './Base';
 import { Get, Post } from '@decorator/method';
 import { Body, Req, Res } from '@decorator/param';
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { HTTPCodes } from '@job/common';
 import { authMiddleware } from '@middleware/auth';
 import { multerFile } from '@middleware/multer';
 import { UploadService } from '@service/Upload';
-import { FileUploadBody } from '@ctypes';
+import { FileUploadBody, RequestUser } from '@ctypes';
 
 @Controller('/upload')
 export class UploadController extends BaseController {
@@ -18,13 +18,13 @@ export class UploadController extends BaseController {
   @Post('/', authMiddleware(['professor']), multerFile)
   async uploadFile(
     @Res() res: Response,
-    @Req() req: Request,
+    @Req() req: RequestUser,
     @Body() body: FileUploadBody
   ) {
     const { cart, errors, err } = await this.uploadService.uploadFile(
       req.file,
       body,
-      req.user as string
+      req.user.id
     );
 
     if (errors) {
@@ -39,8 +39,8 @@ export class UploadController extends BaseController {
   }
 
   @Get('/binding-papers', authMiddleware(['professor']))
-  async getBidningPapers(@Res() res: Response) {
-    const { papers, bindings } = await this.uploadService.getBidningPapers();
+  async getBindingPapers(@Res() res: Response) {
+    const { papers, bindings } = await this.uploadService.getBindingPapers();
 
     return this.sendResponse(res, HTTPCodes.OK, { papers, bindings });
   }

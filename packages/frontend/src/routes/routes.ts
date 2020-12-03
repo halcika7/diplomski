@@ -1,9 +1,14 @@
 import { FC, lazy } from 'react';
+import { OrderType } from 'src/redux/types/order';
+import { UserType } from 'src/redux/types/user';
 
 type Route = {
   path: string;
   exact: boolean;
   Component: FC<Record<any, any>>;
+  orderType?: OrderType;
+  usersType?: UserType;
+  title?: string;
 };
 
 export const publicRoutes: Route[] = [
@@ -32,33 +37,39 @@ export const authenticatedRoutes: Route[] = [
   },
   {
     path: '/all-orders',
+    orderType: 'all',
     exact: true,
-    Component: lazy(() => import('../containers/DataTables/OrdersDataTable')),
+    Component: lazy(() => import('../containers/Orders')),
   },
   {
     path: '/completed-orders',
     exact: true,
-    Component: lazy(() => import('../containers/DataTables/OrdersDataTable')),
+    orderType: 'completed',
+    Component: lazy(() => import('../containers/Orders')),
   },
   {
     path: '/rejected-orders',
     exact: true,
-    Component: lazy(() => import('../containers/DataTables/OrdersDataTable')),
+    orderType: 'rejected',
+    Component: lazy(() => import('../containers/Orders')),
   },
   {
     path: '/pending-orders',
     exact: true,
-    Component: lazy(() => import('../containers/DataTables/OrdersDataTable')),
+    orderType: 'pending',
+    Component: lazy(() => import('../containers/Orders')),
   },
   {
     path: '/paid-orders',
     exact: true,
-    Component: lazy(() => import('../containers/DataTables/OrdersDataTable')),
+    orderType: 'paid',
+    Component: lazy(() => import('../containers/Orders')),
   },
   {
     path: '/unpaid-orders',
+    orderType: 'unpaid',
     exact: true,
-    Component: lazy(() => import('../containers/DataTables/OrdersDataTable')),
+    Component: lazy(() => import('../containers/Orders')),
   },
   {
     path: '/order/:id',
@@ -71,7 +82,8 @@ export const adminRoutes: Route[] = [
   {
     path: '/deleted-orders',
     exact: true,
-    Component: lazy(() => import('../containers/DataTables/OrdersDataTable')),
+    orderType: 'deleted',
+    Component: lazy(() => import('../containers/Orders')),
   },
   {
     path: '/edit-user/:id',
@@ -84,27 +96,37 @@ export const adminWorkerRoutes: Route[] = [
   {
     path: '/employees',
     exact: true,
-    Component: lazy(() => import('../containers/Users/Employee')),
+    usersType: 'worker',
+    title: 'Employees',
+    Component: lazy(() => import('../containers/Users')),
   },
   {
     path: '/professors',
     exact: true,
-    Component: lazy(() => import('../containers/Users/Professor')),
+    usersType: 'professor',
+    title: 'Professors',
+    Component: lazy(() => import('../containers/Users')),
   },
   {
     path: '/administration',
     exact: true,
-    Component: lazy(() => import('../containers/Users/Administration')),
+    usersType: 'administration',
+    title: 'Administration',
+    Component: lazy(() => import('../containers/Users')),
   },
   {
     path: '/admins',
     exact: true,
-    Component: lazy(() => import('../containers/Users/Admin')),
+    usersType: 'admin',
+    title: 'Admins',
+    Component: lazy(() => import('../containers/Users')),
   },
   {
     path: '/users',
     exact: true,
-    Component: lazy(() => import('../containers/Users/All')),
+    usersType: 'all',
+    title:'All Users',
+    Component: lazy(() => import('../containers/Users')),
   },
   {
     path: '/papers',
@@ -124,7 +146,8 @@ export const adminWorkerRoutes: Route[] = [
   {
     path: '/new-orders',
     exact: true,
-    Component: lazy(() => import('../containers/DataTables/OrdersDataTable')),
+    orderType: 'approved',
+    Component: lazy(() => import('../containers/Orders')),
   },
 ];
 

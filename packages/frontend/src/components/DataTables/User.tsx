@@ -32,7 +32,7 @@ const UserDataTable: FC<Props> = ({ users, role }) => {
         data-placement="top"
         title={`View User - ${row.name}`}
       >
-        <Link to={`/edit-user?id=${row._id}`} style={{ color: '#fff' }}>
+        <Link to={`/edit-user/${row._id}`} style={{ color: '#fff' }}>
           <i className="far fa-eye" />
         </Link>
       </button>

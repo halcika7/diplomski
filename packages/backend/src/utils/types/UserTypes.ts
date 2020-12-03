@@ -1,5 +1,5 @@
 export interface Token {
-  id: number;
+  id: string;
   role: string;
 }
 

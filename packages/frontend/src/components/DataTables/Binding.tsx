@@ -150,7 +150,7 @@ const BindingDataTable: FC<Props> = ({ role, bindings }) => {
     },
   ];
 
-  const updateSignlePrice = (_: string, __: string, ___: number | string) => {
+  const updateSinglePrice = (_: string, __: string, ___: number | string) => {
     // props.updateBinding(id, field, value, props.history.push);
   };
 
@@ -186,7 +186,7 @@ const BindingDataTable: FC<Props> = ({ role, bindings }) => {
                   newValue: number | string,
                   row: Binding,
                   column: any
-                ) => updateSignlePrice(row._id, column.dataField, newValue),
+                ) => updateSinglePrice(row._id, column.dataField, newValue),
               })}
             />
           </>

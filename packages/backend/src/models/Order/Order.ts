@@ -12,7 +12,7 @@ export interface OrderInterface extends Document {
     binding: string;
   }[];
   totalCost: number;
-  orderedBy: string;
+  orderedBy: string | { _id: string; name: string };
   orderedFor: string;
   status: string;
   paid: boolean;

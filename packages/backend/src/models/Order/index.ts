@@ -42,7 +42,7 @@ const orderSchema = new Schema(
     },
     orderedBy: {
       type: Schema.Types.ObjectId,
-      ref: 'users',
+      ref: 'User',
       required: true,
     },
     orderedFor: {

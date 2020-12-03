@@ -1,12 +1,13 @@
 import { Controller } from '@decorator/class';
 import { BaseController } from './Base';
-import { Get, Patch, Post } from '@decorator/method';
-import { Body, Param, Req, Res } from '@decorator/param';
-import { Request, Response } from 'express';
+import { Get, Post } from '@decorator/method';
+import { Param, Req, Res } from '@decorator/param';
+import { Response } from 'express';
 import { HTTPCodes } from '@job/common';
 import { authMiddleware } from '@middleware/auth';
 import { UserService } from '@service/User';
 import { multerImage } from '@middleware/multer';
+import { RequestUser } from '@ctypes';
 
 @Controller('/user')
 export class UserController extends BaseController {
@@ -15,16 +16,16 @@ export class UserController extends BaseController {
   }
 
   @Get('/', authMiddleware())
-  async getUserData(@Res() res: Response, @Req() req: Request) {
-    const userData = await this.userService.getUserData(req.user as string);
+  async getUserData(@Res() res: Response, @Req() req: RequestUser) {
+    const userData = await this.userService.getUserData(req.user.id);
     return this.sendResponse(res, HTTPCodes.OK, { userData });
   }
 
   @Post('/picture', authMiddleware(), multerImage)
-  async updatePicture(@Res() res: Response, @Req() req: Request) {
+  async updatePicture(@Res() res: Response, @Req() req: RequestUser) {
     const { error, secure_url } = await this.userService.changePhoto(
       req.file,
-      req.user as string
+      req.user.id
     );
 
     if (error) {

@@ -1,4 +1,4 @@
-import { User } from './../types/user';
+import { User, UserType } from './../types/user';
 import { axios } from '@axios';
 import { AppThunkDispatch } from '../AppThunkDispatch';
 import { ProfileErrors } from '../reducers/user';
@@ -62,18 +62,16 @@ export const updateInfo = (_: ProfileErrors) => async (
   // }>('/user/', profileData);
 };
 
-export const setUsers = (users: User[] | undefined): UserActionTypes => ({
+export const setUsers = (users: User[] | null): UserActionTypes => ({
   type: UserActions.SET_USERS,
   payload: users,
 })
 
-export const getUsers = (role: string) => async (
+export const getUsers = (role: UserType) => async (
   dispatch: AppThunkDispatch
   ) => {
-    console.log("role", role)
   const { data } = await axios.get<{
     users: User[];
   }>(`/user/${role}`);
-  console.log("data", data)
   dispatch(setUsers(data.users));
 }

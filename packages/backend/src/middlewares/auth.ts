@@ -22,7 +22,7 @@ export const authMiddleware = (permission: string[] | null = null) => (
     if (permission && !permission.includes(decoded.role)) {
       return returnUnAuthorizedRequest(res);
     }
-    req.user = decoded.id;
+    req.user = { ...decoded };
     return next();
   } catch {
     return returnUnAuthorizedRequest(res);

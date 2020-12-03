@@ -1,72 +1,74 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
+import React, { useEffect, FC } from 'react';
+import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
-import SmallSpinner from '@components/UI/Spinner/SmallSpinner';
-// import FilesTable from '@components/UI/FilesTable/FilesTable';
-import Alert from '@components/UI/Alert';
+import Spinner from '@components/UI/Spinner/Spinner';
+import FilesTable from '@components/UI/FilesTable';
+// import Alert from '@components/UI/Alert';
+import { getOrder, setOrder, setOrderMessage } from '@actions';
+import { useThunkDispatch } from '@dispatch';
+import { createSelector } from 'reselect';
+import { AppState } from '@reducers/index';
+import { useSelector } from 'react-redux';
 
-const Order = (props: any) => {
-  const id = new URLSearchParams(props.location.search).get('id');
-  const [redirect, setRedirect] = useState<any>(false);
-  const [loading, setLoading] = useState<any>(true);
+const redux = createSelector(
+  (state: AppState) => state.order.order,
+  (state: AppState) => state.order.message,
+  (state: AppState) => state.order.status,
+  (order, message, status) => ({ order, message, status })
+);
+
+interface Props extends Record<string, any> {
+  role?: string;
+}
+
+const HelmetElement = () => (
+  <Helmet>
+    <title>Order</title>
+    <meta name="description" content="Order page in Print shop app" />
+    <meta property="og:description" content="Order page in Print shop app" />
+  </Helmet>
+);
+
+const Order: FC<Props> = ({ role }) => {
+  const dispatch = useThunkDispatch();
+  const { order, message } = useSelector(redux);
+  const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
-    props.getOrder(id, props.history.push);
-  }, []);
+    dispatch(getOrder(id));
+  }, [dispatch, id]);
 
   useEffect(() => {
-    if (
-      Object.keys(props.order).length > 0 &&
-      ((props.role === 'professor' && props.id !== props.order.orderedBy._id) ||
-        (props.role === 'administration' &&
-          props.order.orderedFor !== 'University') ||
-        props.order.deleted)
-    ) {
-      setRedirect(true);
-    }
-    if (
-      Object.keys(props.order).length > 0 &&
-      ((props.role === 'professor' && props.id === props.order.orderedBy._id) ||
-        (props.role === 'administration' &&
-          props.order.orderedFor === 'University') ||
-        props.role === 'admin' ||
-        props.role === 'worker')
-    ) {
-      setLoading(false);
-    }
-  }, [props.order]);
+    return () => {
+      dispatch(setOrder(null));
+      dispatch(setOrderMessage('', null));
+    };
+  }, [dispatch]);
 
-  const updateOrderButton = (type: any) => {
-    props.updateOrder(props.order._id, props.id, type, props.history.push);
-  };
+  // const updateOrderButton = (type: any) => {
+  //   props.updateOrder(props.order._id, props.id, type, props.history.push);
+  // };
 
-  return redirect ? (
-    <Redirect to="/" />
-  ) : !loading && Object.keys(props.order).length > 0 ? (
-    <React.Fragment>
-      <Helmet>
-        <title>Order</title>
-        <meta name="description" content="Order page in Print shop app" />
-        <meta
-          property="og:description"
-          content="Order page in Print shop app"
-        />
-      </Helmet>
-      {props.successMessage && (
-        <Alert
-          message={props.successMessage}
-          clear={props.clearOrderMessages}
-          className="success-alert"
-        />
-      )}
-      {props.failedMessage && (
-        <Alert
-          message={props.failedMessage}
-          clear={props.clearOrderMessages}
-        />
-      )}
+  if (!order) {
+    return (
+      <div className="row">
+        <HelmetElement />
+        <div className="col-12">
+          <div className="card min-height-75vh">
+            <div className="card-body">
+              {!message && <Spinner />}
+              {message && <p>{message}</p>}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <HelmetElement />
       <div className="row">
         <div className="col-12">
           <div className="card">
@@ -77,72 +79,70 @@ const Order = (props: any) => {
               <div className="row">
                 <div className="col-12 mb-5">
                   <p>
-                    Ordered by {props.order.orderedBy.name},{' '}
-                    {new Date(props.order.createdAt).toLocaleString()}
+                    Ordered by {order.orderedBy.name},{' '}
+                    {new Date(order.createdAt).toLocaleString()}
                   </p>
-                  <p>Ordered for {props.order.orderedFor} use</p>
-                  <p>Status - {props.order.status}</p>
-                  <p>Paid - {props.order.paid.toString().toUpperCase()}</p>
-                  {props.order.deleted && (
+                  <p>Ordered for {order.orderedFor} use</p>
+                  <p style={{ textTransform: 'capitalize' }}>
+                    Status - {order.status}
+                  </p>
+                  <p>Paid - {order.paid.toString().toUpperCase()}</p>
+                  {order.deleted && (
                     <p style={{ fontWeight: 900, color: '#f00' }}>
                       This Order is deleted!
                     </p>
                   )}
                 </div>
                 <div className="col-12">
-                  {props.role === 'worker' &&
-                    props.order.status === 'approved' && (
-                      <button
-                        className="btn btn-sm btn-info"
-                        onClick={() => updateOrderButton('finished')}
-                      >
-                        <i className="fas fa-check"></i>
-                        Finish Order
-                      </button>
-                    )}
-                  {props.role === 'worker' &&
-                    props.order.status === 'finished' &&
-                    !props.order.paid && (
+                  {role === 'worker' && order.status === 'approved' && (
+                    <button
+                      className="btn btn-sm btn-info"
+                      // onClick={() => updateOrderButton('finished')}
+                    >
+                      <i className="fas fa-check"></i>
+                      Finish Order
+                    </button>
+                  )}
+                  {role === 'worker' &&
+                    order.status === 'finished' &&
+                    !order.paid && (
                       <button
                         className="btn btn-sm btn-success"
-                        onClick={() => updateOrderButton('paid')}
+                        // onClick={() => updateOrderButton('paid')}
                       >
                         <i className="fas fa-money-bill-alt"></i>
                         Confirm that order was paid
                       </button>
                     )}
-                  {props.role === 'administration' &&
-                    props.order.status === 'pending' && (
-                      <button
-                        className="btn btn-sm btn-primary"
-                        onClick={() => updateOrderButton('approved')}
-                      >
-                        <i className="fas fa-check"></i>
-                        Approve Order
-                      </button>
-                    )}
-                  {((props.role === 'administration' &&
-                    props.order.status === 'pending') ||
-                    (props.role === 'worker' &&
-                      props.order.status === 'approved')) && (
+                  {role === 'administration' && order.status === 'pending' && (
+                    <button
+                      className="btn btn-sm btn-primary"
+                      // onClick={() => updateOrderButton('approved')}
+                    >
+                      <i className="fas fa-check"></i>
+                      Approve Order
+                    </button>
+                  )}
+                  {((role === 'administration' && order.status === 'pending') ||
+                    (role === 'worker' && order.status === 'approved')) && (
                     <button
                       className="btn btn-sm btn-danger"
-                      onClick={() => updateOrderButton('rejected')}
+                      // onClick={() => updateOrderButton('rejected')}
                     >
                       <i className="far fa-times-circle"></i>
                       Reject Order
                     </button>
                   )}
-                  {props.role === 'admin' &&
-                    ((props.order.status === 'finished' &&
-                      props.order.paid &&
-                      !props.order.deleted) ||
-                      props.order.status === 'rejected') && (
+                  {role === 'admin' &&
+                    ((order.status === 'finished' &&
+                      order.paid &&
+                      !order.deleted) ||
+                      order.status === 'rejected') && (
                       <button
                         className="btn btn-sm btn-danger"
-                        onClick={() =>
-                          props.deleteOrder(props.order._id, props.history.push)
-                        }
+                        // onClick={() =>
+                        //   props.deleteOrder(props.order._id, props.history.push)
+                        // }
                       >
                         <i className="far fa-times-circle"></i>
                         Delete Order
@@ -153,32 +153,27 @@ const Order = (props: any) => {
             </div>
           </div>
         </div>
-        {/*<FilesTable
-          files={props.order.documents}
-          totalprice={props.order.totalCost}
+        <FilesTable
+          documents={order.documents}
+          totalPrice={order.totalCost}
           hideFooter
-        />*/}
-      </div>
-    </React.Fragment>
-  ) : (
-    <div className="row">
-      <Helmet>
-        <title>Order</title>
-        <meta name="description" content="Order page in Print shop app" />
-        <meta
-          property="og:description"
-          content="Order page in Print shop app"
+          deleteFile={() => {}}
+          deleteFiles={() => {}}
         />
-      </Helmet>
-      <div className="col-12">
-        <div className="card">
-          <div className="card-body">
-            <SmallSpinner />
-          </div>
-        </div>
       </div>
-    </div>
+    </>
   );
 };
+
+// {props.successMessage && (
+//   <Alert
+//     message={props.successMessage}
+//     clear={props.clearOrderMessages}
+//     className="success-alert"
+//   />
+// )}
+// {props.failedMessage && (
+//   <Alert message={props.failedMessage} clear={props.clearOrderMessages} />
+// )}
 
 export default React.memo(Order);

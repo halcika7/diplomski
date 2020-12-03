@@ -9,6 +9,12 @@ export {
   getUsers,
 } from './user';
 export { getCart, setCart, clearCart, removeDocument } from './cart';
-export { postOrder } from './order';
+export {
+  postOrder,
+  getOrders,
+  getOrder,
+  setOrder,
+  setOrderMessage,
+} from './order';
 export { getPaperBindings, getPapers, getBindings } from './paperBinding';
 export { getFiles } from './file';

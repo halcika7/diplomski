@@ -1,7 +1,17 @@
+.DataTable {
+    min-height: 75vh;
+    display: flex;
+    flex-direction: column;
+}
+
 .DataTable table td,
 .DataTable table th {
     vertical-align: middle;
     outline: none !important;
+}
+
+.DataTable.Orders table td {
+    text-transform: capitalize;
 }
 
 .DataTable table th label {
@@ -114,7 +124,7 @@
 }
 
 .DataTable > div:nth-child(3) {
-    margin-top: 2rem;
+    margin-top: auto;
 }
 
 @media (max-width: 575px) {

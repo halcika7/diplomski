@@ -48,49 +48,52 @@ const Pricing = () => {
             >
               BLACK & WHITE PRINTING / COPYING
             </h4>
-            <div className="table-responsive">
-              <table className={classes.table + ' mt-3'}>
-                <tbody>
-                  <tr>
-                    <td />
-                    {papers.map((paper: any, i: number) => (
-                      <td key={paper.name + i}>Per copy {paper.name}</td>
-                    ))}
-                  </tr>
-                  <tr>
-                    <td>1 - 250</td>
-                    {papers.map((paper, i: number) => (
-                      <td key={'priceblackwhite0' + i}>
-                        {paper.blackWhitePrinting.upTo250} KM
-                      </td>
-                    ))}
-                  </tr>
-                  <tr>
-                    <td>250 - 500</td>
-                    {papers.map((paper, i: number) => (
-                      <td key={'priceblackwhite1' + i}>
-                        {paper.blackWhitePrinting.from250upTo500} KM
-                      </td>
-                    ))}
-                  </tr>
-                  <tr>
-                    <td>500 - 1000</td>
-                    {papers.map((paper, i: number) => (
-                      <td key={'priceblackwhite2' + i}>
-                        {paper.blackWhitePrinting.from500upTo1000} KM
-                      </td>
-                    ))}
-                  </tr>
-                  <tr>
-                    <td>1000+</td>
-                    {papers.map((paper, i: number) => (
-                      <td key={'priceblackwhite3' + i}>
-                        {paper.blackWhitePrinting.from1000} KM
-                      </td>
-                    ))}
-                  </tr>
-                </tbody>
-              </table>
+            <div className="d-flex">
+              <ul className={classes.price_ul}>
+                <li>1 - 250</li>
+                <li>250 - 500</li>
+                <li>500 - 1000</li>
+                <li>1000+</li>
+              </ul>
+              <div className="table-responsive">
+                <table className={classes.table + ' mt-3'}>
+                  <tbody>
+                    <tr>
+                      {papers.map((paper: any, i: number) => (
+                        <td key={paper.name + i}>Per copy {paper.name}</td>
+                      ))}
+                    </tr>
+                    <tr>
+                      {papers.map((paper, i: number) => (
+                        <td key={'priceblackwhite0' + i}>
+                          {paper.blackWhitePrinting.upTo250} KM
+                        </td>
+                      ))}
+                    </tr>
+                    <tr>
+                      {papers.map((paper, i: number) => (
+                        <td key={'priceblackwhite1' + i}>
+                          {paper.blackWhitePrinting.from250upTo500} KM
+                        </td>
+                      ))}
+                    </tr>
+                    <tr>
+                      {papers.map((paper, i: number) => (
+                        <td key={'priceblackwhite2' + i}>
+                          {paper.blackWhitePrinting.from500upTo1000} KM
+                        </td>
+                      ))}
+                    </tr>
+                    <tr>
+                      {papers.map((paper, i: number) => (
+                        <td key={'priceblackwhite3' + i}>
+                          {paper.blackWhitePrinting.from1000} KM
+                        </td>
+                      ))}
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
             <h4
               style={{
@@ -103,51 +106,54 @@ const Pricing = () => {
             >
               COLOR PRINTING / COPYING
             </h4>
-            <div className="table-responsive">
-              <table className={classes.table + ' mt-3'}>
-                <tbody>
-                  <tr>
-                    <td />
-                    {papers.map((paper, i: number) => (
-                      <td key={paper.name + i + 'color'}>
-                        Per copy {paper.name}
-                      </td>
-                    ))}
-                  </tr>
-                  <tr>
-                    <td>1 - 250</td>
-                    {papers.map((paper, i: number) => (
-                      <td key={'colorPrinting0' + i}>
-                        {paper.colorPrinting.upTo250} KM
-                      </td>
-                    ))}
-                  </tr>
-                  <tr>
-                    <td>250 - 500</td>
-                    {papers.map((paper, i: number) => (
-                      <td key={'colorPrinting1' + i}>
-                        {paper.colorPrinting.from250upTo500} KM
-                      </td>
-                    ))}
-                  </tr>
-                  <tr>
-                    <td>500 - 1000</td>
-                    {papers.map((paper, i: number) => (
-                      <td key={'colorPrinting2' + i}>
-                        {paper.colorPrinting.from500upTo1000} KM
-                      </td>
-                    ))}
-                  </tr>
-                  <tr>
-                    <td>1000+</td>
-                    {papers.map((paper, i: number) => (
-                      <td key={'colorPrinting3' + i}>
-                        {paper.colorPrinting.from1000} KM
-                      </td>
-                    ))}
-                  </tr>
-                </tbody>
-              </table>
+            <div className="d-flex">
+              <ul className={classes.price_ul}>
+                <li>1 - 250</li>
+                <li>250 - 500</li>
+                <li>500 - 1000</li>
+                <li>1000+</li>
+              </ul>
+              <div className="table-responsive">
+                <table className={classes.table + ' mt-3'}>
+                  <tbody>
+                    <tr>
+                      {papers.map((paper, i: number) => (
+                        <td key={paper.name + i + 'color'}>
+                          Per copy {paper.name}
+                        </td>
+                      ))}
+                    </tr>
+                    <tr>
+                      {papers.map((paper, i: number) => (
+                        <td key={'colorPrinting0' + i}>
+                          {paper.colorPrinting.upTo250} KM
+                        </td>
+                      ))}
+                    </tr>
+                    <tr>
+                      {papers.map((paper, i: number) => (
+                        <td key={'colorPrinting1' + i}>
+                          {paper.colorPrinting.from250upTo500} KM
+                        </td>
+                      ))}
+                    </tr>
+                    <tr>
+                      {papers.map((paper, i: number) => (
+                        <td key={'colorPrinting2' + i}>
+                          {paper.colorPrinting.from500upTo1000} KM
+                        </td>
+                      ))}
+                    </tr>
+                    <tr>
+                      {papers.map((paper, i: number) => (
+                        <td key={'colorPrinting3' + i}>
+                          {paper.colorPrinting.from1000} KM
+                        </td>
+                      ))}
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
           <div className="col-12">

@@ -1,5 +1,5 @@
 **/node_modules
-**/.env
+packages/backend/.env
 **/dist
 **/build
 *.todo

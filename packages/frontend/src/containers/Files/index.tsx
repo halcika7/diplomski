@@ -6,6 +6,7 @@ import { AppState } from '@reducers/index';
 import { useSelector } from 'react-redux';
 import FilesTable from '@components/DataTables/File';
 import { Helmet } from 'react-helmet';
+import Spinner from '@components/UI/Spinner/Spinner';
 
 const reduxProps = createSelector(
   (state: AppState) => state.auth.role,
@@ -20,6 +21,13 @@ const Files = () => {
   useEffect(() => {
     dispatch(getFiles);
   }, [dispatch]);
+
+  if (!files)
+    return (
+      <div className="card-body">
+        <Spinner />
+      </div>
+    );
 
   return (
     <>

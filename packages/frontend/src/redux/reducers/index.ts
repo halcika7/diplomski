@@ -10,6 +10,7 @@ import {
   PaperBindingState,
 } from './paperBinding';
 import { FileReducer as file, FileState } from './file';
+import { OrderReducer as order, OrderState } from './order';
 
 export interface AppState {
   auth: AuthState;
@@ -18,6 +19,7 @@ export interface AppState {
   cart: CartState;
   paperBinding: PaperBindingState;
   file: FileState;
+  order: OrderState;
 }
 
 export const rootReducer: Reducer<AppState> = combineReducers<AppState>({
@@ -27,4 +29,5 @@ export const rootReducer: Reducer<AppState> = combineReducers<AppState>({
   cart,
   paperBinding,
   file,
+  order,
 });

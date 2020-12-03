@@ -152,7 +152,7 @@ export class UploadService extends BaseService {
     return { cart };
   }
 
-  async getBidningPapers() {
+  async getBindingPapers() {
     const [papers, bindings] = await Promise.all([
       this.paperRepository.getAllNames(),
       this.bindingRepository.getAllNames(),

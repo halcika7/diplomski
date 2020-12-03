@@ -15,6 +15,13 @@ export interface UserData {
   phone: string;
 }
 
+export type UserType =
+  | 'admin'
+  | 'administration'
+  | 'all'
+  | 'worker'
+  | 'professor';
+
 export interface User extends UserData {
   _id?: string;
   id?: string;
@@ -43,8 +50,8 @@ interface ResetUserResponse {
 }
 
 interface SetUsers {
-  type: typeof UserActions.SET_USERS
-  payload: User[] | undefined;
+  type: typeof UserActions.SET_USERS;
+  payload: User[] | null;
 }
 
 export type UserActionTypes =

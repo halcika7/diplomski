@@ -1,11 +1,11 @@
-import { FileActionTypes, FileActions } from '../types/file';
+import { FileActionTypes, FileActions, FileType } from '../types/file';
 
 export interface FileState {
-  files: any[];
+  files: FileType[] | null;
 }
 
 export const INITIAL_STATE: FileState = {
-  files: [],
+  files: null,
 };
 
 export function FileReducer(

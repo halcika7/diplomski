@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import './Sidebaricons.css';
-import { NavLinkWithQueryParam } from '../NavLinkWithQueryParam';
 import DropdownLink from './DropdownLink';
 import { createSelector } from 'reselect';
 import { AppState } from '../../redux/reducers/index';
@@ -41,14 +40,14 @@ const Sidebar: FC<Props> = ({ role }) => {
             </NavLink>
           </li>
           <li>
-            <NavLinkWithQueryParam
+            <NavLink
               className="nav-link"
               activeClassName="active"
               to="/profile"
             >
               <i className="tim-icons icon-single-02" />
               <p>User Profile</p>
-            </NavLinkWithQueryParam>
+            </NavLink>
           </li>
           {role !== 'admin' && role !== 'worker' && (
             <li>
@@ -69,11 +68,11 @@ const Sidebar: FC<Props> = ({ role }) => {
                 linkIcon="fas fa-users"
                 linkName="Users"
                 links={[
+                  { to: '/users', linkName: 'All Users' },
                   { to: '/employees', linkName: 'Employees' },
                   { to: '/professors', linkName: 'Professors' },
                   { to: '/administration', linkName: 'Administration' },
                   { to: '/admins', linkName: 'Admins' },
-                  { to: '/users', linkName: 'All Users' },
                 ]}
               />
               <DropdownLink
@@ -105,7 +104,7 @@ const Sidebar: FC<Props> = ({ role }) => {
               {
                 to: '/new-orders',
                 linkName: 'New Orders',
-                show: role === 'worker' || role === 'admin' ? true : false,
+                show: role === 'worker' || role === 'admin',
               },
               { to: '/completed-orders', linkName: 'Completed Orders' },
               { to: '/pending-orders', linkName: 'Pending Orders' },
@@ -115,12 +114,12 @@ const Sidebar: FC<Props> = ({ role }) => {
               {
                 to: '/deleted-orders',
                 linkName: 'Deleted Orders',
-                show: role === 'admin' ? true : false,
+                show: role === 'admin',
               },
               {
                 to: '/add-order',
                 linkName: 'New Order',
-                show: role === 'professor' ? true : false,
+                show: role === 'professor',
               },
             ]}
           />

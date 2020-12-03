@@ -37,7 +37,7 @@ const Bindings = () => {
       <div className="row">
         <div className="col-12 card">
           <div className="card-header">
-            <h2 className="title">Binnding prices</h2>
+            <h2 className="title">Binding prices</h2>
           </div>
           <BindingTable role={role as string} bindings={bindings} />
         </div>

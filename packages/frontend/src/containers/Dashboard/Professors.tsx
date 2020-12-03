@@ -32,21 +32,21 @@ const Professors = () => (
         <StatsSuspense classes="col-6 col-xl-3">
           <Stats
             // value={props.dashboard.earnings + ' KM'}
-            heading="Total spendings"
+            heading="Total spending's"
             icon="money-wave"
           />
         </StatsSuspense>
         <StatsSuspense classes="col-6 col-xl-3">
           <Stats
             // value={props.dashboard.usersEarnings + ' KM'}
-            heading="Total spendings for personal"
+            heading="Total spending's for personal"
             icon="money-wave"
           />
         </StatsSuspense>
         <StatsSuspense classes="col-6 col-xl-3">
           <Stats
             // value={props.dashboard.universityEarnings + ' KM'}
-            heading="Total spendings for university"
+            heading="Total spending's for university"
             icon="money-wave"
           />
         </StatsSuspense>
@@ -61,8 +61,8 @@ const Professors = () => (
           <StatsWithPercentage
             // value={props.dashboard.thisMonthEarnings}
             // oldValue={props.dashboard.lastMonthEarnings}
-            heading="This month spendings"
-            heading2="Last month spendings"
+            heading="This month spending's"
+            heading2="Last month spending's"
             icon="money-wave"
             price
           />
@@ -71,8 +71,8 @@ const Professors = () => (
           <StatsWithPercentage
             // value={props.dashboard.thisMonthEarningsProfessors}
             // oldValue={props.dashboard.lastMonthEarningsProfessors}
-            heading="This month spendings for personal"
-            heading2="Last month spendings for personal"
+            heading="This month spending's for personal"
+            heading2="Last month spending's for personal"
             icon="money-wave"
             price
           />
@@ -81,8 +81,8 @@ const Professors = () => (
           <StatsWithPercentage
             // value={props.dashboard.thisMonthEarningsUniversity}
             // oldValue={props.dashboard.lastMonthEarningsUniversity}
-            heading="This month spendings for personal"
-            heading2="Last month spendings for personal"
+            heading="This month spending's for personal"
+            heading2="Last month spending's for personal"
             icon="money-wave"
             price
           />
@@ -216,9 +216,9 @@ const Professors = () => (
       <Earnings
         // data={props.order.allMonthsEarning}
         // loading={props.loading}
-        title="Total Spendings By Month"
+        title="Total Spending's By Month"
         date
-        yLabel="Spendings"
+        yLabel="Spending's"
         xLabel="Month"
       />
     </GraphSuspense>
@@ -226,9 +226,9 @@ const Professors = () => (
       <Earnings
         // data={props.order.allMonthsEarningUsers}
         // loading={props.loading}
-        title="Total Spendings By Month for personal"
+        title="Total Spending's By Month for personal"
         date
-        yLabel="Spendings"
+        yLabel="Spending's"
         xLabel="Month"
       />
     </GraphSuspense>
@@ -236,9 +236,9 @@ const Professors = () => (
       <Earnings
         // data={props.order.allMonthsEarningUniversity}
         // loading={props.loading}
-        title="Total Spendings By Month for university"
+        title="Total Spending's By Month for university"
         date
-        yLabel="Spendings"
+        yLabel="Spending's"
         xLabel="Month"
       />
     </GraphSuspense>
@@ -246,9 +246,9 @@ const Professors = () => (
       <Earnings
         // data={props.order.allThisMonthEarnings}
         // loading={props.loading}
-        title="Total Spendings this month"
+        title="Total Spending's this month"
         date
-        yLabel="Spendings"
+        yLabel="Spending's"
         xLabel="Date day"
         overflow
       />
@@ -257,9 +257,9 @@ const Professors = () => (
       <Earnings
         // data={props.order.allLastMonthEarnings}
         // loading={props.loading}
-        title="Total Spendings last month"
+        title="Total Spending's last month"
         date
-        yLabel="Spendings"
+        yLabel="Spending's"
         xLabel="Date Day"
         overflow
       />
@@ -270,7 +270,7 @@ const Professors = () => (
         // loading={props.loading}
         title="Total spending for personal orders this month"
         date
-        yLabel="Spendings"
+        yLabel="Spending's"
         xLabel="Date Day"
         overflow
       />
@@ -281,7 +281,7 @@ const Professors = () => (
         // loading={props.loading}
         title="Total spending for personal orders last month"
         date
-        yLabel="Spendings"
+        yLabel="Spending's"
         xLabel="Date Day"
         overflow
       />
@@ -312,9 +312,9 @@ const Professors = () => (
       <Earnings
         // data={props.order.allThisMonthEarningsUniversity}
         // loading={props.loading}
-        title="Total spendings for university orders this month"
+        title="Total spending's for university orders this month"
         date
-        yLabel="Spendings"
+        yLabel="Spending's"
         xLabel="Date Day"
         overflow
       />
@@ -323,9 +323,9 @@ const Professors = () => (
       <Earnings
         // data={props.order.allLastMonthEarningsUniversity}
         // loading={props.loading}
-        title="Total spendings for university orders last month"
+        title="Total spending's for university orders last month"
         date
-        yLabel="Spendings"
+        yLabel="Spending's"
         xLabel="Date Day"
         overflow
       />

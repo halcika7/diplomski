@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import InputWithLabel from '@components/UI/Input/InputWithLabel';
 import Alert from '@components/UI/Alert';
@@ -8,30 +8,30 @@ import Select from '@components/UI/Select';
 
 const EditUser = (props: any) => {
   const id = new URLSearchParams(props.location.search).get('id');
-  const [user, setUser] = useState<any>({});
+  const [user,] = useState<any>({});
   const [role, setRole] = useState<any>('');
   const [blocked, setBlocked] = useState<any>('');
 
-  useEffect(() => {
-    props.getUserAction(id, props.history.push);
-    return () => {
-      props.clearMessages();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   props.getUserAction(id, props.history.push);
+  //   return () => {
+  //     props.clearMessages();
+  //   };
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
-  useEffect(() => {
-    props.getUserAction(id, props.history.push);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.location.search]);
+  // useEffect(() => {
+  //   props.getUserAction(id, props.history.push);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [props.location.search]);
 
-  useEffect(() => {
-    if (props.user) {
-      setUser(props.user);
-      setRole(props.user.role);
-      setBlocked(props.user.blocked);
-    }
-  }, [props.user]);
+  // useEffect(() => {
+  //   if (props.user) {
+  //     setUser(props.user);
+  //     setRole(props.user.role);
+  //     setBlocked(props.user.blocked);
+  //   }
+  // }, [props.user]);
 
   const onSubmit = (e: any) => {
     e.preventDefault();

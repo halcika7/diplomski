@@ -1,15 +1,16 @@
 import { axios } from '@axios';
 import { AppThunkDispatch } from '../AppThunkDispatch';
-import { FileActionTypes, FileActions } from '../types/file';
+import { FileActionTypes, FileActions, FileType } from '../types/file';
 
-const setFiles = (files: any[]): FileActionTypes => ({
+const setFiles = (files: FileType[]): FileActionTypes => ({
   type: FileActions.SET_FILES,
   payload: files,
 });
 
 export const getFiles = async (dispatch: AppThunkDispatch) => {
   const { data } = await axios.get<{
-    files: any[];
+    files: FileType[];
   }>('/file/');
+  console.log("🚀 ~ file: file.ts ~ line 15 ~ getFiles ~ data.files", data.files)
   dispatch(setFiles(data.files));
 };
