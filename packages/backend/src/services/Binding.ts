@@ -1,11 +1,15 @@
 import { BindingInterface } from '@model/Binding/Binding';
 import { BaseService } from './Base';
 import { Injectable } from '@decorator/class';
+import {
+  UpdateAvailabilityBindingPaper,
+  UpdatePriceBindingPaper,
+} from '@ctypes';
+import { BindingRepository } from '@repository/Binding';
 
 @Injectable()
 export class BindingService extends BaseService {
-  // eslint-disable-next-line no-useless-constructor
-  constructor() {
+  constructor(private readonly bindingRepository: BindingRepository) {
     super();
   }
 
@@ -36,5 +40,23 @@ export class BindingService extends BaseService {
     return Number(
       `${Math.round(price * copies + (('e+2' as unknown) as number))}e-2`
     );
+  }
+
+  async updateBindingPrice(data: UpdatePriceBindingPaper) {
+    const updated = await this.bindingRepository.updateBindingPrice(data);
+    const modified = !!updated.nModified;
+
+    return this.returnResponse(modified ? 200 : 400, {
+      message: `Binding ${data.option} was${modified ? '' : ' not'} updated`,
+    });
+  }
+
+  async updateAvailability(data: UpdateAvailabilityBindingPaper) {
+    const updated = await this.bindingRepository.updateAvailability(data);
+    const modified = !!updated.nModified;
+
+    return this.returnResponse(modified ? 200 : 400, {
+      message: `Paper ${data.id} was${modified ? '' : ' not'} updated`,
+    });
   }
 }

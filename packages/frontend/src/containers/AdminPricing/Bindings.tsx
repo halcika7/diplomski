@@ -8,14 +8,13 @@ import { useSelector } from 'react-redux';
 import BindingTable from '@components/DataTables/Binding';
 
 const reduxProps = createSelector(
-  (state: AppState) => state.auth.role,
   (state: AppState) => state.paperBinding.bindings,
-  (role, bindings) => ({ role, bindings })
+  (bindings) => ({ bindings })
 );
 
 const Bindings = () => {
   const dispatch = useThunkDispatch();
-  const { role, bindings } = useSelector(reduxProps);
+  const { bindings } = useSelector(reduxProps);
 
   useEffect(() => {
     dispatch(getBindings);
@@ -39,7 +38,7 @@ const Bindings = () => {
           <div className="card-header">
             <h2 className="title">Binding prices</h2>
           </div>
-          <BindingTable role={role as string} bindings={bindings} />
+          <BindingTable bindings={bindings} />
         </div>
       </div>
     </>

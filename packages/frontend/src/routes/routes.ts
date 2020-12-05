@@ -78,20 +78,6 @@ export const authenticatedRoutes: Route[] = [
   },
 ];
 
-export const adminRoutes: Route[] = [
-  {
-    path: '/deleted-orders',
-    exact: true,
-    orderType: 'deleted',
-    Component: lazy(() => import('../containers/Orders')),
-  },
-  {
-    path: '/edit-user/:id',
-    exact: true,
-    Component: lazy(() => import('../containers/EditUser')),
-  },
-];
-
 export const adminWorkerRoutes: Route[] = [
   {
     path: '/employees',
@@ -148,6 +134,11 @@ export const adminWorkerRoutes: Route[] = [
     exact: true,
     orderType: 'approved',
     Component: lazy(() => import('../containers/Orders')),
+  },
+  {
+    path: '/user/:id',
+    exact: true,
+    Component: lazy(() => import('../containers/EditUser')),
   },
 ];
 

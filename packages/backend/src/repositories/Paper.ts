@@ -3,6 +3,10 @@ import { PaperInterface } from '@model/Paper/Paper';
 import { BaseRepository } from './Base';
 import { Injectable } from '@decorator/class';
 import { Dictionary } from '../utils/genericTypes';
+import {
+  UpdateAvailabilityBindingPaper,
+  UpdatePriceBindingPaper,
+} from '@ctypes';
 
 @Injectable()
 export class PaperRepository extends BaseRepository {
@@ -29,5 +33,17 @@ export class PaperRepository extends BaseRepository {
       { $sort: { name: 1 } },
       { $project: { name: 1, _id: 0 } },
     ]).then(papers => papers.map(paper => paper.name));
+  }
+
+  private updateOne(id: string, data: Record<string, boolean | number>) {
+    return Paper.updateOne({ _id: id }, { ...data });
+  }
+
+  async updatePaperPrice({ id, option, value }: UpdatePriceBindingPaper) {
+    return this.updateOne(id, { [option]: value });
+  }
+
+  async updateAvailability({ id, available }: UpdateAvailabilityBindingPaper) {
+    return this.updateOne(id, { available });
   }
 }

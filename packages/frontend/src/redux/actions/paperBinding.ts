@@ -48,3 +48,47 @@ export const getBindings = async (dispatch: AppThunkDispatch) => {
   }>('/pricing/bindings');
   dispatch(setBindings(data.bindings));
 };
+
+const setPaperBindingResponse = (
+  message: string,
+  status: number | null
+): PaperBindingActionTypes => ({
+  type: PaperBindingActions.SET_PAPER_BINDING_RESPONSE,
+  payload: { message, status },
+});
+
+export const resetPaperBindingResponse = (dispatch: AppThunkDispatch) =>
+  dispatch(setPaperBindingResponse('', null));
+
+export const updatePaperBindingPrice = (
+  type: 'paper' | 'binding',
+  patchData: {
+    id: string;
+    option: string;
+    value: number;
+  }
+) => async (dispatch: AppThunkDispatch) => {
+  const { data, status } = await axios.patch<{
+    message: string;
+  }>(`/pricing/${type}`, patchData);
+  dispatch(setPaperBindingResponse(data.message, status));
+};
+
+export const updatePaperBindingAvailability = (
+  type: 'paper' | 'binding',
+  id: string,
+  available: boolean
+) => async (dispatch: AppThunkDispatch) => {
+  const { data, status } = await axios.patch<{
+    message: string;
+  }>(`/pricing/${type}/${available}/${id}`);
+  
+  if (status === 200) {
+    dispatch({
+      type: PaperBindingActions.UPDATE_BINDING_PAPER,
+      payload: { id, available, type },
+    });
+  }
+
+  dispatch(setPaperBindingResponse(data.message, status));
+};

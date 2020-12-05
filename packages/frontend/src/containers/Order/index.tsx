@@ -36,15 +36,15 @@ const Order: FC<Props> = ({ role }) => {
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
-    dispatch(getOrder(id));
-  }, [dispatch, id]);
-
-  useEffect(() => {
     return () => {
       dispatch(setOrder(null));
       dispatch(setOrderMessage('', null));
     };
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getOrder(id));
+  }, [dispatch, id]);
 
   // const updateOrderButton = (type: any) => {
   //   props.updateOrder(props.order._id, props.id, type, props.history.push);

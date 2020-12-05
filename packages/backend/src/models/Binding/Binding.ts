@@ -6,5 +6,5 @@ export interface BindingInterface extends Document {
   from25upTo50: number;
   from50upTo100: number;
   from100upTo150: number;
-  availabe: boolean;
+  available: boolean;
 }

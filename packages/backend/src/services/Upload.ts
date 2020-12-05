@@ -39,6 +39,7 @@ export class UploadService extends BaseService {
     ]);
     const documents = cart!.documents.filter(
       doc =>
+        file &&
         doc.name === file.originalname &&
         doc.binding === binding &&
         doc.paper === paper &&
@@ -46,37 +47,35 @@ export class UploadService extends BaseService {
         doc.pages === pages
     );
     const foundFile = cart!.documents.find(
-      doc => doc.name === file.originalname && doc.pages === pages
+      doc => file && doc.name === file.originalname && doc.pages === pages
     );
 
-    if (
+    if (!file) {
+      errors.file = 'File is required';
+    } else if (
       file.mimetype !==
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document' &&
       file.mimetype !== 'application/pdf'
     ) {
       errors.file = 'The file is not supported';
-    }
-
-    if (!file) {
-      errors.file = 'File is required';
     } else if (documents.length) {
       errors.file = 'You have already uploaded that file with same options';
     }
 
     if (!paperName) {
-      errors.paper = 'Paper Option is invalid';
+      errors.paperOption = 'Paper Option is invalid';
     }
 
     if (!bindingName) {
-      errors.binding = 'Binding Option is invalid';
+      errors.bindingOption = 'Binding Option is invalid';
     }
 
     if (!numberOfCopies) {
-      errors.copies = 'Number of copies is invalid';
+      errors.numberOfCopies = 'Number of copies is invalid';
     }
 
     if (!validPrints.includes(print)) {
-      errors.copies = 'Print Option is invalid';
+      errors.printOption = 'Print Option is invalid';
     }
 
     return {
@@ -105,7 +104,9 @@ export class UploadService extends BaseService {
     } = await this.fileUploadValidation(body, file, userId, pages);
 
     if (errors || !binding || !paper) {
-      this.fileService.removeFile(pdfPath);
+      if (file) {
+        this.fileService.removeFile(pdfPath);
+      }
       return { errors };
     }
 
@@ -121,8 +122,10 @@ export class UploadService extends BaseService {
     });
 
     if (err || !pages || !price) {
-      this.fileService.removeFile(pdfPath);
-      if (!foundFile) {
+      if (file) {
+        this.fileService.removeFile(pdfPath);
+      }
+      if (!foundFile && file) {
         this.fileService.removeFile(zipPath);
       }
       return { err };

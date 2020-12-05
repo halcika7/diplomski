@@ -16,7 +16,6 @@ export interface OrderInterface extends Document {
   orderedFor: string;
   status: string;
   paid: boolean;
-  deleted: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

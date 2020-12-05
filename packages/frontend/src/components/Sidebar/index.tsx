@@ -77,10 +77,10 @@ const Sidebar: FC<Props> = ({ role }) => {
               />
               <DropdownLink
                 linkIcon="fas fa-tags"
-                linkName="Pricings"
+                linkName="Price"
                 links={[
-                  { to: '/papers', linkName: 'Paper Pricings' },
-                  { to: '/bindings', linkName: 'Binding Pricings' },
+                  { to: '/papers', linkName: 'Paper Price' },
+                  { to: '/bindings', linkName: 'Binding Price' },
                 ]}
               />
               <li>
@@ -111,11 +111,6 @@ const Sidebar: FC<Props> = ({ role }) => {
               { to: '/rejected-orders', linkName: 'Rejected Orders' },
               { to: '/paid-orders', linkName: 'Paid Orders' },
               { to: '/unpaid-orders', linkName: 'Unpaid Orders' },
-              {
-                to: '/deleted-orders',
-                linkName: 'Deleted Orders',
-                show: role === 'admin',
-              },
               {
                 to: '/add-order',
                 linkName: 'New Order',

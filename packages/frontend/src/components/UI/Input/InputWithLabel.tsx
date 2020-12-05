@@ -1,7 +1,22 @@
-import React from 'react';
+import React, { FC, ChangeEvent } from 'react';
 import classnames from 'classnames';
 
-const InputWithLabel = ({
+interface Props {
+  label: string;
+  placeholder: string;
+  type: 'text' | 'password' | 'number' | 'tel';
+  classes?: string;
+  value: string | number;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  step?: string;
+  min?: string;
+  max?: string;
+  error?: string;
+  name: string;
+  disabled?: boolean;
+}
+
+const InputWithLabel: FC<Props> = ({
   label,
   disabled,
   placeholder,
@@ -14,9 +29,9 @@ const InputWithLabel = ({
   max,
   error,
   name,
-}: any) => (
+}) => (
   <>
-    <label htmlFor={placeholder}>{label}</label>
+    <label htmlFor={name}>{label}</label>
     <input
       disabled={disabled}
       placeholder={placeholder}
@@ -25,11 +40,11 @@ const InputWithLabel = ({
         'is-invalid': error,
       })}
       value={value}
-      onChange={e => onChange(e.target.value)}
+      onChange={onChange}
       step={step}
       min={min}
       max={max}
-      id={placeholder}
+      id={name}
       name={name}
     />
     {error && <div className="invalid-feedback">{error}</div>}

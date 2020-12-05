@@ -10,13 +10,10 @@ import Alert from '@components/UI/Alert';
 import PhotoUpload from './Photo';
 import ProfileForm from './Form';
 import DisabledInput from '@components/UI/Input/DisabledInput';
+import { useEffect } from 'react';
 
 const reduxProps = createSelector(
-  (state: AppState) => state.user.userData.email,
-  (state: AppState) => state.user.userData.facebookLink,
-  (state: AppState) => state.user.userData.name,
-  (state: AppState) => state.user.userData.twitterLink,
-  (state: AppState) => state.user.userData.picture,
+  (state: AppState) => state.user.userData,
   (state: AppState) => state.user.message,
   (state: AppState) => state.user.status,
   (...props) => props
@@ -24,11 +21,15 @@ const reduxProps = createSelector(
 
 const Profile = () => {
   const dispatch = useThunkDispatch();
-  const [email, fblink, name, twlink, picture, message, status] = useSelector(
-    reduxProps
-  );
+  const [user, message, status] = useSelector(reduxProps);
 
-  const resetReponse = () => dispatch(restUserResponse());
+  const resetResponse = () => dispatch(restUserResponse());
+
+  useEffect(() => {
+    return () => {
+      dispatch(restUserResponse());
+    }
+  }, [dispatch]);
 
   return (
     <>
@@ -45,30 +46,30 @@ const Profile = () => {
           {message && (
             <Alert
               message={message}
-              clear={resetReponse}
+              clear={resetResponse}
               className={status === 200 ? 'alert-success' : 'alert-danger'}
             />
           )}
           <div className="card">
             <div className="card-header">
-              <h5 className="title">{name} Profile</h5>
+              <h5 className="title">{user.name} Profile</h5>
             </div>
             <div className="card-body">
               <div className="row">
                 <div className="col-md-6">
                   <DisabledInput
                     label="Name"
-                    placeholder="Name"
+                    name="Name"
                     classes="form-control"
-                    value={name}
+                    value={user.name}
                   />
                 </div>
                 <div className="col-md-6">
                   <DisabledInput
                     label="Email Address"
-                    placeholder="Email Address"
+                    name="Email Address"
                     classes="form-control"
-                    value={email}
+                    value={user.email}
                   />
                 </div>
               </div>
@@ -79,7 +80,12 @@ const Profile = () => {
             </div>
           </div>
         </div>
-        <RightPart image={picture} name={name} fLink={fblink} tLink={twlink} />
+        <RightPart
+          image={user.picture}
+          name={user.name}
+          fLink={user.facebookLink}
+          tLink={user.twitterLink}
+        />
       </div>
     </>
   );

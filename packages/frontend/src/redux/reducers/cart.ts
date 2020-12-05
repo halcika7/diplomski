@@ -4,13 +4,11 @@ import { CartActionTypes, CartActions } from '../types/cart';
 export interface CartState {
   documents: FileDocument[];
   totalCost: number;
-  userId: string;
 }
 
 export const INITIAL_STATE: CartState = {
   documents: [],
   totalCost: 0,
-  userId: '',
 };
 
 export function CartReducer(

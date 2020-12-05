@@ -48,7 +48,7 @@ export class CartService extends BaseService {
       await cart.save();
     }
 
-    return cart;
+    return { documents: cart.documents, totalCost: cart.totalCost };
   }
 
   async updateCart(updateData: FileDocument, userId: string) {

@@ -3,43 +3,43 @@ import InputWithLabel from '@components/UI/Input/InputWithLabel';
 import { createSelector } from 'reselect';
 import { AppState } from '@reducers/index';
 import { useSelector } from 'react-redux';
-import { restUserResponse } from '@actions';
+import { restUserResponse, updateInfo } from '@actions';
 import { useThunkDispatch } from '@dispatch';
 import { ProfileErrors } from '@reducers/user';
 
 const reduxProps = createSelector(
   (state: AppState) => state.user.userData,
   (state: AppState) => state.user.profileErrors,
-  (userData, profileErrors) => ({ userData, profileErrors })
+  (state: AppState) => state.user.status,
+  (userData, profileErrors, status) => ({
+    userData,
+    profileErrors,
+    status,
+  })
 );
 
 const facebookRegex = new RegExp('http(?:s)://(?:www.)facebook.com/');
 const twitterRegex = new RegExp('http(?:s)://twitter.com/');
 const phoneRegex = new RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\\./0-9]*$/);
 
+type Key = 'twitterLink' | 'facebookLink' | 'phone';
+
 const ProfileForm = () => {
   const dispatch = useThunkDispatch();
-  const { userData, profileErrors } = useSelector(reduxProps);
-  const [state, setSatate] = useState<ProfileErrors>({
-    twitter: '',
-    facebook: '',
+  const { userData, profileErrors, status } = useSelector(reduxProps);
+  const [state, setState] = useState<ProfileErrors>({
+    twitterLink: '',
+    facebookLink: '',
     phone: '',
   });
   const [updating, setUpdating] = useState<boolean>(false);
   const [errors, setErrors] = useState<ProfileErrors>(profileErrors);
 
-  const updateProfile = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    dispatch(restUserResponse());
-    setUpdating(true);
-    // props.updateProfile(id, fLink, tLink, phone, props.history.push);
-  };
-
   const isDisabled = () => {
     const hasErrors = Object.values(errors).some(value => value !== '');
     if (
-      (userData.facebookLink === state.facebook &&
-        userData.twitterLink === state.twitter &&
+      (userData.facebookLink === state.facebookLink &&
+        userData.twitterLink === state.twitterLink &&
         userData.phone === state.phone) ||
       updating ||
       hasErrors
@@ -53,7 +53,7 @@ const ProfileForm = () => {
   const changeInput = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
 
-    if (name === 'facebook') {
+    if (name === 'facebookLink') {
       const isValid = facebookRegex.test(value);
       setErrors(prev => ({
         ...prev,
@@ -61,7 +61,7 @@ const ProfileForm = () => {
       }));
     }
 
-    if (name === 'twitter') {
+    if (name === 'twitterLink') {
       const isValid = twitterRegex.test(value);
       setErrors(prev => ({
         ...prev,
@@ -71,23 +71,58 @@ const ProfileForm = () => {
 
     if (name === 'phone') {
       const isValid = phoneRegex.test(value);
+      console.log(
+        '🚀 ~ file: Form.tsx ~ line 70 ~ changeInput ~ isValid',
+        isValid
+      );
       setErrors(prev => ({
         ...prev,
         [name]: isValid ? '' : 'Phone number is not valid.',
       }));
     }
-    setSatate(prev => ({ ...prev, [name]: value }));
+    setState({ ...state, [name]: value });
+  };
+
+  const resetResponse = () => dispatch(restUserResponse());
+
+  const updateProfile = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (isDisabled()) return;
+
+    const info = {} as Partial<ProfileErrors>;
+
+    Object.entries(state).forEach(([key, value]) => {
+      if (value && userData[key as Key] !== value) {
+        info[key as Key] = value;
+      }
+    });
+
+    if (Object.keys(info).length === 0) return;
+
+    resetResponse();
+    setUpdating(true);
+    return dispatch(updateInfo(info));
   };
 
   useEffect(() => {
     if (userData.facebookLink !== undefined) {
-      setSatate({
-        twitter: userData.twitterLink,
-        facebook: userData.facebookLink,
+      setState(() => ({
+        twitterLink: userData.twitterLink,
+        facebookLink: userData.facebookLink,
         phone: userData.phone,
-      });
+      }));
     }
   }, [userData]);
+
+  useEffect(() => {
+    setErrors({ ...profileErrors });
+  }, [profileErrors]);
+
+  useEffect(() => {
+    if (status) {
+      setUpdating(prev => !prev);
+    }
+  }, [status]);
 
   return (
     <>
@@ -98,9 +133,9 @@ const ProfileForm = () => {
           type="text"
           classes="form-control"
           onChange={changeInput}
-          value={state.facebook}
-          error={errors.facebook}
-          name="facebook"
+          value={state.facebookLink}
+          error={errors.facebookLink}
+          name="facebookLink"
         />
       </div>
       <div className="col-md-4">
@@ -110,9 +145,9 @@ const ProfileForm = () => {
           type="text"
           classes="form-control"
           onChange={changeInput}
-          value={state.twitter}
-          error={errors.twitter}
-          name="twitter"
+          value={state.twitterLink}
+          error={errors.twitterLink}
+          name="twitterLink"
         />
       </div>
       <div className="col-md-4">

@@ -9,14 +9,13 @@ import { Helmet } from 'react-helmet';
 import Spinner from '@components/UI/Spinner/Spinner';
 
 const reduxProps = createSelector(
-  (state: AppState) => state.auth.role,
   (state: AppState) => state.file.files,
-  (role, files) => ({ role, files })
+  (files) => ({ files })
 );
 
 const Files = () => {
   const dispatch = useThunkDispatch();
-  const { role, files } = useSelector(reduxProps);
+  const { files } = useSelector(reduxProps);
 
   useEffect(() => {
     dispatch(getFiles);
@@ -44,7 +43,7 @@ const Files = () => {
           <div className="card-header">
             <h2 className="title">Files</h2>
           </div>
-          <FilesTable role={role as string} files={files} />
+          <FilesTable files={files} />
         </div>
       </div>
     </>

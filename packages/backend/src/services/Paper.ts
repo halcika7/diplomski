@@ -1,5 +1,10 @@
 import { BaseService } from './Base';
 import { Injectable } from '@decorator/class';
+import {
+  UpdateAvailabilityBindingPaper,
+  UpdatePriceBindingPaper,
+} from '@ctypes';
+import { PaperRepository } from '@repository/Paper';
 
 interface PaperPrice {
   upTo250: number;
@@ -10,8 +15,7 @@ interface PaperPrice {
 
 @Injectable()
 export class PaperService extends BaseService {
-  // eslint-disable-next-line no-useless-constructor
-  constructor() {
+  constructor(private readonly paperRepository: PaperRepository) {
     super();
   }
 
@@ -27,5 +31,23 @@ export class PaperService extends BaseService {
       price = paperOption.from1000 * pages;
     }
     return Number(`${Math.round(price + (('e+2' as unknown) as number))}e-2`);
+  }
+
+  async updatePaperPrice(data: UpdatePriceBindingPaper) {
+    const updated = await this.paperRepository.updatePaperPrice(data);
+    const modified = !!updated.nModified;
+
+    return this.returnResponse(modified ? 200 : 400, {
+      message: `Paper ${data.option} was${modified ? '' : ' not'} updated`,
+    });
+  }
+
+  async updateAvailability(data: UpdateAvailabilityBindingPaper) {
+    const updated = await this.paperRepository.updateAvailability(data);
+    const modified = !!updated.nModified;
+
+    return this.returnResponse(modified ? 200 : 400, {
+      message: `Paper ${data.id} was${modified ? '' : ' not'} updated`,
+    });
   }
 }

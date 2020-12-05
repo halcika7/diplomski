@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import ReactSelect from 'react-select';
 
-const options: any = {
+type SelectType = { value: string; label: string };
+
+const options: { [key: string]: SelectType[] } = {
   roles: [
-    { value: 'Worker', label: 'Worker' },
-    { value: 'Professor', label: 'Professor' },
-    { value: 'Administration', label: 'Administration' },
-    { value: 'Super Admin', label: 'Super Admin' },
+    { value: 'Worker', label: 'worker' },
+    { value: 'Professor', label: 'professor' },
+    { value: 'Administration', label: 'administration' },
+    { value: 'Super Admin', label: 'admin' },
   ],
   print: [
     { value: 'Color', label: 'Color' },
@@ -18,6 +20,22 @@ const options: any = {
   ],
 };
 
+const styles = (value: string) => ({
+  control: (base: any, state: any) => ({
+    ...base,
+    backgroundColor: 'transparent',
+    color: '#111',
+    borderColor: state.isFocused || value ? '#e14eca' : '#2b3553',
+    boxShadow: '0',
+    transition:
+      'color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out',
+    '&:hover': {
+      borderColor: state.isFocused || value ? '#e14eca' : '#2b3553',
+      boxShadow: '0',
+    },
+  }),
+});
+
 const Select = ({
   label,
   value,
@@ -27,7 +45,9 @@ const Select = ({
   disabled,
   values,
 }: any) => {
-  const [data, setData] = useState<any>([]);
+  const [data, setData] = useState<{ value: string; label: string }[]>([]);
+  const defValue =
+    value === '' ? { label, value: label } : { label: value, value };
 
   useEffect(() => {
     if (values) {
@@ -42,22 +62,6 @@ const Select = ({
     }
   }, [option]);
 
-  const styles = {
-    control: (base: any, state: any) => ({
-      ...base,
-      backgroundColor: 'transparent',
-      color: '#111',
-      borderColor: state.isFocused || value ? '#e14eca' : '#2b3553',
-      boxShadow: '0',
-      transition:
-        'color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out',
-      '&:hover': {
-        borderColor: state.isFocused || value ? '#e14eca' : '#2b3553',
-        boxShadow: '0',
-      },
-    }),
-  };
-
   return (
     <>
       <label className="">{label}</label>
@@ -65,8 +69,8 @@ const Select = ({
         <ReactSelect
           options={data}
           onChange={(e: any) => change(e.label)}
-          styles={styles}
-          value={value === '' ? { label: label } : { label: value }}
+          styles={styles(value)}
+          value={defValue}
           required
           className={error ? 'is-invalid' : disabled ? 'disabled' : ''}
           isDisabled={disabled}

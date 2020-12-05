@@ -11,6 +11,10 @@ cloudinary.config({
   api_secret: Configuration.appConfig.cloudinary.CLOUDINARY_SECRET,
 });
 
+const facebookRegex = new RegExp('http(?:s)://(?:www.)facebook.com/');
+const twitterRegex = new RegExp('http(?:s)://twitter.com/');
+const phoneRegex = new RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\\./0-9]*$/);
+
 @Injectable()
 export class UserService extends BaseService {
   constructor(
@@ -57,7 +61,6 @@ export class UserService extends BaseService {
         userId
       );
     } catch (err) {
-      console.log('UserService -> changePhoto -> err', err);
       return { error: err };
     }
 
@@ -67,7 +70,79 @@ export class UserService extends BaseService {
     return { secure_url };
   }
 
+  private validateInfo(info: any) {
+    const errors = {} as Record<string, string>;
+
+    Object.entries(info).forEach(([key, value]) => {
+      let isValid = true;
+      let message = '';
+
+      if (key === 'facebookLink') {
+        isValid = facebookRegex.test(value as string);
+        message = 'Facebook link is not valid.';
+      }
+
+      if (key === 'twitterLink') {
+        isValid = twitterRegex.test(value as string);
+        message = 'Twitter link is not valid.';
+      }
+
+      if (key === 'phone') {
+        isValid = phoneRegex.test(value as string);
+        message = 'Phone number is not valid.';
+      }
+
+      if (!isValid) {
+        errors[`${key}`] = message;
+      }
+    });
+
+    return errors;
+  }
+
+  async updatePersonalInfo(info: any, id: string) {
+    const errors = this.validateInfo(info);
+
+    if (Object.keys(errors).length > 0) {
+      return this.returnResponse(400, { errors });
+    }
+
+    const updated = await this.userRepository.update(info, id);
+
+    if (!updated.nModified) {
+      return this.returnResponse(400, { message: 'Profile  was not updated' });
+    }
+
+    return this.returnResponse(200, { message: 'Profile updated' });
+  }
+
   async getUsersByRole(role: string) {
     return this.userRepository.getUsersByRole(role);
+  }
+
+  async getUserToEdit(id: string) {
+    return this.userRepository.findUserToEdit(id);
+  }
+
+  async updateUserRole(role: string, id: string) {
+    const updated = await this.userRepository.update({ role }, id);
+
+    if (!updated.nModified) {
+      return this.returnResponse(400, { message: 'User role not updated' });
+    }
+
+    return this.returnResponse(200, { message: 'User role updated' });
+  }
+
+  async updateUserBlockedStatus(blocked: boolean, id: string) {
+    const updated = await this.userRepository.update({ blocked }, id);
+
+    if (!updated.nModified) {
+      return this.returnResponse(400, {
+        message: 'User Blocked status not changed',
+      });
+    }
+
+    return this.returnResponse(200, { message: 'User Blocked status changed' });
   }
 }

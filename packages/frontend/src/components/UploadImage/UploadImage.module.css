@@ -36,3 +36,7 @@ img.default {
 .label > .default ~ button {
     display: none;
 }
+
+.label img {
+    max-width: 280px;
+}

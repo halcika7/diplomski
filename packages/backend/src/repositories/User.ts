@@ -19,6 +19,12 @@ export class UserRepository extends BaseRepository {
     return User.findById(id);
   }
 
+  async findUserToEdit(id: string) {
+    return User.findById(id).select(
+      'name picture email facebookLink twitterLink role phone blocked googleID'
+    );
+  }
+
   async getUserData(id: string) {
     return User.findById(id).select(
       '-_id name email facebookLink twitterLink phone picture'
@@ -30,5 +36,22 @@ export class UserRepository extends BaseRepository {
     return User.find(obj).select(
       'name picture email facebookLink twitterLink role phone blocked'
     );
+  }
+
+  async update(info: any, id: string) {
+    return User.updateOne({ _id: id }, { ...info });
+  }
+
+  async getEmails(role: string, id?: string) {
+    const match = { role, blocked: false } as Record<string, boolean | string>;
+
+    if (id) {
+      match._id = id;
+    }
+
+    return User.aggregate([
+      { $match: match },
+      { $project: { _id: 0, email: 1 } },
+    ]);
   }
 }

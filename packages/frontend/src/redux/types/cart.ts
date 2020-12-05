@@ -18,7 +18,6 @@ export type FileDocument = {
 export interface Cart {
   documents: FileDocument[];
   totalCost: number;
-  userId: string;
 }
 
 interface SetCart {

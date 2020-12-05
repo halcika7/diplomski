@@ -25,7 +25,7 @@ const UploadFile: FC<Props> = ({ setFile, error, span, file }) => {
     ];
     if (types.every(type => (file ? file.type !== type : true))) {
       err = file && file.type + ' is not a supported format\n';
-      spanRef.current.innerHTML = err ? err : '';
+      spanRef.current.innerText = err ? err : '';
     }
 
     if (err) {
@@ -35,8 +35,8 @@ const UploadFile: FC<Props> = ({ setFile, error, span, file }) => {
 
     const fileName = e.target.value.split('\\').pop();
 
-    if (fileName) spanRef.current.innerHTML = fileName;
-    else label.innerHTML = labelVal;
+    if (fileName) spanRef.current.innerText = fileName;
+    else label.innerText = labelVal;
 
     setFile(file);
 
@@ -51,13 +51,13 @@ const UploadFile: FC<Props> = ({ setFile, error, span, file }) => {
 
   useEffect(() => {
     if (error) {
-      spanRef.current.innerHTML = error;
+      spanRef.current.innerText = error;
     }
   }, [error]);
 
   useEffect(() => {
     if (span || !file) {
-      spanRef.current.innerHTML = '';
+      spanRef.current.innerText = '';
     }
   }, [span, file]);
 
@@ -87,7 +87,7 @@ const UploadFile: FC<Props> = ({ setFile, error, span, file }) => {
           </svg>
         </figure>{' '}
       </label>
-      <span ref={spanRef} />
+      <span ref={spanRef} className={error ? 'options-error' : ''} />
     </div>
   );
 };

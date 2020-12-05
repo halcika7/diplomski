@@ -3,6 +3,10 @@ import { BindingInterface } from '@model/Binding/Binding';
 import { BaseRepository } from './Base';
 import { Injectable } from '@decorator/class';
 import { Dictionary } from '../utils/genericTypes';
+import {
+  UpdateAvailabilityBindingPaper,
+  UpdatePriceBindingPaper,
+} from '@ctypes';
 
 @Injectable()
 export class BindingRepository extends BaseRepository {
@@ -32,5 +36,17 @@ export class BindingRepository extends BaseRepository {
       { $sort: { name: 1 } },
       { $project: { name: 1, _id: 0 } },
     ]).then(bdi => bdi.map(binding => binding.name));
+  }
+
+  private updateOne(id: string, data: Record<string, boolean | number>) {
+    return Binding.updateOne({ _id: id }, { ...data });
+  }
+
+  async updateBindingPrice({ id, option, value }: UpdatePriceBindingPaper) {
+    return this.updateOne(id, { [option]: value });
+  }
+
+  async updateAvailability({ id, available }: UpdateAvailabilityBindingPaper) {
+    return this.updateOne(id, { available });
   }
 }

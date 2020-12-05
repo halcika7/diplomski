@@ -1,9 +1,16 @@
+import { ProfileErrors } from '@reducers/user';
+
 export enum UserActions {
   SET_USER_DATA = 'SET_USER_DATA',
+  UPDATE_USER_DATA = 'UPDATE_USER_DATA',
+  SET_USER_TO_EDIT = 'SET_USER_TO_EDIT',
   SET_UPLOAD_ERROR = 'SET_UPLOAD_ERROR',
+  SET_PROFILE_ERRORS = 'SET_PROFILE_ERRORS',
   SET_USER_PHOTO = 'SET_USER_PHOTO',
-  RESET_USER_RESPONSE = 'RESET_USER_RESPONSE',
+  SET_USER_RESPONSE = 'SET_USER_RESPONSE',
   SET_USERS = 'SET_USERS',
+  SET_USER_ROLE = 'SET_USER_ROLE',
+  SET_USER_BLOCKED_STATUS = 'SET_USER_BLOCKED_STATUS',
 }
 
 export interface UserData {
@@ -23,10 +30,13 @@ export type UserType =
   | 'professor';
 
 export interface User extends UserData {
-  _id?: string;
-  id?: string;
+  _id: string;
   role: string;
   blocked: boolean;
+}
+
+export interface UserToEdit extends User {
+  googleID: string;
 }
 
 interface SetUserData {
@@ -44,19 +54,49 @@ interface SetUserPhoto {
   payload: { url: string; message: string; status: number };
 }
 
-interface ResetUserResponse {
-  type: typeof UserActions.RESET_USER_RESPONSE;
-  payload: {};
-}
-
 interface SetUsers {
   type: typeof UserActions.SET_USERS;
   payload: User[] | null;
 }
 
+interface SetUserToEdit {
+  type: typeof UserActions.SET_USER_TO_EDIT;
+  payload: UserToEdit | null;
+}
+
+interface SetUserResponse {
+  type: typeof UserActions.SET_USER_RESPONSE;
+  payload: { message: string; status: number | null };
+}
+
+interface SetProfileErrors {
+  type: typeof UserActions.SET_PROFILE_ERRORS;
+  payload: Partial<ProfileErrors>;
+}
+
+interface UpdateUserData {
+  type: typeof UserActions.UPDATE_USER_DATA;
+  payload: Partial<ProfileErrors>;
+}
+
+interface SetUserRole {
+  type: typeof UserActions.SET_USER_ROLE;
+  payload: string;
+}
+
+interface SetUserBlockedStatus {
+  type: typeof UserActions.SET_USER_BLOCKED_STATUS;
+  payload: { blocked: boolean; id: string };
+}
+
 export type UserActionTypes =
   | SetUserData
+  | SetUserToEdit
   | SetUploadError
   | SetUserPhoto
-  | ResetUserResponse
+  | SetUserResponse
+  | SetProfileErrors
+  | UpdateUserData
+  | SetUserRole
+  | SetUserBlockedStatus
   | SetUsers;

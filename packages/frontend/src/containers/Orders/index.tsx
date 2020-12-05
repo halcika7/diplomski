@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { OrderType } from 'src/redux/types/order';
-import { getOrders } from '@actions';
+import { getOrders, setOrders } from '@actions';
 import { useThunkDispatch } from '@dispatch';
 import Order from '@components/DataTables/Order';
 import { createSelector } from 'reselect';
@@ -28,6 +28,12 @@ const OrdersDataTable: FC<Props> = ({ orderType, role }) => {
       dispatch(getOrders(orderType));
     }
   }, [dispatch, orderType]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(setOrders([]));
+    }
+  }, [dispatch]);
 
   if (!orders)
     return (

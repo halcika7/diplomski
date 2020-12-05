@@ -1,10 +1,9 @@
 import { OrderService } from '@service/Order';
 import { Controller } from '@decorator/class';
 import { BaseController } from './Base';
-import { Get, Post } from '@decorator/method';
+import { Get, Patch, Post } from '@decorator/method';
 import { Body, Param, Req, Res } from '@decorator/param';
 import { Response } from 'express';
-import { HTTPCodes } from '@job/common';
 import { authMiddleware } from '@middleware/auth';
 import { RequestUser } from '@ctypes';
 
@@ -18,10 +17,14 @@ export class OrderController extends BaseController {
   async postOrder(
     @Res() res: Response,
     @Req() req: RequestUser,
-    @Body() { orderedFor }: { orderedFor: string }
+    @Body() { orderedFor }: { orderedFor: 'Personal' | 'University' }
   ) {
-    const cart = await this.orderService.makeOrder(req.user.id, orderedFor);
-    return this.sendResponse(res, HTTPCodes.OK, { cart });
+    const { status, ...rest } = await this.orderService.makeOrder(
+      req.user.id,
+      orderedFor
+    );
+
+    return this.sendResponse(res, status, { ...rest });
   }
 
   @Get('/:id', authMiddleware())
@@ -40,8 +43,8 @@ export class OrderController extends BaseController {
     return this.sendResponse(res, status, { order });
   }
 
-  @Get('/orders/deleted', authMiddleware(['admin']))
-  async getDeletedOrders(
+  @Get('/orders/:id', authMiddleware())
+  async getOrders(
     @Res() res: Response,
     @Req() req: RequestUser,
     @Param('order_type') orderType: string
@@ -53,16 +56,41 @@ export class OrderController extends BaseController {
     return this.sendResponse(res, 200, { orders });
   }
 
-  @Get('/orders/:order_type', authMiddleware())
-  async getOrders(
+  @Patch('/rejected/:id', authMiddleware(['worker', 'administration']))
+  async rejectOrder(
     @Res() res: Response,
     @Req() req: RequestUser,
-    @Param('order_type') orderType: string
+    @Param('id') id: string
   ) {
-    const { user } = req;
+    const { status, message } = await this.orderService.updateOrderStatus(
+      id,
+      'rejected',
+      'professor',
+      req.user.role
+    );
 
-    const orders = await this.orderService.getOrders(user, orderType);
+    return this.sendResponse(res, status, { message });
+  }
 
-    return this.sendResponse(res, 200, { orders });
+  @Patch('/finished/:id', authMiddleware(['worker']))
+  async finishOrder(@Res() res: Response, @Param('id') id: string) {
+    const { status, message } = await this.orderService.updateOrderStatus(
+      id,
+      'finished',
+      'professor'
+    );
+
+    return this.sendResponse(res, status, { message });
+  }
+
+  @Patch('/approved/:id', authMiddleware(['administration']))
+  async approveOrder(@Res() res: Response, @Param('id') id: string) {
+    const { status, message } = await this.orderService.updateOrderStatus(
+      id,
+      'approved',
+      'worker'
+    );
+
+    return this.sendResponse(res, status, { message });
   }
 }

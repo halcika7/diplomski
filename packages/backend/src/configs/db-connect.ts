@@ -10,6 +10,7 @@ export const connect = async (MONGO_URI: string) => {
       useNewUrlParser: true,
       useCreateIndex: true,
       useUnifiedTopology: true,
+      useFindAndModify: false,
     });
     logger.info('Database connected', 'create-db-connection');
   } catch (err) {

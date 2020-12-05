@@ -13,7 +13,7 @@ export interface FileType {
 
 interface SetFiles {
   type: typeof FileActions.SET_FILES;
-  payload: any[];
+  payload: FileType[];
 }
 
 export type FileActionTypes = SetFiles;

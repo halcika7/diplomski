@@ -15,7 +15,6 @@ const reduxProps = createSelector(
 
 const Papers = () => {
   const dispatch = useThunkDispatch();
-
   const { role, papers } = useSelector(reduxProps);
 
   useEffect(() => {

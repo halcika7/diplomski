@@ -2,6 +2,8 @@ export enum PaperBindingActions {
   SET_PAPER_BINDINGS = 'SET_PAPER_BINDINGS',
   SET_PAPERS = 'SET_PAPERS',
   SET_BINDINGS = 'SET_BINDINGS',
+  SET_PAPER_BINDING_RESPONSE = 'SET_PAPER_BINDING_RESPONSE',
+  UPDATE_BINDING_PAPER = 'UPDATE_BINDING_PAPER',
 }
 
 export interface Paper {
@@ -47,4 +49,19 @@ interface SetBindings {
   payload: Binding[];
 }
 
-export type PaperBindingActionTypes = SetPaperBinding | SetPapers | SetBindings;
+interface SetPaperBindingResponse {
+  type: typeof PaperBindingActions.SET_PAPER_BINDING_RESPONSE;
+  payload: { message: string; status: number | null };
+}
+
+interface UpdateBindingPaper {
+  type: typeof PaperBindingActions.UPDATE_BINDING_PAPER;
+  payload: { id: string; available: boolean, type: 'paper' | 'binding' };
+}
+
+export type PaperBindingActionTypes =
+  | SetPaperBinding
+  | SetPapers
+  | SetBindings
+  | UpdateBindingPaper
+  | SetPaperBindingResponse;

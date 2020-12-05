@@ -13,7 +13,7 @@ export class FilesRepository extends BaseRepository {
 
   addFiles(files: Partial<FileInterface>[]) {
     return files.map(val =>
-      super.createModelInstance<Dictionary, FileInterface>(File, val).save()
+      this.createModelInstance<Dictionary, FileInterface>(File, val).save()
     );
   }
 

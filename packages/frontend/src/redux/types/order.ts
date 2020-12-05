@@ -1,3 +1,4 @@
+import { PostOrderErrors } from '@reducers/order';
 import { FileDocument } from './cart';
 
 export type OrderType =
@@ -29,6 +30,7 @@ export enum OrderActions {
   SET_ORDERS = 'SET_ORDERS',
   SET_ORDER = 'SET_ORDER',
   SET_ORDER_MESSAGE = 'SET_ORDER_MESSAGE',
+  SET_ORDER_ERRORS = 'SET_ORDER_ERRORS',
 }
 
 interface SetOrders {
@@ -46,4 +48,13 @@ interface SetOrderMessage {
   payload: { message: string; status: number | null };
 }
 
-export type OrderActionTypes = SetOrders | SetOrder | SetOrderMessage;
+interface SetOrderErrors {
+  type: typeof OrderActions.SET_ORDER_ERRORS;
+  payload: PostOrderErrors;
+}
+
+export type OrderActionTypes =
+  | SetOrders
+  | SetOrder
+  | SetOrderMessage
+  | SetOrderErrors;

@@ -1,6 +1,11 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, FC , ReactNode} from 'react';
 
-const StatsSuspense = ({ children, classes }: any) => (
+interface Props {
+  classes?: string;
+  children: ReactNode;
+}
+
+const StatsSuspense: FC<Props> = ({ children, classes }) => (
   <Suspense
     fallback={
       <div className={!classes ? 'col-6 col-xl-3' : classes}>

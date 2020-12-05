@@ -63,6 +63,7 @@ export class PassportService extends BaseService {
     res: Response
   ) {
     const { url } = Configuration.appConfig;
+
     if (err) return res.redirect(`${url}/?err=${err}`);
 
     const accessToken = this.jwt.signToken({ id: _id, role });

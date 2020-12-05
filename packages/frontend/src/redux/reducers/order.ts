@@ -5,18 +5,28 @@ import {
   FullOrder,
 } from '../types/order';
 
+export interface PostOrderErrors {
+  useFor: string;
+}
+
 export interface OrderState {
   orders: Order[] | null;
   order: FullOrder | null;
   message: string;
   status: number | null;
+  errors: PostOrderErrors;
 }
+
+export const InitialOrderErrors = {
+  useFor: '',
+};
 
 export const INITIAL_STATE: OrderState = {
   orders: null,
   order: null,
   message: '',
   status: null,
+  errors: InitialOrderErrors,
 };
 
 export function OrderReducer(
@@ -27,10 +37,10 @@ export function OrderReducer(
     case OrderActions.SET_ORDERS:
       return { ...INITIAL_STATE, orders: action.payload };
     case OrderActions.SET_ORDER: {
-      return { ...INITIAL_STATE, order: action.payload };
+      return { ...prevState, order: action.payload };
     }
     case OrderActions.SET_ORDER_MESSAGE: {
-      return { ...INITIAL_STATE, ...action.payload };
+      return { ...prevState, ...action.payload };
     }
     default:
       return prevState;

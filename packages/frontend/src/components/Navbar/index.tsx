@@ -20,7 +20,7 @@ const Navbar = ({ role }: Props) => {
   const dispatch = useThunkDispatch();
   const { name, picture } = useSelector(reduxProps);
   const nav = useRef<any>();
-  const [unseanNotifications] = useState(0);
+  const [unseenNotifications] = useState(0);
   const [showNotifications, setShowNotifications] = useState(false);
 
   const toggleSidebar = useCallback((e: any) => {
@@ -84,8 +84,8 @@ const Navbar = ({ role }: Props) => {
                   className="dropdown-toggle nav-link notification"
                   onClick={toggleNotifications}
                 >
-                  {unseanNotifications > 0 && (
-                    <span className="number">{unseanNotifications}</span>
+                  {unseenNotifications > 0 && (
+                    <span className="number">{unseenNotifications}</span>
                   )}
                   <i className="far fa-bell" />
                   <p className="d-lg-none" onClick={toggleNotifications}>

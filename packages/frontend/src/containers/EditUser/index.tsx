@@ -1,42 +1,88 @@
-import React, { useState } from 'react';
+import React, { useEffect, FC, ChangeEvent } from 'react';
 import { Helmet } from 'react-helmet';
-import InputWithLabel from '@components/UI/Input/InputWithLabel';
-import Alert from '@components/UI/Alert';
+import DisabledInput from '@components/UI/Input/DisabledInput';
 import ToggleSwitchButton from '@components/UI/Buttons';
 import Spinner from '@components/UI/Spinner/Spinner';
 import Select from '@components/UI/Select';
+import { useParams } from 'react-router';
+import {
+  getUserToEdit,
+  setUserToEdit,
+  restUserResponse,
+  changeUserRole,
+  changeUserBlockStatus,
+} from '@actions';
+import { createSelector } from 'reselect';
+import { AppState } from '@reducers/index';
+import { useSelector } from 'react-redux';
+import { useThunkDispatch } from '@dispatch';
+import { inputs } from './disabledInputs';
+import { useState } from 'react';
+import Alert from '@components/UI/Alert';
 
-const EditUser = (props: any) => {
-  const id = new URLSearchParams(props.location.search).get('id');
-  const [user,] = useState<any>({});
-  const [role, setRole] = useState<any>('');
-  const [blocked, setBlocked] = useState<any>('');
+const redux = createSelector(
+  (state: AppState) => state.user.userToEdit,
+  (state: AppState) => state.user.message,
+  (state: AppState) => state.user.status,
+  (user, message, status) => ({ user, message, status })
+);
 
-  // useEffect(() => {
-  //   props.getUserAction(id, props.history.push);
-  //   return () => {
-  //     props.clearMessages();
-  //   };
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+interface Props extends Record<string, any> {
+  role?: string;
+}
 
-  // useEffect(() => {
-  //   props.getUserAction(id, props.history.push);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [props.location.search]);
+const EditUser: FC<Props> = ({ role }) => {
+  const { id } = useParams<{ id: string }>();
+  const { user, message, status } = useSelector(redux);
+  const dispatch = useThunkDispatch();
+  const [newRole, setRole] = useState<string | undefined>('');
+  const [blocked, setBlocked] = useState<boolean>(false);
 
-  // useEffect(() => {
-  //   if (props.user) {
-  //     setUser(props.user);
-  //     setRole(props.user.role);
-  //     setBlocked(props.user.blocked);
-  //   }
-  // }, [props.user]);
+  const clearResponse  = () => dispatch(restUserResponse());
+
+  const isDisabled = () => !!user && newRole === user.role;
 
   const onSubmit = (e: any) => {
     e.preventDefault();
-    props.editUserAction(id, role, blocked, props.history.push);
+    if (isDisabled()) return;
+
+    dispatch(changeUserRole(newRole as string, id));
   };
+
+  const onChangeBlockStatus = (e: ChangeEvent<HTMLInputElement>) => {
+    const newVal = e.target.checked;
+    if(newVal === user?.blocked) return;
+    setBlocked(prev => !prev);
+    dispatch(changeUserBlockStatus(newVal, user!._id));
+  }
+
+  useEffect(() => {
+    dispatch(getUserToEdit(id));
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(setUserToEdit(null));
+      dispatch(restUserResponse());
+    };
+  }, [dispatch]);
+
+  useEffect(() => {
+    if(user) {
+      setRole(user.role);
+      setBlocked(user.blocked);
+    }
+  }, [user]);
+
+  if (!user)
+    return (
+      <div className="card min-height-75vh">
+        <div className="card-body">
+          {!message && <Spinner />}
+          {message && <p>{message}</p>}
+        </div>
+      </div>
+    );
 
   return (
     <>
@@ -48,161 +94,100 @@ const EditUser = (props: any) => {
           content="Edit User page in Print shop app"
         />
       </Helmet>
-      {props.editUser.successMessage && (
-        <Alert
-          message={props.editUser.successMessage}
-          clear={props.clearMessages}
-          className="success-alert"
-        />
-      )}
-      {props.editUser.failedMessage && (
-        <Alert
-          message={props.editUser.failedMessage}
-          clear={props.clearMessages}
-        />
-      )}
-      {props.loading || Object.keys(user).length === 0 ? (
-        <div
-          className="card"
-          style={{
-            minHeight: '400px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <div className="card-body">
-            <Spinner />
+      <div className="card min-height-75vh">
+        <div className="card-header">
+          <h5 className="title">{user.name} Profile</h5>
+          <div className="row mt-4">
+            <div className="col">
+              <img src={user.picture} alt={user.name} />
+            </div>
           </div>
         </div>
-      ) : !props.failedMessage ? (
-        <div className="card">
-          <div className="card-header">
-            <h5 className="title">{user.name} Profile</h5>
-          </div>
-          <div className="card-body">
-            <div className="row">
-              <div className="col-md-6 mb-2">
-                <InputWithLabel
-                  label="User ID"
-                  disabled
-                  placeholder="ID"
-                  type="text"
+        <div className="card-body">
+          {message && (
+            <Alert
+              message={message}
+              clear={clearResponse}
+              className={status === 200 ? 'alert-success' : 'alert-danger'}
+            />
+          )}
+          <div className="row mt-4">
+            {inputs.map(({ className, label, name }) => (
+              <div className={className} key={name}>
+                <DisabledInput
+                  label={label}
+                  name={name}
                   classes="form-control"
-                  value={user._id ? user._id : ''}
+                  value={user[name]}
                 />
               </div>
-              <div className="col-md-6 mb-2">
-                <InputWithLabel
-                  label="User Google ID"
-                  disabled
-                  placeholder="User Google ID"
-                  type="text"
-                  classes="form-control"
-                  value={user.googleID ? user.googleID : ''}
-                />
-              </div>
-              <div className="col-md-6 mb-2">
-                <InputWithLabel
-                  label="Name"
-                  disabled
-                  placeholder="Name"
-                  type="text"
-                  classes="form-control"
-                  value={user.name ? user.name : ''}
-                />
-              </div>
-              <div className="col-md-6 mb-2">
-                <InputWithLabel
-                  label="Email Address"
-                  disabled
-                  placeholder="Email Address"
-                  type="email"
-                  classes="form-control"
-                  value={user.email ? user.email : ''}
-                />
-              </div>
-              <div className="col-md-4 mb-2">
-                <InputWithLabel
-                  label="Phone Number"
-                  disabled
-                  placeholder="Phone Number"
-                  type="tel"
-                  classes="form-control"
-                  value={user.phone ? user.phone : ''}
-                />
-              </div>
-              <div className="col-md-4 mb-2">
-                <label>Facebook Link</label>
-                {user.facebookLink ? (
-                  <a
-                    href={user.facebookLink}
-                    className="form-control"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {user.name} Facebook Link - {user.facebookLink}
-                  </a>
-                ) : (
-                  <span className="form-control">No Facebook Link</span>
-                )}
-              </div>
-              <div className="col-md-4 mb-2">
-                <label>Twitter Link</label>
-                {user.twitterLink ? (
-                  <a
-                    href={user.twitterLink}
-                    className="form-control"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {user.name} Facebook Link - {user.twitterLink}
-                  </a>
-                ) : (
-                  <span className="form-control">No Twitter Link</span>
-                )}
-              </div>
+            ))}
+            <div className="col-md-4 mb-2">
+              <label>Facebook Link</label>
+              {user.facebookLink ? (
+                <a
+                  href={user.facebookLink}
+                  className="form-control"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {user.facebookLink}
+                </a>
+              ) : (
+                <span className="form-control">No Facebook Link</span>
+              )}
             </div>
-            <div className="row">
-              <div className="col-md-6">
-                <Select
-                  value={role}
-                  change={setRole}
-                  label="Select User Role"
-                  option={'roles'}
-                  disabled={props.role === 'admin' ? false : true}
-                />
-              </div>
-              <div className="col-md-6">
-                <ToggleSwitchButton
-                  value={blocked !== '' ? blocked : false}
-                  setValue={setBlocked}
-                  name="Disable User"
-                  disabled={props.role === 'admin' ? false : true}
-                />
-              </div>
-              {props.role === 'admin' && (
-                <div className="col-12">
-                  <button
-                    type="button"
-                    className="btn-fill btn btn-primary d-block mt-4 mb-5"
-                    onClick={onSubmit}
-                  >
-                    Update User Role
-                  </button>
-                </div>
+            <div className="col-md-4 mb-4">
+              <label>Twitter Link</label>
+              {user.twitterLink ? (
+                <a
+                  href={user.twitterLink}
+                  className="form-control"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {user.twitterLink}
+                </a>
+              ) : (
+                <span className="form-control">No Twitter Link</span>
               )}
             </div>
           </div>
+          <div className="row mt-4">
+            <div className="col-md-6">
+              <Select
+                value={newRole}
+                change={setRole}
+                label="Select User Role"
+                option={'roles'}
+                disabled={role !== 'admin'}
+              />
+            </div>
+            <div className="col-md-6">
+              <ToggleSwitchButton
+                value={!!blocked}
+                setValue={onChangeBlockStatus}
+                name="Disable User"
+                disabled={role === 'admin' ? false : true}
+              />
+            </div>
+            {role === 'admin' && (
+              <div className="col-12">
+                <button
+                  type="button"
+                  className="btn-fill btn btn-primary d-block mt-4 mb-5"
+                  onClick={onSubmit}
+                  disabled={isDisabled()}
+                >
+                  Update User Role
+                </button>
+              </div>
+            )}
+          </div>
         </div>
-      ) : (
-        <div className="card">
-          <div className="card-body">{props.failedMessage}</div>
-        </div>
-      )}
+      </div>
     </>
   );
 };
 
-export default React.memo(EditUser
-);
+export default React.memo(EditUser);

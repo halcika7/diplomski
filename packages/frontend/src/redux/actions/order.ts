@@ -2,6 +2,7 @@ import { axios } from '@axios';
 
 // types
 import { AppThunkDispatch } from '../AppThunkDispatch';
+import { Cart } from '../types/cart';
 import {
   Order,
   OrderType,
@@ -9,15 +10,43 @@ import {
   OrderActions,
   FullOrder,
 } from '../types/order';
+import { PostOrderErrors, InitialOrderErrors } from '../reducers/order';
+import { setCart, resetUploadErrors } from '@actions';
+
+export const setOrderMessage = (
+  message: string,
+  status: number | null
+): OrderActionTypes => ({
+  type: OrderActions.SET_ORDER_MESSAGE,
+  payload: { message, status },
+});
+
+const setOrderErrors = (errors: PostOrderErrors): OrderActionTypes => ({
+  type: OrderActions.SET_ORDER_ERRORS,
+  payload: errors,
+});
 
 export const postOrder = (orderedFor: string) => async (
-  _: AppThunkDispatch
+  dispatch: AppThunkDispatch
 ) => {
-  const { data } = await axios.post<{}>('/order/', { orderedFor });
-  console.log('data', data);
+  const { data, status } = await axios.post<{
+    cart?: Cart;
+    errors?: PostOrderErrors;
+    message: string;
+  }>('/order/', { orderedFor });
+  if (data.cart) {
+    dispatch(setOrderErrors(InitialOrderErrors));
+    dispatch(resetUploadErrors);
+    dispatch(setCart(data.cart));
+    dispatch(setOrderMessage(data.message, status));
+  }
+
+  if (data.errors) {
+    dispatch(setOrderErrors(data.errors));
+  }
 };
 
-const setOrders = (orders: Order[]): OrderActionTypes => ({
+export const setOrders = (orders: Order[]): OrderActionTypes => ({
   type: OrderActions.SET_ORDERS,
   payload: orders,
 });
@@ -37,14 +66,6 @@ export const getOrders = (orderType: OrderType) => async (
 export const setOrder = (order: FullOrder | null): OrderActionTypes => ({
   type: OrderActions.SET_ORDER,
   payload: order,
-});
-
-export const setOrderMessage = (
-  message: string,
-  status: number | null
-): OrderActionTypes => ({
-  type: OrderActions.SET_ORDER_MESSAGE,
-  payload: { message, status },
 });
 
 export const getOrder = (id: string) => async (dispatch: AppThunkDispatch) => {

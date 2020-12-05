@@ -18923,3 +18923,18 @@ textarea.form-control {
 .min-height-75vh {
   min-height: 75vh;
 }
+
+.options-error,
+.is-invalid .css-1uccc91-singleValue {
+  color: tomato;
+}
+
+.options-error {
+  margin-top: 0.4rem;
+  font-size: 11px;
+}
+
+.is-invalid .css-r23iiv-control,
+.is-invalid .css-r23iiv-control:hover {
+  border-color: tomato;
+}

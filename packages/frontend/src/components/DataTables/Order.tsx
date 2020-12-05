@@ -1,32 +1,7 @@
 import React, { FC } from 'react';
-import BootstrapTable from 'react-bootstrap-table-next';
-import filterFactory from 'react-bootstrap-table2-filter';
-import paginationFactory from 'react-bootstrap-table2-paginator';
-import ToolkitProvider, {
-  Search,
-  CSVExport,
-} from 'react-bootstrap-table2-toolkit';
-import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-import './index.css';
 import { Link } from 'react-router-dom';
 import { Order as OrderType } from 'src/redux/types/order';
-
-const { SearchBar, ClearSearchButton } = Search;
-const { ExportCSVButton } = CSVExport;
-
-const options = {
-  sizePerPage: 10,
-  pageStartIndex: 1,
-  paginationSize: 3,
-  showTotal: true,
-  hideSizePerPage: true,
-  paginationTotalRenderer: (start: any, to: any, total: any) => (
-    <p>
-      {' '}
-      From {start} to {to}, totals is {total}{' '}
-    </p>
-  ),
-};
+import Table from './index';
 
 const buttonFormatter = (role: string) => (_: any, row: any) => (
   <>
@@ -41,76 +16,46 @@ const buttonFormatter = (role: string) => (_: any, row: any) => (
         <i className="far fa-eye" />
       </Link>
     </button>
-    {role === 'administration' && row.status === 'pending' && (
+    {((role === 'administration' && row.status === 'pending') ||
+      ((role === 'worker' || role === 'admin') &&
+        row.status === 'approved')) && (
+      <button
+        className="btn btn-danger padding"
+        data-toggle="tooltip"
+        data-placment="top"
+        title="Reject Order"
+        //   onClick={() => updateOrderButton(row._id, 'rejected')}
+      >
+        <i className="far fa-times-circle"></i>
+      </button>
+    )}
+    {((role === 'administration' && row.status === 'pending') ||
+      ((role === 'worker' || role === 'admin') &&
+        row.status === 'approved')) && (
       <>
-        <button
-          className="btn btn-danger padding"
-          data-toggle="tooltip"
-          data-placment="top"
-          title="Reject Order"
-          //   onClick={() => updateOrderButton(row._id, 'rejected')}
-        >
-          <i className="far fa-times-circle"></i>
-        </button>
         <button
           className="btn btn-info padding"
           data-toggle="tooltip"
           data-placment="top"
-          title="Approve Order"
+          title={`${role === 'administration' ? 'Approve' : 'Finish'} Order`}
           //   onClick={() => updateOrderButton(row._id, 'approved')}
+          // finished
         >
           <i className="fas fa-check"></i>
         </button>
       </>
     )}
-    {(role === 'worker' || role === 'admin') && row.status !== 'pending' && (
-      <>
-        {row.status === 'approved' && (
-          <>
-            <button
-              className="btn btn-danger padding"
-              data-toggle="tooltip"
-              data-placment="top"
-              title="Reject Order"
-              //   onClick={() => updateOrderButton(row._id, 'rejected')}
-            >
-              <i className="far fa-times-circle"></i>
-            </button>
-            <button
-              className="btn btn-info padding"
-              data-toggle="tooltip"
-              data-placment="top"
-              title="Finish Order"
-              //   onClick={() => updateOrderButton(row._id, 'finished')}
-            >
-              <i className="fas fa-check"></i>
-            </button>
-          </>
-        )}
-        {row.status === 'finished' && row.paid === false && (
-          <button
-            className="btn btn-success padding"
-            data-toggle="tooltip"
-            data-placment="top"
-            title="Pay Order"
-            // onClick={() => updateOrderButton(row._id, 'paid')}
-          >
-            <i className="fas fa-money-bill-alt"></i>
-          </button>
-        )}
-      </>
-    )}
-    {role === 'admin' &&
-      ((row.status === 'finished' && row.paid && !row.deleted) ||
-        row.status === 'rejected') && (
+    {(role === 'worker' || role === 'admin') &&
+      row.status === 'finished' &&
+      !row.paid && (
         <button
-          className="btn btn-danger padding"
+          className="btn btn-success padding"
           data-toggle="tooltip"
           data-placment="top"
-          title="Delete Order"
-          // onClick={() => deleteOrder(row._id)}
+          title="Pay Order"
+          // onClick={() => updateOrderButton(row._id, 'paid')}
         >
-          <i className="far fa-times-circle"></i>
+          <i className="fas fa-money-bill-alt"></i>
         </button>
       )}
   </>
@@ -120,7 +65,7 @@ const dateFormatter = (_: any, row: any) => (
   <span>{new Date(row.createdAt).toLocaleString()}</span>
 );
 
-const rowClasses = (row: any) =>
+const rowClasses = (row: OrderType) =>
   row.status === 'finished' && row.paid
     ? 'bg-success'
     : row.status === 'rejected'
@@ -187,46 +132,13 @@ const Order: FC<Props> = ({ data, role }) => (
   <div className="row">
     <div className="col-12 card">
       <div className="DataTable Orders card-body col-12">
-        <ToolkitProvider
-          bootstrap4
-          search
-          keyField="_id"
+        <Table
           data={data}
-          columns={columns(role as string) as any}
+          columns={columns(role as string)}
           exportCSV
-        >
-          {props => (
-            <>
-              <div className="row mb-20">
-                <div className="col-sm-6">
-                  {data.length > 0 && (
-                    <ExportCSVButton {...props.csvProps}>
-                      Export CSV
-                    </ExportCSVButton>
-                  )}
-                </div>
-                <div className="col-sm-6">
-                  <SearchBar {...props.searchProps} tableId="1" />
-                  <ClearSearchButton
-                    {...props.searchProps}
-                    className="btn-sm"
-                  />
-                </div>
-              </div>
-              <BootstrapTable
-                noDataIndication={() => <div>No data available</div>}
-                wrapperClasses={'table-responsive UsersTable'}
-                {...props.baseProps}
-                striped
-                hover
-                bordered={false}
-                filter={filterFactory()}
-                pagination={paginationFactory(options)}
-                rowClasses={rowClasses}
-              />
-            </>
-          )}
-        </ToolkitProvider>
+          withClear
+          rowClasses={rowClasses}
+        />
       </div>
     </div>
   </div>
