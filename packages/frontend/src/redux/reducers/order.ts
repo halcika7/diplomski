@@ -15,6 +15,7 @@ export interface OrderState {
   message: string;
   status: number | null;
   errors: PostOrderErrors;
+  isChangingStatus: boolean;
 }
 
 export const InitialOrderErrors = {
@@ -27,6 +28,7 @@ export const INITIAL_STATE: OrderState = {
   message: '',
   status: null,
   errors: InitialOrderErrors,
+  isChangingStatus: false,
 };
 
 export function OrderReducer(
@@ -41,6 +43,37 @@ export function OrderReducer(
     }
     case OrderActions.SET_ORDER_MESSAGE: {
       return { ...prevState, ...action.payload };
+    }
+    case OrderActions.SET_ORDER_CHANGING_STATUS: {
+      return { ...prevState, isChangingStatus: action.payload };
+    }
+    case OrderActions.SET_ORDER_STATUS: {
+      const { type, id } = action.payload;
+      const order = prevState.order ? { ...prevState.order } : null;
+      const orders = Array.isArray(prevState.orders)
+        ? [...prevState.orders]
+        : prevState.orders;
+      console.log('🚀 ~ file: order.ts ~ line 54 ~ orders', orders);
+
+      if (order) {
+        if (type === 'pay') {
+          order.paid = true;
+        } else {
+          order.status = type;
+        }
+      }
+
+      if (orders) {
+        const index = orders.findIndex(order => order._id === id);
+
+        orders[index] = {
+          ...orders[index],
+          paid: type === 'pay',
+          status: type !== 'pay' ? type : orders[index].status,
+        };
+      }
+
+      return { ...prevState, orders, order };
     }
     default:
       return prevState;

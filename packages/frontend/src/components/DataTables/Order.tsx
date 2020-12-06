@@ -3,7 +3,15 @@ import { Link } from 'react-router-dom';
 import { Order as OrderType } from 'src/redux/types/order';
 import Table from './index';
 
-const buttonFormatter = (role: string) => (_: any, row: any) => (
+type UpdateStatusAction = (
+  type: 'rejected' | 'finished' | 'approved' | 'pay',
+  id: string
+) => () => void;
+
+const buttonFormatter = (role: string, updateStatus: UpdateStatusAction) => (
+  _: any,
+  row: OrderType
+) => (
   <>
     <button className="btn btn-warning">
       <Link
@@ -24,7 +32,7 @@ const buttonFormatter = (role: string) => (_: any, row: any) => (
         data-toggle="tooltip"
         data-placment="top"
         title="Reject Order"
-        //   onClick={() => updateOrderButton(row._id, 'rejected')}
+        onClick={updateStatus('rejected', row._id)}
       >
         <i className="far fa-times-circle"></i>
       </button>
@@ -38,8 +46,10 @@ const buttonFormatter = (role: string) => (_: any, row: any) => (
           data-toggle="tooltip"
           data-placment="top"
           title={`${role === 'administration' ? 'Approve' : 'Finish'} Order`}
-          //   onClick={() => updateOrderButton(row._id, 'approved')}
-          // finished
+          onClick={updateStatus(
+            role === 'administration' ? 'approved' : 'finished',
+            row._id
+          )}
         >
           <i className="fas fa-check"></i>
         </button>
@@ -53,7 +63,7 @@ const buttonFormatter = (role: string) => (_: any, row: any) => (
           data-toggle="tooltip"
           data-placment="top"
           title="Pay Order"
-          // onClick={() => updateOrderButton(row._id, 'paid')}
+          onClick={updateStatus('pay', row._id)}
         >
           <i className="fas fa-money-bill-alt"></i>
         </button>
@@ -61,7 +71,7 @@ const buttonFormatter = (role: string) => (_: any, row: any) => (
   </>
 );
 
-const dateFormatter = (_: any, row: any) => (
+const dateFormatter = (_: any, row: OrderType) => (
   <span>{new Date(row.createdAt).toLocaleString()}</span>
 );
 
@@ -72,10 +82,13 @@ const rowClasses = (row: OrderType) =>
     ? 'bg-danger'
     : '';
 
-const priceFormatter = (_: any, row: any) =>
+const priceFormatter = (_: any, row: OrderType) =>
   row.totalCost.toLocaleString(undefined, { maximumFractionDigits: 2 }) + ' KM';
 
-const columns = (role: string) => [
+const columns = (
+  role: string,
+  updateStatus: UpdateStatusAction,
+) => [
   {
     dataField: 'createdAt',
     text: 'Date when ordered',
@@ -116,7 +129,7 @@ const columns = (role: string) => [
   {
     dataField: 'actions',
     text: 'Actions',
-    formatter: buttonFormatter(role),
+    formatter: buttonFormatter(role, updateStatus),
     align: 'center',
     headerAlign: 'center',
     csvExport: false,
@@ -126,15 +139,16 @@ const columns = (role: string) => [
 interface Props {
   data: OrderType[];
   role?: string;
+  updateStatus: UpdateStatusAction;
 }
 
-const Order: FC<Props> = ({ data, role }) => (
+const Order: FC<Props> = ({ data, role, updateStatus }) => (
   <div className="row">
     <div className="col-12 card">
       <div className="DataTable Orders card-body col-12">
         <Table
           data={data}
-          columns={columns(role as string)}
+          columns={columns(role as string, updateStatus)}
           exportCSV
           withClear
           rowClasses={rowClasses}

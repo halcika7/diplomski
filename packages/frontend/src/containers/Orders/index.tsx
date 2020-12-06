@@ -1,17 +1,31 @@
 import React, { FC, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { OrderType } from 'src/redux/types/order';
-import { getOrders, setOrders } from '@actions';
+import {
+  getOrders,
+  setOrders,
+  updateOrderStatus,
+  setOrderMessage,
+} from '@actions';
 import { useThunkDispatch } from '@dispatch';
 import Order from '@components/DataTables/Order';
 import { createSelector } from 'reselect';
 import { AppState } from '@reducers/index';
 import { useSelector } from 'react-redux';
 import Spinner from '@components/UI/Spinner/Spinner';
+import Alert from '@components/UI/Alert';
 
 const redux = createSelector(
   (state: AppState) => state.order.orders,
-  orders => ({ orders })
+  (state: AppState) => state.order.message,
+  (state: AppState) => state.order.status,
+  (state: AppState) => state.order.isChangingStatus,
+  (orders, message, status, isChanging) => ({
+    orders,
+    message,
+    status,
+    isChanging,
+  })
 );
 
 interface Props extends Record<string, any> {
@@ -21,7 +35,18 @@ interface Props extends Record<string, any> {
 
 const OrdersDataTable: FC<Props> = ({ orderType, role }) => {
   const dispatch = useThunkDispatch();
-  const { orders } = useSelector(redux);
+  const { orders, message, status, isChanging } = useSelector(redux);
+
+  const updateStatus = (
+    type: 'rejected' | 'finished' | 'approved' | 'pay',
+    id: string
+  ) => () => {
+    if (isChanging) return;
+
+    dispatch(updateOrderStatus(type, id));
+  };
+
+  const resetResponse = () => dispatch(setOrderMessage('', null));
 
   useEffect(() => {
     if (orderType) {
@@ -31,8 +56,9 @@ const OrdersDataTable: FC<Props> = ({ orderType, role }) => {
 
   useEffect(() => {
     return () => {
-      dispatch(setOrders([]));
-    }
+      dispatch(setOrders(null));
+      dispatch(setOrderMessage('', null));
+    };
   }, [dispatch]);
 
   if (!orders)
@@ -55,24 +81,20 @@ const OrdersDataTable: FC<Props> = ({ orderType, role }) => {
           content="Orders Table page in Print shop app"
         />
       </Helmet>
-      <Order data={orders} role={role} />
+      {message && (
+        <Alert
+          message={message}
+          clear={resetResponse}
+          className={status === 200 ? 'alert-success' : 'alert-danger'}
+        />
+      )}
+      <Order
+        data={orders}
+        role={role}
+        updateStatus={updateStatus}
+      />
     </>
   );
 };
-
-// {
-//   props.successMessage && (
-//     <Alert
-//       message={props.successMessage}
-//       clear={props.clearOrderMessages}
-//       className="success-alert"
-//     />
-//   );
-// }
-// {
-//   props.failedMessage && (
-//     <Alert message={props.failedMessage} clear={props.clearOrderMessages} />
-//   );
-// }
 
 export default React.memo(OrdersDataTable);

@@ -26,6 +26,7 @@ export {
   setOrder,
   setOrderMessage,
   setOrders,
+  updateOrderStatus,
 } from './order';
 export {
   getPaperBindings,

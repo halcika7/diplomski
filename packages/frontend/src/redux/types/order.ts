@@ -31,11 +31,13 @@ export enum OrderActions {
   SET_ORDER = 'SET_ORDER',
   SET_ORDER_MESSAGE = 'SET_ORDER_MESSAGE',
   SET_ORDER_ERRORS = 'SET_ORDER_ERRORS',
+  SET_ORDER_STATUS = 'SET_ORDER_STATUS',
+  SET_ORDER_CHANGING_STATUS = 'SET_ORDER_CHANGING_STATUS',
 }
 
 interface SetOrders {
   type: typeof OrderActions.SET_ORDERS;
-  payload: Order[];
+  payload: Order[] | null;
 }
 
 interface SetOrder {
@@ -53,8 +55,20 @@ interface SetOrderErrors {
   payload: PostOrderErrors;
 }
 
+interface SetOrderStatus {
+  type: typeof OrderActions.SET_ORDER_STATUS;
+  payload: { id: string; type: 'rejected' | 'finished' | 'approved' | 'pay' };
+}
+
+interface SetOrderChangingStatus {
+  type: typeof OrderActions.SET_ORDER_CHANGING_STATUS;
+  payload: boolean;
+}
+
 export type OrderActionTypes =
   | SetOrders
   | SetOrder
   | SetOrderMessage
+  | SetOrderStatus
+  | SetOrderChangingStatus
   | SetOrderErrors;

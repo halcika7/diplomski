@@ -46,7 +46,7 @@ export const postOrder = (orderedFor: string) => async (
   }
 };
 
-export const setOrders = (orders: Order[]): OrderActionTypes => ({
+export const setOrders = (orders: Order[] | null): OrderActionTypes => ({
   type: OrderActions.SET_ORDERS,
   payload: orders,
 });
@@ -79,4 +79,37 @@ export const getOrder = (id: string) => async (dispatch: AppThunkDispatch) => {
   }
 
   return dispatch(setOrder(data.order));
+};
+
+const setOrderStatus = (
+  type: 'rejected' | 'finished' | 'approved' | 'pay',
+  id: string
+): OrderActionTypes => ({
+  type: OrderActions.SET_ORDER_STATUS,
+  payload: { id, type },
+});
+
+const setIsOrderStatusChanging = (val: boolean): OrderActionTypes => ({
+  type: OrderActions.SET_ORDER_CHANGING_STATUS,
+  payload: val,
+});
+
+export const updateOrderStatus = (
+  type: 'rejected' | 'finished' | 'approved' | 'pay',
+  id: string
+) => async (dispatch: AppThunkDispatch) => {
+
+  dispatch(setIsOrderStatusChanging(true));
+
+  const { data, status } = await axios.patch<{
+    message: string;
+  }>(`/order/${type}/${id}`);
+
+  dispatch(setOrderMessage(data.message, status));
+
+  if (status === 200) {
+    dispatch(setOrderStatus(type, id));
+  }
+
+  dispatch(setIsOrderStatusChanging(false));
 };

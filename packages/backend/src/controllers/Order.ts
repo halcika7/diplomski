@@ -93,4 +93,11 @@ export class OrderController extends BaseController {
 
     return this.sendResponse(res, status, { message });
   }
+
+  @Patch('/pay/:id', authMiddleware(['worker']))
+  async payOrder(@Res() res: Response, @Param('id') id: string) {
+    const { status, message } = await this.orderService.payOrder(id);
+
+    return this.sendResponse(res, status, { message });
+  }
 }

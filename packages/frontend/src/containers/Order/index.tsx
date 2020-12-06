@@ -4,8 +4,8 @@ import { Helmet } from 'react-helmet';
 
 import Spinner from '@components/UI/Spinner/Spinner';
 import FilesTable from '@components/UI/FilesTable';
-// import Alert from '@components/UI/Alert';
-import { getOrder, setOrder, setOrderMessage } from '@actions';
+import Alert from '@components/UI/Alert';
+import { getOrder, setOrder, setOrderMessage, updateOrderStatus } from '@actions';
 import { useThunkDispatch } from '@dispatch';
 import { createSelector } from 'reselect';
 import { AppState } from '@reducers/index';
@@ -15,7 +15,8 @@ const redux = createSelector(
   (state: AppState) => state.order.order,
   (state: AppState) => state.order.message,
   (state: AppState) => state.order.status,
-  (order, message, status) => ({ order, message, status })
+  (state: AppState) => state.order.isChangingStatus,
+  (order, message, status, isChanging) => ({ order, message, status, isChanging })
 );
 
 interface Props extends Record<string, any> {
@@ -32,8 +33,19 @@ const HelmetElement = () => (
 
 const Order: FC<Props> = ({ role }) => {
   const dispatch = useThunkDispatch();
-  const { order, message } = useSelector(redux);
+  const { order, message, isChanging, status } = useSelector(redux);
   const { id } = useParams<{ id: string }>();
+
+  const updateStatus = (
+    type: 'rejected' | 'finished' | 'approved' | 'pay',
+    id: string
+  ) => () => {
+    if (isChanging) return;
+
+    dispatch(updateOrderStatus(type, id));
+  };
+
+  const resetResponse = () => dispatch(setOrderMessage('', null));
 
   useEffect(() => {
     return () => {
@@ -45,10 +57,6 @@ const Order: FC<Props> = ({ role }) => {
   useEffect(() => {
     dispatch(getOrder(id));
   }, [dispatch, id]);
-
-  // const updateOrderButton = (type: any) => {
-  //   props.updateOrder(props.order._id, props.id, type, props.history.push);
-  // };
 
   if (!order) {
     return (
@@ -69,6 +77,13 @@ const Order: FC<Props> = ({ role }) => {
   return (
     <>
       <HelmetElement />
+      {message && (
+        <Alert
+          message={message}
+          clear={resetResponse}
+          className={status === 200 ? 'alert-success' : 'alert-danger'}
+        />
+      )}
       <div className="row">
         <div className="col-12">
           <div className="card">
@@ -97,7 +112,7 @@ const Order: FC<Props> = ({ role }) => {
                   {role === 'worker' && order.status === 'approved' && (
                     <button
                       className="btn btn-sm btn-info"
-                      // onClick={() => updateOrderButton('finished')}
+                      onClick={updateStatus('finished', id)}
                     >
                       <i className="fas fa-check"></i>
                       Finish Order
@@ -108,7 +123,7 @@ const Order: FC<Props> = ({ role }) => {
                     !order.paid && (
                       <button
                         className="btn btn-sm btn-success"
-                        // onClick={() => updateOrderButton('paid')}
+                        onClick={updateStatus('pay', id)}
                       >
                         <i className="fas fa-money-bill-alt"></i>
                         Confirm that order was paid
@@ -117,7 +132,7 @@ const Order: FC<Props> = ({ role }) => {
                   {role === 'administration' && order.status === 'pending' && (
                     <button
                       className="btn btn-sm btn-primary"
-                      // onClick={() => updateOrderButton('approved')}
+                      onClick={updateStatus('approved', id)}
                     >
                       <i className="fas fa-check"></i>
                       Approve Order
@@ -127,27 +142,12 @@ const Order: FC<Props> = ({ role }) => {
                     (role === 'worker' && order.status === 'approved')) && (
                     <button
                       className="btn btn-sm btn-danger"
-                      // onClick={() => updateOrderButton('rejected')}
+                      onClick={updateStatus('rejected', id)}
                     >
                       <i className="far fa-times-circle"></i>
                       Reject Order
                     </button>
                   )}
-                  {role === 'admin' &&
-                    ((order.status === 'finished' &&
-                      order.paid &&
-                      !order.deleted) ||
-                      order.status === 'rejected') && (
-                      <button
-                        className="btn btn-sm btn-danger"
-                        // onClick={() =>
-                        //   props.deleteOrder(props.order._id, props.history.push)
-                        // }
-                      >
-                        <i className="far fa-times-circle"></i>
-                        Delete Order
-                      </button>
-                    )}
                 </div>
               </div>
             </div>
@@ -164,16 +164,5 @@ const Order: FC<Props> = ({ role }) => {
     </>
   );
 };
-
-// {props.successMessage && (
-//   <Alert
-//     message={props.successMessage}
-//     clear={props.clearOrderMessages}
-//     className="success-alert"
-//   />
-// )}
-// {props.failedMessage && (
-//   <Alert message={props.failedMessage} clear={props.clearOrderMessages} />
-// )}
 
 export default React.memo(Order);

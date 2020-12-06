@@ -162,4 +162,17 @@ export class OrderService extends BaseService {
 
     return this.returnResponse(200, { message: `Order ${status}` });
   }
+
+  async payOrder(id: string) {
+    const order = await this.orderRepository.getOrderToPay(id);
+
+    if (!order) {
+      return this.returnResponse(404, { message: 'Order not found' });
+    }
+
+    order.paid = true;
+    await order.save();
+
+    return this.returnResponse(200, { message: 'Order paid' });
+  }
 }

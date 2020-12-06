@@ -54,10 +54,14 @@ export class OrderRepository extends BaseRepository {
     ]);
   }
 
-  getOrder(orderId: string) {
-    return Order.findOne({ _id: new ObjectId(orderId) }).populate(
+  getOrder(id: string) {
+    return Order.findOne({ _id: new ObjectId(id) }).populate(
       'orderedBy',
       'name'
     );
+  }
+
+  getOrderToPay(id: string) {
+    return Order.findOne({ _id: new ObjectId(id) });
   }
 }
