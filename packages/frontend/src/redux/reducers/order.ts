@@ -53,11 +53,11 @@ export function OrderReducer(
       const orders = Array.isArray(prevState.orders)
         ? [...prevState.orders]
         : prevState.orders;
-      console.log('🚀 ~ file: order.ts ~ line 54 ~ orders', orders);
 
       if (order) {
         if (type === 'pay') {
           order.paid = true;
+          order.status = 'completed'
         } else {
           order.status = type;
         }

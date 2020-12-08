@@ -71,10 +71,6 @@ const ProfileForm = () => {
 
     if (name === 'phone') {
       const isValid = phoneRegex.test(value);
-      console.log(
-        '🚀 ~ file: Form.tsx ~ line 70 ~ changeInput ~ isValid',
-        isValid
-      );
       setErrors(prev => ({
         ...prev,
         [name]: isValid ? '' : 'Phone number is not valid.',

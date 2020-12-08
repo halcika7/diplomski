@@ -127,7 +127,6 @@ export const getUserToEdit = (id: string) => async (
     user: UserToEdit;
     message: string;
   }>(`/user/edit/${id}`);
-  console.log('🚀 ~ file: user.ts ~ line 100 ~ data', data);
 
   if (status !== 200) {
     return dispatch(setUserResponse(data.message, status));

@@ -107,7 +107,7 @@ export const updateOrderStatus = (
 
   dispatch(setOrderMessage(data.message, status));
 
-  if (status === 200) {
+  if (status === 200 || data.message.includes('Order already has status -> ')) {
     dispatch(setOrderStatus(type, id));
   }
 

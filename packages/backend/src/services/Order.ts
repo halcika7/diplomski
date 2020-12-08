@@ -132,6 +132,26 @@ export class OrderService extends BaseService {
     return this.returnResponse(200, { order });
   }
 
+  private validateOrderStatus(
+    order: OrderInterface,
+    status: 'finished' | 'rejected' | 'approved' | 'completed'
+  ) {
+    if (
+      ((status === 'finished' || status === 'rejected') &&
+        order.status !== 'approved') ||
+      (status === 'approved' && order.status !== 'pending') ||
+      (status === 'completed' && order.status !== 'finished')
+    ) {
+      return 'Status not valid';
+    }
+    if (order.status === status) {
+      return `Order already has status -> ${
+        status.charAt(0).toUpperCase() + status.slice(1)
+      }`;
+    }
+    return '';
+  }
+
   async updateOrderStatus(
     id: string,
     status: 'finished' | 'rejected' | 'approved',
@@ -142,6 +162,12 @@ export class OrderService extends BaseService {
 
     if (!order) {
       return this.returnResponseMessage(400, 'Order was not found');
+    }
+
+    const message = this.validateOrderStatus(order, status);
+
+    if (message) {
+      return this.returnResponseMessage(400, message);
     }
 
     order.status = status;
@@ -173,6 +199,12 @@ export class OrderService extends BaseService {
 
     if (!order) {
       return this.returnResponse(404, { message: 'Order not found' });
+    }
+
+    const message = this.validateOrderStatus(order, 'completed');
+
+    if (message) {
+      return this.returnResponseMessage(400, message);
     }
 
     order.paid = true;
