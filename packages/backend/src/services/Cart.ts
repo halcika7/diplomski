@@ -3,7 +3,6 @@ import { BaseService } from './Base';
 import { Injectable } from '@decorator/class';
 import { CartRepository } from '@repository/Cart';
 import { Types } from 'mongoose';
-import { FileService } from './File';
 import { CartData } from '@model/Cart/Cart';
 
 interface FileDocument {

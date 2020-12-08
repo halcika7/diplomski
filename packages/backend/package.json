@@ -118,15 +118,7 @@
     ],
     "collectCoverageFrom": [
       "src/**/*.{ts,js}",
-      "!src/migrations/**",
       "!src/configs/db-connect.ts",
-      "!src/configs/db-creation.ts",
-      "!src/configs/db-drop.ts",
-      "!src/configs/server-config.ts",
-      "!src/services/NeverBounce.ts",
-      "!src/services/Twilio.ts",
-      "!src/utils/moduleAlias.ts",
-      "!src/middlewares/rateLimiter.ts",
       "!src/app.ts",
       "!src/server.ts"
     ]

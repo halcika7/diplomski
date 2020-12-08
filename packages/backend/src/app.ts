@@ -132,11 +132,7 @@ class App {
       this.app
     );
 
-    this.server.setErrorConfig(app =>
-      app.use((err: Error, req: Request, res: Response, next: NextFunction) =>
-        errorHandle(err, req, res, next)
-      )
-    );
+    this.server.setErrorConfig(app => app.use(errorHandle));
 
     const appConfigured = this.server.build();
 

@@ -21,7 +21,7 @@ const options: { [key: string]: SelectType[] } = {
 };
 
 const styles = (value: string) => ({
-  control: (base: any, state: any) => ({
+  control: (base: Record<string, any>, state: Record<string, any>) => ({
     ...base,
     backgroundColor: 'transparent',
     color: '#111',
@@ -49,6 +49,8 @@ const Select = ({
   const defValue =
     value === '' ? { label, value: label } : { label: value, value };
 
+  const onChange = (e: SelectType) => change(e.label);
+
   useEffect(() => {
     if (values) {
       const newData = values.map((value: any) => ({ value, label: value }));
@@ -68,7 +70,7 @@ const Select = ({
       <div className="mb-20">
         <ReactSelect
           options={data}
-          onChange={(e: any) => change(e.label)}
+          onChange={onChange as any}
           styles={styles(value)}
           value={defValue}
           required

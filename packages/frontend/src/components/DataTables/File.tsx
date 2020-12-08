@@ -8,7 +8,7 @@ interface Props {
   files: FileType[];
 }
 
-const buttonFormatter = (_: any, row: FileType) => (
+const buttonFormatter = (_: undefined, row: FileType) => (
   <button
     className="btn btn-primary"
     type="button"
@@ -22,7 +22,7 @@ const buttonFormatter = (_: any, row: FileType) => (
   </button>
 );
 
-const dateFormatter = (_: any, row: FileType) => (
+const dateFormatter = (_: undefined, row: FileType) => (
   <span>{new Date(row.createdAt).toLocaleString()}</span>
 );
 

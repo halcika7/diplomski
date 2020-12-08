@@ -83,7 +83,7 @@ const ProfileForm = () => {
     setState({ ...state, [name]: value });
   };
 
-  const resetResponse = () => dispatch(restUserResponse());
+  const resetResponse = () => dispatch(restUserResponse);
 
   const updateProfile = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

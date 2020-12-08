@@ -20,7 +20,7 @@ const PhotoUpload = () => {
   const onFormSubmit = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setUpdating(prev => !prev);
-    dispatch(restUserResponse());
+    dispatch(restUserResponse);
 
     const formData = new FormData();
     formData.append('image', image as unknown as string);

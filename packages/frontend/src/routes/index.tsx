@@ -6,6 +6,7 @@ import {
   authenticatedRoutes,
   adminWorkerRoutes,
   professorRoutes,
+  adminRoutes,
 } from './routes';
 import { AppState } from '@reducers/index';
 import { useSelector } from 'react-redux';
@@ -72,6 +73,14 @@ const Routes = () => {
                       <ProtectedRoute
                         key={route.path}
                         allowedRoles={['worker', 'admin']}
+                        {...route}
+                        role={role as string}
+                      />
+                    ))}
+                    {adminRoutes.map(route => (
+                      <ProtectedRoute
+                        key={route.path}
+                        allowedRoles={['admin']}
                         {...route}
                         role={role as string}
                       />

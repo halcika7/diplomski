@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import { AppState } from '@reducers/index';
 import { useSelector } from 'react-redux';
 import RightPart from './RightPart';
-import { restUserResponse } from '@actions';
+import { restUserResponse, resetProfileErrors } from '@actions';
 import { useThunkDispatch } from '@dispatch';
 import Alert from '@components/UI/Alert';
 import PhotoUpload from './Photo';
@@ -23,11 +23,12 @@ const Profile = () => {
   const dispatch = useThunkDispatch();
   const [user, message, status] = useSelector(reduxProps);
 
-  const resetResponse = () => dispatch(restUserResponse());
+  const resetResponse = () => dispatch(restUserResponse);
 
   useEffect(() => {
     return () => {
-      dispatch(restUserResponse());
+      dispatch(restUserResponse);
+      dispatch(resetProfileErrors);
     }
   }, [dispatch]);
 

@@ -15,7 +15,7 @@ export class PaperRepository extends BaseRepository {
     super();
   }
 
-  createBinding(data: PaperInterface): PaperInterface {
+  createPaper(data: Partial<PaperInterface>): PaperInterface {
     return super.createModelInstance<Dictionary, PaperInterface>(Paper, data);
   }
 

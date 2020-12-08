@@ -11,24 +11,28 @@ export class UserRepository extends BaseRepository {
     super();
   }
 
-  createUser(data: UserInterface): UserInterface {
+  createUser(data: Partial<UserInterface>): UserInterface {
     return super.createModelInstance<Dictionary, UserInterface>(User, data);
   }
 
-  async findById(id: string) {
+  findById(id: string) {
     return User.findById(id);
   }
 
-  async findUserToEdit(id: string) {
-    return User.findById(id).select(
+  findUserToEdit(id: string) {
+    return this.findById(id).select(
       'name picture email facebookLink twitterLink role phone blocked googleID'
     );
   }
 
-  async getUserData(id: string) {
-    return User.findById(id).select(
+  getUserData(id: string) {
+    return this.findById(id).select(
       '-_id name email facebookLink twitterLink phone picture'
     );
+  }
+
+  getByEmail(email: string) {
+    return User.findOne({ email });
   }
 
   getUsersByRole(role: string) {

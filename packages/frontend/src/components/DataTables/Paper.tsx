@@ -21,7 +21,7 @@ interface Props {
 type AvailabilityAction = (row: Paper) => () => void;
 
 const buttonFormatter = (action: AvailabilityAction) => (
-  _: any,
+  _: undefined,
   row: Paper
 ) => (
   <button
@@ -35,6 +35,17 @@ const buttonFormatter = (action: AvailabilityAction) => (
     <i className={row.available ? 'far fa-times-circle' : 'fa fa-check'} />
   </button>
 );
+
+const validator = (newValue: string) => {
+  const value = parseFloat(newValue);
+  if (Number.isNaN(value) || value <= 0 || !value) {
+    return {
+      valid: false,
+      message: `Price should be a number and greater than 0`,
+    };
+  }
+  return true;
+};
 
 const columns = (role: string, updateAvailability: AvailabilityAction) => [
   {
@@ -51,15 +62,7 @@ const columns = (role: string, updateAvailability: AvailabilityAction) => [
     align: 'center',
     headerAlign: 'center',
     sort: true,
-    validator: (newValue: number | string) => {
-      if (Number.isNaN(newValue) || newValue <= 0) {
-        return {
-          valid: false,
-          message: 'Price should be numeric and greater than 0',
-        };
-      }
-      return true;
-    },
+    validator,
   },
   {
     dataField: 'blackWhitePrinting.from250upTo500',
@@ -67,15 +70,7 @@ const columns = (role: string, updateAvailability: AvailabilityAction) => [
     align: 'center',
     headerAlign: 'center',
     sort: true,
-    validator: (newValue: number | string) => {
-      if (Number.isNaN(newValue) || newValue <= 0) {
-        return {
-          valid: false,
-          message: 'Price should be numeric and greater than 0',
-        };
-      }
-      return true;
-    },
+    validator,
   },
   {
     dataField: 'blackWhitePrinting.from500upTo1000',
@@ -83,15 +78,7 @@ const columns = (role: string, updateAvailability: AvailabilityAction) => [
     align: 'center',
     headerAlign: 'center',
     sort: true,
-    validator: (newValue: number | string) => {
-      if (Number.isNaN(newValue) || newValue <= 0) {
-        return {
-          valid: false,
-          message: 'Price should be numeric and greater than 0',
-        };
-      }
-      return true;
-    },
+    validator,
   },
   {
     dataField: 'blackWhitePrinting.from1000',
@@ -99,15 +86,7 @@ const columns = (role: string, updateAvailability: AvailabilityAction) => [
     align: 'center',
     headerAlign: 'center',
     sort: true,
-    validator: (newValue: number | string) => {
-      if (Number.isNaN(newValue) || newValue <= 0) {
-        return {
-          valid: false,
-          message: 'Price should be numeric and greater than 0',
-        };
-      }
-      return true;
-    },
+    validator,
   },
   {
     dataField: 'colorPrinting.upTo250',
@@ -115,15 +94,7 @@ const columns = (role: string, updateAvailability: AvailabilityAction) => [
     align: 'center',
     headerAlign: 'center',
     sort: true,
-    validator: (newValue: number | string) => {
-      if (Number.isNaN(newValue) || newValue <= 0) {
-        return {
-          valid: false,
-          message: 'Price should be numeric and greater than 0',
-        };
-      }
-      return true;
-    },
+    validator,
   },
   {
     dataField: 'colorPrinting.from250upTo500',
@@ -131,15 +102,7 @@ const columns = (role: string, updateAvailability: AvailabilityAction) => [
     align: 'center',
     headerAlign: 'center',
     sort: true,
-    validator: (newValue: number | string) => {
-      if (Number.isNaN(newValue) || newValue <= 0) {
-        return {
-          valid: false,
-          message: 'Price should be numeric and greater than 0',
-        };
-      }
-      return true;
-    },
+    validator,
   },
   {
     dataField: 'colorPrinting.from500upTo1000',
@@ -147,15 +110,7 @@ const columns = (role: string, updateAvailability: AvailabilityAction) => [
     align: 'center',
     headerAlign: 'center',
     sort: true,
-    validator: (newValue: number | string) => {
-      if (Number.isNaN(newValue) || newValue <= 0) {
-        return {
-          valid: false,
-          message: 'Price should be numeric and greater than 0',
-        };
-      }
-      return true;
-    },
+    validator,
   },
   {
     dataField: 'colorPrinting.from1000',
@@ -163,15 +118,7 @@ const columns = (role: string, updateAvailability: AvailabilityAction) => [
     align: 'center',
     headerAlign: 'center',
     sort: true,
-    validator: (newValue: number | string) => {
-      if (Number.isNaN(newValue) || newValue <= 0) {
-        return {
-          valid: false,
-          message: 'Price should be numeric and greater than 0',
-        };
-      }
-      return true;
-    },
+    validator,
   },
   {
     dataField: 'actions',
@@ -200,10 +147,9 @@ const PriceDataTable: FC<Props> = ({ role, papers }) => {
   const clearResponse = () => dispatch(resetPaperBindingResponse);
 
   const updateSinglePaper = (id: string, option: string, value: string) => {
+    const val = parseFloat(value);
     clearResponse();
-    dispatch(
-      updatePaperBindingPrice('paper', { id, option, value: parseFloat(value) })
-    );
+    dispatch(updatePaperBindingPrice('paper', { id, option, value: val }));
   };
 
   const updateAvailability = (row: Paper) => () => {

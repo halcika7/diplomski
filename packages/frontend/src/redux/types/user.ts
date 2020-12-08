@@ -1,4 +1,4 @@
-import { ProfileErrors } from '@reducers/user';
+import { AddUserErrors, ProfileErrors } from '@reducers/user';
 
 export enum UserActions {
   SET_USER_DATA = 'SET_USER_DATA',
@@ -11,6 +11,7 @@ export enum UserActions {
   SET_USERS = 'SET_USERS',
   SET_USER_ROLE = 'SET_USER_ROLE',
   SET_USER_BLOCKED_STATUS = 'SET_USER_BLOCKED_STATUS',
+  SET_ADD_USER_ERRORS = 'SET_ADD_USER_ERRORS',
 }
 
 export interface UserData {
@@ -89,6 +90,11 @@ interface SetUserBlockedStatus {
   payload: { blocked: boolean; id: string };
 }
 
+interface SetAddUserErrors {
+  type: typeof UserActions.SET_ADD_USER_ERRORS;
+  payload: AddUserErrors;
+}
+
 export type UserActionTypes =
   | SetUserData
   | SetUserToEdit
@@ -99,4 +105,5 @@ export type UserActionTypes =
   | UpdateUserData
   | SetUserRole
   | SetUserBlockedStatus
+  | SetAddUserErrors
   | SetUsers;

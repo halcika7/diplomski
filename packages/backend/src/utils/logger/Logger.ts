@@ -40,10 +40,7 @@ const WinstonLogger = winston.createLogger({
   ],
 });
 
-if (
-  Configuration.appConfig.environment !== 'production' &&
-  Configuration.appConfig.environment !== 'test'
-) {
+if (Configuration.appConfig.environment === 'dev') {
   WinstonLogger.add(
     new winston.transports.Console({
       format: winston.format.prettyPrint(),
@@ -68,11 +65,11 @@ export class Logger {
     this.Class = Class;
   }
 
-  private formatMessage(msg: string, method: string): Log {
+  private formatMessage(event: string, method: string): Log {
     return {
       ...this.logConfig,
       method,
-      event: msg,
+      event,
     };
   }
 

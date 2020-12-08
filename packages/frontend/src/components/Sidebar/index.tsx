@@ -73,6 +73,11 @@ const Sidebar: FC<Props> = ({ role }) => {
                   { to: '/professors', linkName: 'Professors' },
                   { to: '/administration', linkName: 'Administration' },
                   { to: '/admins', linkName: 'Admins' },
+                  {
+                    to: '/add-user',
+                    linkName: 'Add User',
+                    show: role === 'admin',
+                  },
                 ]}
               />
               <DropdownLink
@@ -81,6 +86,8 @@ const Sidebar: FC<Props> = ({ role }) => {
                 links={[
                   { to: '/papers', linkName: 'Paper Price' },
                   { to: '/bindings', linkName: 'Binding Price' },
+                  { to: '/add-binding', linkName: 'Add Binding' },
+                  { to: '/add-paper', linkName: 'Add Paper' },
                 ]}
               />
               <li>

@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+// import BootstrapTable, { ColumnDescription } from 'react-bootstrap-table-next';
 import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator';
@@ -36,7 +37,7 @@ export const options = {
 
 interface Props {
   data: Binding[] | Order[] | Paper[] | User[] | FileType[];
-  onCellEdit?: (id: string, field: any, value: any) => void;
+  onCellEdit?: (id: string, field: string, value: string) => void;
   columns: any[];
   exportCSV?: boolean;
   withClear?: boolean;
@@ -95,10 +96,10 @@ const Table: FC<Props> = ({
             cellEditFactory({
               mode: 'click',
               beforeSaveCell: (
-                _: any,
-                newValue: number | string,
+                _: undefined,
+                newValue: string,
                 row: RowType,
-                column: any
+                column: Record<string, string>
               ) => onCellEdit(row._id as string, column.dataField, newValue),
             })
           }

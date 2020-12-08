@@ -19,7 +19,7 @@ interface Props {
 const buttonFormatter = (
   role: string,
   changeUserBlockedStatus: (data: User) => () => void
-) => (_: any, row: User) => (
+) => (_: undefined, row: User) => (
   <>
     <button
       name="View User"
@@ -48,7 +48,7 @@ const buttonFormatter = (
   </>
 );
 
-const imgFormatter = (_: any, row: User) => (
+const imgFormatter = (_: undefined, row: User) => (
   <img src={`${row.picture}`} alt={row.name} width="30" height="30" />
 );
 
@@ -120,7 +120,7 @@ const UserDataTable: FC<Props> = ({ users, role }) => {
   const dispatch = useThunkDispatch();
   const { message, status } = useSelector(redux);
 
-  const clearResponse = () => dispatch(restUserResponse());
+  const clearResponse = () => dispatch(restUserResponse);
 
   const changeUserBlockedStatus = (data: User) => () => {
     dispatch(changeUserBlockStatus(!data.blocked, data._id));
@@ -128,7 +128,7 @@ const UserDataTable: FC<Props> = ({ users, role }) => {
 
   useEffect(() => {
     return () => {
-      dispatch(restUserResponse());
+      dispatch(restUserResponse);
     };
   }, [dispatch]);
 

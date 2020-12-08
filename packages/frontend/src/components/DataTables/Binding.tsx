@@ -5,10 +5,16 @@ import Alert from '../../components/UI/Alert';
 
 import { Binding } from 'src/redux/types/paperBinding';
 import Table from './index';
-import { updatePaperBindingPrice, resetPaperBindingResponse } from '@actions';
+import {
+  updatePaperBindingPrice,
+  resetPaperBindingResponse,
+  updatePaperBindingAvailability,
+} from '@actions';
 import { createSelector } from 'reselect';
 import { AppState } from '@reducers/index';
 import { useSelector } from 'react-redux';
+
+type AvailabilityAction = (row: Binding) => () => void;
 
 interface Props {
   bindings: Binding[];
@@ -20,23 +26,31 @@ const redux = createSelector(
   (message, status) => ({ message, status })
 );
 
-const buttonFormatter = (_: any, row: Binding) => (
+const buttonFormatter = (updateAvailability: AvailabilityAction) => (_: undefined, row: Binding) => (
   <button
     className="btn btn-danger padding"
     type="button"
     data-toggle="tooltip"
     data-placment="top"
     title={`Make ${row.available ? 'Unavailable' : 'Available'} - ${row.name}`}
-    // onClick={() =>
-    //   props.updateBindingAvailable(row._id, false, props.history.push)
-    // true
-    // }
+    onClick={updateAvailability(row)}
   >
     <i className={`far ${row.available ? 'fa-times-circle' : 'fa-check'}`} />
   </button>
 );
 
-const columns = [
+const validator = (newValue: string) => {
+  const value = parseFloat(newValue);
+  if (Number.isNaN(value) || value <= 0 || !value) {
+    return {
+      valid: false,
+      message: `Price should be a number and greater than 0`,
+    };
+  }
+  return true;
+};
+
+const columns = (updateAvailability: AvailabilityAction) => [
   {
     dataField: 'name',
     text: 'Name',
@@ -51,15 +65,7 @@ const columns = [
     align: 'center',
     headerAlign: 'center',
     sort: true,
-    validator: (newValue: number | string) => {
-      if (Number.isNaN(newValue) || newValue <= 0) {
-        return {
-          valid: false,
-          message: 'Price should be numeric and greater than 0',
-        };
-      }
-      return true;
-    },
+    validator
   },
   {
     dataField: 'from25upTo50',
@@ -67,15 +73,7 @@ const columns = [
     align: 'center',
     headerAlign: 'center',
     sort: true,
-    validator: (newValue: number | string) => {
-      if (Number.isNaN(newValue) || newValue <= 0) {
-        return {
-          valid: false,
-          message: 'Price should be numeric and greater than 0',
-        };
-      }
-      return true;
-    },
+    validator
   },
   {
     dataField: 'from50upTo100',
@@ -83,15 +81,7 @@ const columns = [
     align: 'center',
     headerAlign: 'center',
     sort: true,
-    validator: (newValue: number | string) => {
-      if (Number.isNaN(newValue) || newValue <= 0) {
-        return {
-          valid: false,
-          message: 'Price should be numeric and greater than 0',
-        };
-      }
-      return true;
-    },
+    validator
   },
   {
     dataField: 'from100upTo150',
@@ -99,20 +89,12 @@ const columns = [
     align: 'center',
     headerAlign: 'center',
     sort: true,
-    validator: (newValue: number | string) => {
-      if (Number.isNaN(newValue) || newValue <= 0) {
-        return {
-          valid: false,
-          message: 'Price should be numeric and greater than 0',
-        };
-      }
-      return true;
-    },
+    validator
   },
   {
     dataField: 'actions',
     text: 'Actions',
-    formatter: buttonFormatter,
+    formatter: buttonFormatter(updateAvailability),
     align: 'center',
     headerAlign: 'center',
     csvExport: false,
@@ -136,6 +118,13 @@ const BindingDataTable: FC<Props> = ({ bindings }) => {
     );
   };
 
+  const updateAvailability = (row: Binding) => () => {
+    clearResponse();
+    dispatch(
+      updatePaperBindingAvailability('binding', row._id, !row.available)
+    );
+  };
+
   useEffect(() => {
     return () => {
       dispatch(resetPaperBindingResponse);
@@ -154,7 +143,7 @@ const BindingDataTable: FC<Props> = ({ bindings }) => {
       <div className="DataTable width card-body col-12">
         <Table
           data={bindings}
-          columns={columns}
+          columns={columns(updateAvailability)}
           onCellEdit={updateSinglePrice}
         />
       </div>

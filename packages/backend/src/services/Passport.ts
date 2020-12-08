@@ -34,23 +34,34 @@ export class PassportService extends BaseService {
 
   static async passportStrategy(profile: GoogleProfile, done: VerifyCallback) {
     try {
-      const user = await User.findOne({ googleID: profile.id });
+      const [user, userAdded] = await Promise.all([
+        User.findOne({ googleID: profile.id }),
+        User.findOne({ email: profile._json.email, googleID: 'google' }),
+      ]);
+
       if (user?.blocked) {
         return done(new Error('User blocked!'));
       }
-      if (!user) {
+
+      if (!user && !userAdded) {
         const newUser = await new User({
           googleID: profile.id,
           name: profile.displayName,
           picture: profile._json.picture,
           email: profile._json.email,
           role: 'professor',
-          facebookLink: '',
-          twitterLink: '',
-          blocked: false,
         }).save();
         return done(undefined, newUser);
       }
+
+      if (userAdded) {
+        userAdded.googleID = profile.id;
+        userAdded.name = profile.displayName;
+        userAdded.picture = profile._json.picture;
+        await userAdded.save();
+        return done(undefined, userAdded);
+      }
+
       return done(undefined, user);
     } catch (error) {
       return done(error.message, null);

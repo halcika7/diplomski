@@ -17,6 +17,9 @@ export {
   updateInfo,
   changeUserRole,
   changeUserBlockStatus,
+  resetProfileErrors,
+  resetAddUserErrors,
+  addUser
 } from './user';
 export { getCart, setCart, clearCart, removeDocument } from './cart';
 export {
@@ -35,5 +38,9 @@ export {
   updatePaperBindingPrice,
   resetPaperBindingResponse,
   updatePaperBindingAvailability,
+  addBinding,
+  addPaper,
+  resetBindingErrors,
+  resetPaperErrors,
 } from './paperBinding';
 export { getFiles } from './file';

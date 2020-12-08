@@ -12,6 +12,10 @@ export interface ProfileErrors {
   phone: string;
 }
 
+export interface AddUserErrors {
+  email: string;
+}
+
 export interface UserState {
   users: User[] | null;
   userData: Record<string, string> | UserData;
@@ -20,7 +24,14 @@ export interface UserState {
   status: number | null;
   profileErrors: ProfileErrors;
   loading: boolean;
+  addUserErrors: AddUserErrors;
 }
+
+export const InitialProfileErrors = {
+  twitterLink: '',
+  facebookLink: '',
+  phone: '',
+};
 
 export const INITIAL_STATE: UserState = {
   users: null,
@@ -28,8 +39,9 @@ export const INITIAL_STATE: UserState = {
   userToEdit: null,
   message: '',
   status: null,
-  profileErrors: { twitterLink: '', facebookLink: '', phone: '' },
+  profileErrors: InitialProfileErrors,
   loading: true,
+  addUserErrors: { email: '' },
 };
 
 export function UserReducer(
@@ -101,6 +113,11 @@ export function UserReducer(
         userToEdit,
       };
     }
+    case UserActions.SET_ADD_USER_ERRORS:
+      return {
+        ...prevState,
+        addUserErrors: { ...prevState.addUserErrors, ...action.payload },
+      };
     default:
       return prevState;
   }

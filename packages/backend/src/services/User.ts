@@ -1,15 +1,10 @@
 import { UserRepository } from '@repository/User';
 import { CloudinaryService } from '@service/Cloudinary';
 import { Injectable } from '@decorator/class';
-import { v2 as cloudinary } from 'cloudinary';
-import { Configuration } from '@env';
 import { BaseService } from './Base';
-
-cloudinary.config({
-  cloud_name: Configuration.appConfig.cloudinary.CLOUDINARY_CLOUD,
-  api_key: Configuration.appConfig.cloudinary.CLOUDINARY_KEY,
-  api_secret: Configuration.appConfig.cloudinary.CLOUDINARY_SECRET,
-});
+import { AddUserBody } from '@ctypes';
+import { UserInterface } from '@model/User/User';
+import { isEmpty } from '@job/common';
 
 const facebookRegex = new RegExp('http(?:s)://(?:www.)facebook.com/');
 const twitterRegex = new RegExp('http(?:s)://twitter.com/');
@@ -144,5 +139,43 @@ export class UserService extends BaseService {
     }
 
     return this.returnResponse(200, { message: 'User Blocked status changed' });
+  }
+
+  private validateUser(
+    { email, role }: AddUserBody,
+    user: UserInterface | null
+  ) {
+    const validRoles = ['admin', 'worker', 'administration', 'professor'];
+    const errors = {} as Record<string, string>;
+
+    if (user) {
+      errors.email = 'User wih provided email already exists';
+    } else if (!email) {
+      errors.email = 'Email is required';
+    }
+
+    if (!role) {
+      errors.role = 'Role is required';
+    } else if (!validRoles.includes(role)) {
+      errors.role = 'Role is not valid';
+    }
+
+    return { isValid: isEmpty(errors), errors };
+  }
+
+  async addUser(data: AddUserBody) {
+    const found = await this.userRepository.getByEmail(data.email);
+
+    const { isValid, errors } = this.validateUser(data, found);
+
+    if (!isValid) {
+      return this.returnResponse(400, { errors });
+    }
+
+    await this.userRepository
+      .createUser({ ...data, googleID: 'google', name: 'name' })
+      .save();
+
+    return this.returnResponse(200, { message: 'User added' });
   }
 }

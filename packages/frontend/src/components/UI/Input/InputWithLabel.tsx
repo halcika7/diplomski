@@ -4,7 +4,7 @@ import classnames from 'classnames';
 interface Props {
   label: string;
   placeholder: string;
-  type: 'text' | 'password' | 'number' | 'tel';
+  type: 'text' | 'password' | 'number' | 'tel' | 'email';
   classes?: string;
   value: string | number;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;

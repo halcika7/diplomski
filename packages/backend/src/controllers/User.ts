@@ -7,7 +7,7 @@ import { HTTPCodes } from '@job/common';
 import { authMiddleware } from '@middleware/auth';
 import { UserService } from '@service/User';
 import { multerImage } from '@middleware/multer';
-import { RequestUser } from '@ctypes';
+import { AddUserBody, RequestUser } from '@ctypes';
 
 @Controller('/user')
 export class UserController extends BaseController {
@@ -18,7 +18,7 @@ export class UserController extends BaseController {
   @Get('/', authMiddleware())
   async getUserData(@Res() res: Response, @Req() req: RequestUser) {
     const userData = await this.userService.getUserData(req.user.id);
-    
+
     return this.sendResponse(res, HTTPCodes.OK, { userData });
   }
 
@@ -100,5 +100,12 @@ export class UserController extends BaseController {
         message: 'User not found',
       });
     }
+  }
+
+  @Post('/add', authMiddleware(['admin']))
+  async addUser(@Res() res: Response, @Body() body: AddUserBody) {
+    const { status, ...rest } = await this.userService.addUser(body);
+
+    return this.sendResponse(res, status, { ...rest });
   }
 }

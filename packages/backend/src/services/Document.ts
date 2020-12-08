@@ -64,9 +64,11 @@ export class DocumentService {
 
   getPageCount(filePath: string) {
     const extension = path.extname(filePath).toLowerCase();
+
     if (extension === '.pdf') {
       return this.getPDFPageCount(filePath);
     }
+
     if (extension === '.docx') {
       return this.getDocxPageCount(filePath);
     }

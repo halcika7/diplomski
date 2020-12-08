@@ -8,7 +8,11 @@ import {
 } from './../types/user';
 import { axios } from '@axios';
 import { AppThunkDispatch } from '../AppThunkDispatch';
-import { ProfileErrors } from '../reducers/user';
+import {
+  InitialProfileErrors,
+  ProfileErrors,
+  AddUserErrors,
+} from '../reducers/user';
 
 const setUserData = (userData: UserData): UserActionTypes => ({
   type: UserActions.SET_USER_DATA,
@@ -62,8 +66,18 @@ const setUserResponse = (
   payload: { message, status },
 });
 
-export const restUserResponse = () => (dispatch: AppThunkDispatch) =>
+export const restUserResponse = (dispatch: AppThunkDispatch) =>
   dispatch(setUserResponse('', null));
+
+const setProfileErrors = (
+  payload: Partial<ProfileErrors>
+): UserActionTypes => ({
+  type: UserActions.SET_PROFILE_ERRORS,
+  payload,
+});
+
+export const resetProfileErrors = (dispatch: AppThunkDispatch) =>
+  dispatch(setProfileErrors(InitialProfileErrors));
 
 export const updateInfo = (info: Partial<ProfileErrors>) => async (
   dispatch: AppThunkDispatch
@@ -76,10 +90,7 @@ export const updateInfo = (info: Partial<ProfileErrors>) => async (
   dispatch(setUserResponse(data.message || '', status));
 
   if (data.errors) {
-    dispatch({
-      type: UserActions.SET_PROFILE_ERRORS,
-      payload: data.errors,
-    });
+    dispatch(setProfileErrors(data.errors));
   }
 
   if (status === 200) {
@@ -156,5 +167,32 @@ export const changeUserBlockStatus = (blocked: boolean, id: string) => async (
       type: UserActions.SET_USER_BLOCKED_STATUS,
       payload: { blocked, id },
     });
+  }
+};
+
+const setAddUserErrors = (payload: AddUserErrors): UserActionTypes => ({
+  type: UserActions.SET_ADD_USER_ERRORS,
+  payload,
+});
+
+export const resetAddUserErrors = (dispatch: AppThunkDispatch) =>
+  dispatch(setAddUserErrors({ email: '' }));
+
+export const addUser = (postData: { role: string; email: string }) => async (
+  dispatch: AppThunkDispatch
+) => {
+  const { data, status } = await axios.post<{
+    message: string;
+    errors?: AddUserErrors;
+  }>('/user/add', postData);
+  
+  dispatch(setUserResponse(data.message, status));
+
+  if (status === 200) {
+    dispatch(resetAddUserErrors);
+  }
+
+  if(data.errors) {
+    dispatch(setAddUserErrors(data.errors));
   }
 };

@@ -83,6 +83,7 @@ export class OrderService extends BaseService {
   getOrders(user: Token, orderType: string): Aggregate<OrderInterface[]> {
     const validStatus = ['completed', 'pending', 'rejected', 'approved'];
     let paid = null;
+    let status = validStatus.includes(orderType) ? orderType : null;
 
     if (orderType === 'paid') {
       paid = true;
@@ -90,10 +91,14 @@ export class OrderService extends BaseService {
       paid = false;
     }
 
+    if (orderType === 'paid' || orderType === 'unpaid') {
+      status = 'finished';
+    }
+
     const matchParam = {
       orderedBy: user.role === 'professor' ? new ObjectId(user.id) : null,
       orderedFor: user.role === 'administration' ? user.role : null,
-      status: validStatus.includes(orderType) ? orderType : null,
+      status,
       paid,
     };
 
@@ -171,6 +176,7 @@ export class OrderService extends BaseService {
     }
 
     order.paid = true;
+    order.status = 'completed';
     await order.save();
 
     return this.returnResponse(200, { message: 'Order paid' });

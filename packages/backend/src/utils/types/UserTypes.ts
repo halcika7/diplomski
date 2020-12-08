@@ -26,3 +26,32 @@ export interface UpdateAvailabilityBindingPaper {
   id: string;
   available: boolean;
 }
+
+export interface AddBindingBody {
+  name: string;
+  upTo25: number;
+  from25upTo50: number;
+  from50upTo100: number;
+  from100upTo150: number;
+}
+
+export interface AddPaperBody {
+  name: string;
+  blackWhitePrinting: {
+    upTo250: number;
+    from250upTo500: number;
+    from500upTo1000: number;
+    from1000: number;
+  };
+  colorPrinting: {
+    upTo250: number;
+    from250upTo500: number;
+    from500upTo1000: number;
+    from1000: number;
+  };
+}
+
+export interface AddUserBody {
+  email: string;
+  role: string;
+}

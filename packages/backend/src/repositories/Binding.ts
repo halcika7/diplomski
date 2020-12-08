@@ -15,7 +15,7 @@ export class BindingRepository extends BaseRepository {
     super();
   }
 
-  createBinding(data: BindingInterface): BindingInterface {
+  createBinding(data: Partial<BindingInterface>): BindingInterface {
     return super.createModelInstance<Dictionary, BindingInterface>(
       Binding,
       data

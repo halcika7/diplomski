@@ -111,7 +111,7 @@ export const adminWorkerRoutes: Route[] = [
     path: '/users',
     exact: true,
     usersType: 'all',
-    title:'All Users',
+    title: 'All Users',
     Component: lazy(() => import('../containers/Users')),
   },
   {
@@ -139,6 +139,24 @@ export const adminWorkerRoutes: Route[] = [
     path: '/user/:id',
     exact: true,
     Component: lazy(() => import('../containers/EditUser')),
+  },
+  {
+    path: '/add-binding',
+    exact: true,
+    Component: lazy(() => import('../containers/AdminPricing/AddBinding')),
+  },
+  {
+    path: '/add-paper',
+    exact: true,
+    Component: lazy(() => import('../containers/AdminPricing/AddPaper')),
+  },
+];
+
+export const adminRoutes: Route[] = [
+  {
+    path: '/add-user',
+    exact: true,
+    Component: lazy(() => import('../containers/AddUser')),
   },
 ];
 

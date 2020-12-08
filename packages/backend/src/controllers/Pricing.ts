@@ -1,12 +1,12 @@
 import { Controller } from '@decorator/class';
 import { BaseController } from './Base';
-import { Get, Patch } from '@decorator/method';
+import { Get, Patch, Post } from '@decorator/method';
 import { Body, Param, Res } from '@decorator/param';
 import { Response } from 'express';
 import { HTTPCodes } from '@job/common';
 import { authMiddleware } from '@middleware/auth';
 import { PricingService } from '@service/Pricing';
-import { UpdatePriceBindingPaper } from '@ctypes';
+import { AddBindingBody, AddPaperBody, UpdatePriceBindingPaper } from '@ctypes';
 import { BindingService } from '@service/Binding';
 import { PaperService } from '@service/Paper';
 
@@ -70,5 +70,19 @@ export class PricingController extends BaseController {
         : await this.bindingService.updateAvailability(data);
 
     return this.sendResponse(res, status, { message });
+  }
+
+  @Post('/binding', authMiddleware(['admin', 'worker']))
+  async addBinding(@Res() res: Response, @Body() body: AddBindingBody) {
+    const { status, ...rest } = await this.bindingService.addBinding(body);
+
+    return this.sendResponse(res, status, { ...rest });
+  }
+
+  @Post('/paper', authMiddleware(['admin', 'worker']))
+  async addPaper(@Res() res: Response, @Body() body: AddPaperBody) {
+    const { status, ...rest } = await this.paperService.addPaper(body);
+
+    return this.sendResponse(res, status, { ...rest });
   }
 }

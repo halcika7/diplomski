@@ -31,6 +31,12 @@
     text-overflow: ellipsis;
 }
 
+.DataTable table tbody td > div.alert {
+    word-break: break-all !important;
+    white-space: normal;
+    /* height: 50px; */
+}
+
 .DataTable table tbody tr td button {
     color: #fff;
     background-image: none;

@@ -21,12 +21,11 @@ const Navbar = ({ role }: Props) => {
   const { name, picture } = useSelector(reduxProps);
   const nav = useRef<any>();
   const [unseenNotifications] = useState(0);
-  const [showNotifications, setShowNotifications] = useState(false);
+  const [, setShowNotifications] = useState(false);
 
   const toggleSidebar = useCallback((e: any) => {
     document.querySelector('html')?.classList.toggle('nav-open');
     e.currentTarget.classList.toggle('toggled');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onLogout = () => dispatch(logoutAction);
@@ -34,8 +33,7 @@ const Navbar = ({ role }: Props) => {
   const toggleNotifications = useCallback((e: any) => {
     e.preventDefault();
     e.currentTarget.parentElement.classList.toggle('show');
-    setShowNotifications(!showNotifications);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setShowNotifications(prev => !prev);
   }, []);
 
   return (

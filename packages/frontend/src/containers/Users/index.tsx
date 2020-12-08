@@ -49,6 +49,7 @@ const Users: FC<Props> = ({ title, usersType }) => {
         </div>
       </div>
     );
+
   return (
     <>
       <Helmet>

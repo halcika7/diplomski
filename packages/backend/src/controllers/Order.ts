@@ -43,17 +43,32 @@ export class OrderController extends BaseController {
     return this.sendResponse(res, status, { order });
   }
 
-  @Get('/orders/:id', authMiddleware())
+  @Get('/orders/:order_type', authMiddleware())
   async getOrders(
     @Res() res: Response,
     @Req() req: RequestUser,
     @Param('order_type') orderType: string
   ) {
-    const { user } = req;
-
-    const orders = await this.orderService.getOrders(user, orderType);
+    const orders = await this.orderService.getOrders(req.user, orderType);
 
     return this.sendResponse(res, 200, { orders });
+  }
+
+  private updateStatus(res: Response) {
+    return async (
+      id: string,
+      type: 'finished' | 'rejected' | 'approved',
+      role: 'administration' | 'worker' | 'professor',
+      rejectedBy?: string
+    ) => {
+      const { status, message } = await this.orderService.updateOrderStatus(
+        id,
+        type,
+        role,
+        rejectedBy
+      );
+      return this.sendResponse(res, status, { message });
+    };
   }
 
   @Patch('/rejected/:id', authMiddleware(['worker', 'administration']))
@@ -62,36 +77,17 @@ export class OrderController extends BaseController {
     @Req() req: RequestUser,
     @Param('id') id: string
   ) {
-    const { status, message } = await this.orderService.updateOrderStatus(
-      id,
-      'rejected',
-      'professor',
-      req.user.role
-    );
-
-    return this.sendResponse(res, status, { message });
+    return this.updateStatus(res)(id, 'rejected', 'professor', req.user.role);
   }
 
   @Patch('/finished/:id', authMiddleware(['worker']))
   async finishOrder(@Res() res: Response, @Param('id') id: string) {
-    const { status, message } = await this.orderService.updateOrderStatus(
-      id,
-      'finished',
-      'professor'
-    );
-
-    return this.sendResponse(res, status, { message });
+    return this.updateStatus(res)(id, 'finished', 'professor');
   }
 
   @Patch('/approved/:id', authMiddleware(['administration']))
   async approveOrder(@Res() res: Response, @Param('id') id: string) {
-    const { status, message } = await this.orderService.updateOrderStatus(
-      id,
-      'approved',
-      'worker'
-    );
-
-    return this.sendResponse(res, status, { message });
+    return this.updateStatus(res)(id, 'approved', 'worker');
   }
 
   @Patch('/pay/:id', authMiddleware(['worker']))

@@ -116,7 +116,6 @@ const AddOrder = () => {
     dispatch(postOrder(useFor));
   };
 
-
   const resetAfterUpload = useCallback(() => {
     setUploading(false);
     setFile(undefined);
@@ -132,10 +131,11 @@ const AddOrder = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    setErrors({
+    setErrors(prev => ({
+      ...prev,
       ...orderErrors,
       ...upload.errors,
-    });
+    }));
   }, [orderErrors, upload.errors]);
 
   useEffect(() => {
@@ -143,7 +143,7 @@ const AddOrder = () => {
       resetAfterUpload();
     }
 
-    if(upload.status === 400) {
+    if (upload.status === 400) {
       setUploading(false);
     }
   }, [upload.status, resetAfterUpload]);
@@ -154,11 +154,10 @@ const AddOrder = () => {
       setSending(false);
       setUseFor('Personal');
     }
-  }, [status,resetAfterUpload]);
+  }, [status, resetAfterUpload]);
 
   useEffect(() => {
     return () => {
-      dispatch(resetUploadStatus);
       dispatch(setOrderMessage('', null));
       dispatch(resetUploadStatus);
     };

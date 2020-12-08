@@ -38,7 +38,7 @@ const EditUser: FC<Props> = ({ role }) => {
   const [newRole, setRole] = useState<string | undefined>('');
   const [blocked, setBlocked] = useState<boolean>(false);
 
-  const clearResponse  = () => dispatch(restUserResponse());
+  const clearResponse  = () => dispatch(restUserResponse);
 
   const isDisabled = () => !!user && newRole === user.role;
 
@@ -63,7 +63,7 @@ const EditUser: FC<Props> = ({ role }) => {
   useEffect(() => {
     return () => {
       dispatch(setUserToEdit(null));
-      dispatch(restUserResponse());
+      dispatch(restUserResponse);
     };
   }, [dispatch]);
 

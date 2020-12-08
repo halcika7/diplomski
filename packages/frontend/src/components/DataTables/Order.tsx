@@ -9,7 +9,7 @@ type UpdateStatusAction = (
 ) => () => void;
 
 const buttonFormatter = (role: string, updateStatus: UpdateStatusAction) => (
-  _: any,
+  _: undefined,
   row: OrderType
 ) => (
   <>
@@ -71,24 +71,21 @@ const buttonFormatter = (role: string, updateStatus: UpdateStatusAction) => (
   </>
 );
 
-const dateFormatter = (_: any, row: OrderType) => (
+const dateFormatter = (_: undefined, row: OrderType) => (
   <span>{new Date(row.createdAt).toLocaleString()}</span>
 );
 
 const rowClasses = (row: OrderType) =>
-  row.status === 'finished' && row.paid
+  row.status === 'completed'
     ? 'bg-success'
     : row.status === 'rejected'
     ? 'bg-danger'
     : '';
 
-const priceFormatter = (_: any, row: OrderType) =>
+const priceFormatter = (_: undefined, row: OrderType) =>
   row.totalCost.toLocaleString(undefined, { maximumFractionDigits: 2 }) + ' KM';
 
-const columns = (
-  role: string,
-  updateStatus: UpdateStatusAction,
-) => [
+const columns = (role: string, updateStatus: UpdateStatusAction) => [
   {
     dataField: 'createdAt',
     text: 'Date when ordered',

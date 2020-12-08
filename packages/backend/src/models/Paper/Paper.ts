@@ -14,5 +14,5 @@ export interface PaperInterface extends Document {
     from500upTo1000: number;
     from1000: number;
   };
-  availabe: boolean;
+  available: boolean;
 }
