@@ -53,10 +53,6 @@ const orderSchema = new Schema(
       type: String,
       required: true,
     },
-    paid: {
-      type: Boolean,
-      required: true,
-    },
   },
   {
     timestamps: true,

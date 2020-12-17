@@ -19,6 +19,7 @@ import { useThunkDispatch } from '@dispatch';
 import { inputs } from './disabledInputs';
 import { useState } from 'react';
 import Alert from '@components/UI/Alert';
+import { AnyDictionary } from '@job/common';
 
 const redux = createSelector(
   (state: AppState) => state.user.userToEdit,
@@ -27,7 +28,7 @@ const redux = createSelector(
   (user, message, status) => ({ user, message, status })
 );
 
-interface Props extends Record<string, any> {
+interface Props extends AnyDictionary {
   role?: string;
 }
 
@@ -35,14 +36,14 @@ const EditUser: FC<Props> = ({ role }) => {
   const { id } = useParams<{ id: string }>();
   const { user, message, status } = useSelector(redux);
   const dispatch = useThunkDispatch();
-  const [newRole, setRole] = useState<string | undefined>('');
+  const [newRole, setRole] = useState<string>('');
   const [blocked, setBlocked] = useState<boolean>(false);
 
-  const clearResponse  = () => dispatch(restUserResponse);
+  const clearResponse = () => dispatch(restUserResponse);
 
   const isDisabled = () => !!user && newRole === user.role;
 
-  const onSubmit = (e: any) => {
+  const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     if (isDisabled()) return;
 
@@ -51,10 +52,10 @@ const EditUser: FC<Props> = ({ role }) => {
 
   const onChangeBlockStatus = (e: ChangeEvent<HTMLInputElement>) => {
     const newVal = e.target.checked;
-    if(newVal === user?.blocked) return;
+    if (newVal === user?.blocked) return;
     setBlocked(prev => !prev);
     dispatch(changeUserBlockStatus(newVal, user!._id));
-  }
+  };
 
   useEffect(() => {
     dispatch(getUserToEdit(id));
@@ -68,7 +69,7 @@ const EditUser: FC<Props> = ({ role }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    if(user) {
+    if (user) {
       setRole(user.role);
       setBlocked(user.blocked);
     }

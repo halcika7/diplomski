@@ -21,6 +21,9 @@ import { UserService } from '@service/User';
 import { PaperService } from '@service/Paper';
 import { BindingService } from '@service/Binding';
 import { EmailService } from '@service/Email';
+import { DashboardService } from '@service/Dashboard';
+
+import { BindingInterface } from '@model/Binding/Binding';
 
 const container = new Container();
 
@@ -41,6 +44,7 @@ container.bind<UserService>(UserService).toSelf().inSingletonScope();
 container.bind<PaperService>(PaperService).toSelf().inSingletonScope();
 container.bind<BindingService>(BindingService).toSelf().inSingletonScope();
 container.bind<EmailService>(EmailService).toSelf().inSingletonScope();
+container.bind<DashboardService>(DashboardService).toSelf().inSingletonScope();
 
 container.bind<UserRepository>(UserRepository).toSelf().inSingletonScope();
 container

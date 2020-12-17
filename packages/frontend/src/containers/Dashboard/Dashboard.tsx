@@ -1,12 +1,15 @@
+import { useThunkDispatch } from '@dispatch';
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
-import { AppState } from '../../redux/reducers/index';
+import { AppState } from '@reducers/index';
+import { getDashboard } from '@actions';
 
-// const Admin = React.lazy(() => import('./Admin'));
-const Professors = React.lazy(() => import('./Professors'));
-const Administration = React.lazy(() => import('./Administration'));
+import Admin from './Admin';
+import Professors from './Professors';
+import Administration from './Administration';
+import Graphs from './Graphs';
 
 const reduxProps = createSelector(
   (state: AppState) => state.auth.role,
@@ -15,11 +18,16 @@ const reduxProps = createSelector(
 
 const Dashboard = () => {
   const { role } = useSelector(reduxProps);
+  const dispatch = useThunkDispatch();
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (role) {
+      dispatch(getDashboard(role as string));
+    }
+  }, [dispatch, role]);
 
   return (
-    <div className="row">
+    <>
       <Helmet>
         <title>Dashboard</title>
         <meta name="description" content="Dashboard page in Print shop app" />
@@ -28,12 +36,15 @@ const Dashboard = () => {
           content="Dashboard page in Print shop app"
         />
       </Helmet>
-      {role === 'professor' && <Professors />}
-      {role === 'administration' && <Administration />}
-    </div>
+      <div className="row">
+        {role === 'professor' && <Professors />}
+        {role === 'administration' && <Administration />}
+        {(role === 'admin' || role === 'worker') && <Admin />}
+
+        <Graphs />
+      </div>
+    </>
   );
 };
-
-// {role === 'admin' && <Admin />}
 
 export default React.memo(Dashboard);

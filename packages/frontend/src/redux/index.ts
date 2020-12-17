@@ -21,8 +21,5 @@ const bindMiddleware = () => {
 
 export const store = createStore(
   rootReducer,
-  compose(
-    bindMiddleware(),
-    compose
-  )
+  compose(bindMiddleware(), compose)
 );

@@ -29,7 +29,7 @@ const Profile = () => {
     return () => {
       dispatch(restUserResponse);
       dispatch(resetProfileErrors);
-    }
+    };
   }, [dispatch]);
 
   return (

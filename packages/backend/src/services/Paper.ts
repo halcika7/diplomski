@@ -1,13 +1,17 @@
 import { BaseService } from './Base';
 import { Injectable } from '@decorator/class';
+import { PaperRepository } from '@repository/Paper';
+import { PaperInterface } from '@model/Paper/Paper';
 import {
+  isEmpty,
   AddPaperBody,
   UpdateAvailabilityBindingPaper,
   UpdatePriceBindingPaper,
-} from '@ctypes';
-import { PaperRepository } from '@repository/Paper';
-import { PaperInterface } from '@model/Paper/Paper';
-import { isEmpty } from '@job/common';
+  AnyDictionary,
+  NumberDictionary,
+  NumberHelper,
+  HTTPCodes,
+} from '@job/common';
 
 interface PaperPrice {
   upTo250: number;
@@ -18,8 +22,11 @@ interface PaperPrice {
 
 @Injectable()
 export class PaperService extends BaseService {
+  private readonly number: NumberHelper;
+
   constructor(private readonly paperRepository: PaperRepository) {
     super();
+    this.number = new NumberHelper();
   }
 
   getPaperPrice(pages: number, paperOption: PaperPrice) {
@@ -33,12 +40,12 @@ export class PaperService extends BaseService {
     } else if (pages >= 1000) {
       price = paperOption.from1000 * pages;
     }
-    return Number(`${Math.round(price + (('e+2' as unknown) as number))}e-2`);
+    return this.number.number(price);
   }
 
   async updatePaperPrice(data: UpdatePriceBindingPaper) {
     if (Number.isNaN(data.value) || data.value <= 0 || !data.value) {
-      return this.returnResponse(400, {
+      return this.returnResponse(HTTPCodes.BAD_REQUEST, {
         message: 'Price should be a number and greater than 0',
       });
     }
@@ -47,18 +54,24 @@ export class PaperService extends BaseService {
 
     const modified = !!updated.nModified;
 
-    return this.returnResponse(modified ? 200 : 400, {
-      message: `Paper ${data.option} was${modified ? '' : ' not'} updated`,
-    });
+    return this.returnResponse(
+      modified ? HTTPCodes.OK : HTTPCodes.BAD_REQUEST,
+      {
+        message: `Paper ${data.option} was${modified ? '' : ' not'} updated`,
+      }
+    );
   }
 
   async updateAvailability(data: UpdateAvailabilityBindingPaper) {
     const updated = await this.paperRepository.updateAvailability(data);
     const modified = !!updated.nModified;
 
-    return this.returnResponse(modified ? 200 : 400, {
-      message: `Paper ${data.id} was${modified ? '' : ' not'} updated`,
-    });
+    return this.returnResponse(
+      modified ? HTTPCodes.OK : HTTPCodes.BAD_REQUEST,
+      {
+        message: `Paper ${data.id} was${modified ? '' : ' not'} updated`,
+      }
+    );
   }
 
   private getOption(key: string) {
@@ -85,19 +98,19 @@ export class PaperService extends BaseService {
     { name, blackWhitePrinting, colorPrinting }: AddPaperBody,
     paper: PaperInterface | null
   ) {
-    const errors = {} as Record<string, string | any>;
+    const errors = {} as AnyDictionary;
     const color = {
       upTo250: 0,
       from250upTo500: 0,
       from500upTo1000: 0,
       from1000: 0,
-    } as Record<string, number>;
+    } as NumberDictionary;
     const black = {
       upTo250: 0,
       from250upTo500: 0,
       from500upTo1000: 0,
       from1000: 0,
-    } as Record<string, number>;
+    } as NumberDictionary;
 
     if (paper) {
       errors.name = 'Binding with provided name already exists';
@@ -146,11 +159,11 @@ export class PaperService extends BaseService {
     const { isValid, errors } = this.validatePaper(data, found);
 
     if (!isValid) {
-      return this.returnResponse(400, { errors });
+      return this.returnResponse(HTTPCodes.BAD_REQUEST, { errors });
     }
 
     await this.paperRepository.createPaper({ ...data, available: true }).save();
 
-    return this.returnResponse(200, { message: 'Paper added' });
+    return this.returnResponse(HTTPCodes.OK, { message: 'Paper added' });
   }
 }

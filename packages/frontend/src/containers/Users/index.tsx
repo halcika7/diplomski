@@ -8,10 +8,11 @@ import UserDataTable from '@components/DataTables/User';
 import { getUsers, setUsers } from '@actions';
 import { useEffect } from 'react';
 import Spinner from '@components/UI/Spinner/Spinner';
-import { User, UserType } from 'src/redux/types/user';
+import { User } from 'src/redux/types/user';
+import { UserRole } from '@job/common';
 
-interface Props extends Record<string, UserType | string | undefined> {
-  usersType?: UserType;
+interface Props extends Record<string, UserRole | string | undefined> {
+  usersType?: UserRole;
   title?: string;
 }
 

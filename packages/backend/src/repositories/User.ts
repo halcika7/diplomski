@@ -2,17 +2,21 @@ import User from '@model/User';
 import { UserInterface } from '@model/User/User';
 import { BaseRepository } from './Base';
 import { Injectable } from '@decorator/class';
-import { Dictionary } from '../utils/genericTypes';
+import {
+  PersonalInfoBody,
+  AnyDictionary,
+  UserRole,
+  BooleanStringDictionary,
+} from '@job/common';
 
 @Injectable()
 export class UserRepository extends BaseRepository {
-  // eslint-disable-next-line no-useless-constructor
   constructor() {
     super();
   }
 
   createUser(data: Partial<UserInterface>): UserInterface {
-    return super.createModelInstance<Dictionary, UserInterface>(User, data);
+    return super.createModelInstance<AnyDictionary, UserInterface>(User, data);
   }
 
   findById(id: string) {
@@ -35,19 +39,19 @@ export class UserRepository extends BaseRepository {
     return User.findOne({ email });
   }
 
-  getUsersByRole(role: string) {
+  getUsersByRole(role: UserRole | 'all') {
     const obj = role !== 'all' ? { role } : {};
     return User.find(obj).select(
       'name picture email facebookLink twitterLink role phone blocked'
     );
   }
 
-  async update(info: any, id: string) {
+  async update(info: BooleanStringDictionary | PersonalInfoBody, id: string) {
     return User.updateOne({ _id: id }, { ...info });
   }
 
-  async getEmails(role: string, id?: string) {
-    const match = { role, blocked: false } as Record<string, boolean | string>;
+  async getEmails(role: UserRole, id?: string): Promise<{ email: string }[]> {
+    const match = { role, blocked: false } as BooleanStringDictionary;
 
     if (id) {
       match._id = id;

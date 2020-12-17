@@ -14,7 +14,7 @@ export class CustomException extends HttpException {
    * @param description a short description of the HTTP error.
    */
   constructor(
-    objectOrError: string | object | any,
+    objectOrError: string | Record<string, unknown> | any,
     description: string,
     statusCode: number
   ) {

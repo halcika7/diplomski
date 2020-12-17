@@ -1,5 +1,4 @@
-import { Token } from '@ctypes';
-import { HTTPCodes } from '@job/common';
+import { HTTPCodes, Token } from '@job/common';
 import { JWTService } from '@service/JWT';
 import { NextFunction, Request, Response } from 'express';
 

@@ -1,15 +1,22 @@
 import React, { FC, useEffect } from 'react';
+
+// hooks
+import { createSelector } from 'reselect';
+import { useThunkDispatch } from '@dispatch';
+import { useSelector } from 'react-redux';
+
+// components
 import { Link } from 'react-router-dom';
+import Alert from '../../components/UI/Alert';
+import Table from './index';
 import { textFilter } from 'react-bootstrap-table2-filter';
 
-import Alert from '../../components/UI/Alert';
+// types
 import { User } from 'src/redux/types/user';
-import Table from './index';
-import { changeUserBlockStatus, restUserResponse } from '@actions';
-import { useThunkDispatch } from '@dispatch';
-import { createSelector } from 'reselect';
 import { AppState } from '@reducers/index';
-import { useSelector } from 'react-redux';
+
+// actions
+import { changeUserBlockStatus, restUserResponse } from '@actions';
 
 interface Props {
   users: User[];

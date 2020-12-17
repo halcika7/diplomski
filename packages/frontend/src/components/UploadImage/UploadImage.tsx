@@ -1,5 +1,4 @@
-import React, { useRef, useState, ChangeEvent } from 'react';
-import { useEffect } from 'react';
+import React, { useRef, useState, ChangeEvent, FC, useEffect } from 'react';
 import classes from './UploadImage.module.css';
 
 const defaultImage =
@@ -13,35 +12,42 @@ const readFile = (file: File, cb: (reader: FileReader) => void) => {
   };
 };
 
-const UploadImage = ({ setImage, image }: any) => {
-  const img = useRef<any>();
-  const input = useRef<any>();
+interface Props {
+  image: File | undefined;
+  setImage: (val: File | undefined) => void;
+}
+
+const UploadImage: FC<Props> = ({ setImage, image }) => {
+  const img = useRef<HTMLImageElement>(null);
+  const input = useRef<HTMLInputElement>(null);
   const [Image, SetImage] = useState<string>(defaultImage);
 
   const uploadChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     if (!files || !files.length || !window.FileReader) return;
     if (!files[0].type.match('image')) return;
-    readFile(files[0], () => setImage(() => files[0]));
+    readFile(files[0], () => setImage(files[0]));
   };
 
-  const removePicture = (e: any) => {
+  const removePicture = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
-    input.current.value = '';
-    img.current.classList = `${classes.default}`;
+    input.current!.value = '';
+    img.current!.className = `${classes.default}`;
     setImage(undefined);
   };
 
   useEffect(() => {
     if (!image && Image !== defaultImage) {
       SetImage(defaultImage);
-      img.current.classList = `${classes.default}`;
-      input.current.value = '';
+      img.current!.className = `${classes.default}`;
+      input.current!.value = '';
     }
     if (image && Image === defaultImage) {
       const cb = (reader: FileReader) => {
         SetImage(reader.result as string);
-        img.current.classList = `${classes.removed}`;
+        img.current!.className = `${classes.removed}`;
       };
       readFile(image, cb);
     }

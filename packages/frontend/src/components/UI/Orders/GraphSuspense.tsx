@@ -1,6 +1,6 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, FC, ReactNode } from 'react';
 
-const GraphSuspense = ({ children }: any) => (
+const GraphSuspense: FC<{ children: ReactNode }> = ({ children }) => (
   <Suspense
     fallback={
       <div className="col-xl-6">

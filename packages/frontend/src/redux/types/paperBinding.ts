@@ -1,4 +1,10 @@
-import { BindingErrors, PaperErrors } from '../reducers/paperBinding';
+import {
+  PaperFront as Paper,
+  BindingFront as Binding,
+  PaperErrors,
+  BindingErrors,
+  PaperBinding,
+} from '@job/common';
 
 export enum PaperBindingActions {
   SET_PAPER_BINDINGS = 'SET_PAPER_BINDINGS',
@@ -8,58 +14,6 @@ export enum PaperBindingActions {
   UPDATE_BINDING_PAPER = 'UPDATE_BINDING_PAPER',
   SET_BINDING_ERRORS = 'SET_BINDING_ERRORS',
   SET_PAPER_ERRORS = 'SET_PAPER_ERRORS',
-}
-
-export interface Paper {
-  _id: string;
-  name: string;
-  blackWhitePrinting: {
-    upTo250: number;
-    from250upTo500: number;
-    from500upTo1000: number;
-    from1000: number;
-  };
-  colorPrinting: {
-    upTo250: number;
-    from250upTo500: number;
-    from500upTo1000: number;
-    from1000: number;
-  };
-  available: boolean;
-}
-
-export interface Binding {
-  _id: string;
-  name: string;
-  upTo25: number;
-  from25upTo50: number;
-  from50upTo100: number;
-  from100upTo150: number;
-  available: boolean;
-}
-
-export interface AddBindingBody {
-  name: string;
-  upTo25: number;
-  from25upTo50: number;
-  from50upTo100: number;
-  from100upTo150: number;
-}
-
-export interface AddPaperBody {
-  name: string;
-  blackWhitePrinting: {
-    upTo250: number;
-    from250upTo500: number;
-    from500upTo1000: number;
-    from1000: number;
-  };
-  colorPrinting: {
-    upTo250: number;
-    from250upTo500: number;
-    from500upTo1000: number;
-    from1000: number;
-  };
 }
 
 interface SetPaperBinding {
@@ -84,7 +38,7 @@ interface SetPaperBindingResponse {
 
 interface UpdateBindingPaper {
   type: typeof PaperBindingActions.UPDATE_BINDING_PAPER;
-  payload: { id: string; available: boolean; type: 'paper' | 'binding' };
+  payload: { id: string; available: boolean; type: PaperBinding };
 }
 
 interface SetBindingErrors {

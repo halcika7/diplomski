@@ -1,27 +1,46 @@
-import React from 'react';
-import SmallSpinner from '../Spinner/SmallSpinner';
+import React, { FC } from 'react';
+import { NumberHelper } from '@job/common';
 
 import './Css.css';
 import StatsVisibilitySensor from '../../../helpers/StatsVisibilitySensor';
 
-const StatsWithPercentage = ({
+interface Props {
+  heading: string;
+  heading2: string;
+  icon: string;
+  value: number | null | undefined;
+  oldValue: number | null | undefined;
+  price?: boolean;
+}
+
+const StatsWithPercentage: FC<Props> = ({
   heading,
   heading2,
   value,
   oldValue,
   icon,
-  price = null,
-}: any) => {
-  const percentage =
-    oldValue === 0
-      ? +(Math.round(((value - oldValue) / 1) * 100 + ('e+2' as unknown as number)) + 'e-2')
-      : +(Math.round(((value - oldValue) / oldValue) * 100 + ('e+2' as unknown as number)) + 'e-2');
+  price = false,
+}) => {
+  let percentage = '0';
+  const numberHelper = new NumberHelper();
+
+  if (value != null && oldValue != null) {
+    percentage =
+      oldValue === 0
+        ? numberHelper.getTwoDigitNumber(((value - oldValue) / 1) * 100, 0)
+        : numberHelper.getTwoDigitNumber(
+            ((value - oldValue) / oldValue) * 100,
+            0
+          );
+  }
+
+  const intValue = parseInt(percentage, 10);
 
   return (
     <StatsVisibilitySensor>
       <div className="col-6 col-xl-3">
         <div className={'card-stats card card-overflow ' + icon}>
-          {value || value === 0 ? (
+          {value != null && (
             <div className="card-body align-items-center">
               <h5 className="mb-2">
                 {heading} - {value} {price && 'KM'}
@@ -29,31 +48,25 @@ const StatsWithPercentage = ({
               <h5 className="mb-1">
                 {heading2} - {oldValue} {price && 'KM'}
               </h5>
-              {!isNaN(percentage) && (
-                <span
-                  className={
-                    percentage > 0
-                      ? 'text-success d-block'
-                      : percentage < 0
-                      ? 'text-danger d-block'
-                      : 'text-info d-block'
-                  }
-                  style={{ fontSize: '15px', fontWeight: 900 }}
-                >
-                  {percentage > 0 && (
-                    <i className="fas fa-long-arrow-alt-up mr-1"></i>
-                  )}
-                  {percentage < 0 && (
-                    <i className="fas fa-long-arrow-alt-down mr-1"></i>
-                  )}
-                  {percentage === 0 && <i className="fas fa-minus mr-1"></i>}
-                  {percentage}%
-                </span>
-              )}
-            </div>
-          ) : (
-            <div className="card-body">
-              <SmallSpinner />
+              <span
+                className={
+                  intValue > 0
+                    ? 'text-success d-block'
+                    : intValue < 0
+                    ? 'text-danger d-block'
+                    : 'text-info d-block'
+                }
+                style={{ fontSize: '15px', fontWeight: 900 }}
+              >
+                {intValue > 0 && (
+                  <i className="fas fa-long-arrow-alt-up mr-1" />
+                )}
+                {intValue < 0 && (
+                  <i className="fas fa-long-arrow-alt-down mr-1" />
+                )}
+                {intValue === 0 && <i className="fas fa-minus mr-1" />}
+                {percentage}%
+              </span>
             </div>
           )}
         </div>

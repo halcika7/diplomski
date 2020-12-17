@@ -1,7 +1,5 @@
 import { axios } from '@axios';
 import {
-  BindingErrors,
-  PaperErrors,
   InitialBindingErrors,
   InitialPaperErrors,
 } from '@reducers/paperBinding';
@@ -9,13 +7,20 @@ import {
 // types
 import { AppThunkDispatch } from '../AppThunkDispatch';
 import {
-  Paper,
-  Binding,
   PaperBindingActionTypes,
   PaperBindingActions,
+} from '../types/paperBinding';
+
+import {
   AddBindingBody,
   AddPaperBody,
-} from '../types/paperBinding';
+  PaperFront as Paper,
+  BindingFront as Binding,
+  PaperErrors,
+  BindingErrors,
+  PaperBinding,
+  UpdatePriceBindingPaper,
+} from '@job/common';
 
 const setPaperBindings = (data: {
   papers: Paper[];
@@ -69,12 +74,8 @@ export const resetPaperBindingResponse = (dispatch: AppThunkDispatch) =>
   dispatch(setPaperBindingResponse('', null));
 
 export const updatePaperBindingPrice = (
-  type: 'paper' | 'binding',
-  patchData: {
-    id: string;
-    option: string;
-    value: number;
-  }
+  type: PaperBinding,
+  patchData: UpdatePriceBindingPaper
 ) => async (dispatch: AppThunkDispatch) => {
   const { data, status } = await axios.patch<{
     message: string;
@@ -83,7 +84,7 @@ export const updatePaperBindingPrice = (
 };
 
 export const updatePaperBindingAvailability = (
-  type: 'paper' | 'binding',
+  type: PaperBinding,
   id: string,
   available: boolean
 ) => async (dispatch: AppThunkDispatch) => {

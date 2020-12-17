@@ -1,6 +1,7 @@
 import { axios } from '@axios';
 import { AppThunkDispatch } from '../AppThunkDispatch';
-import { FileActionTypes, FileActions, FileType } from '../types/file';
+import { FileActionTypes, FileActions } from '../types/file';
+import { FileTypeFront as FileType } from '@job/common';
 
 const setFiles = (files: FileType[]): FileActionTypes => ({
   type: FileActions.SET_FILES,

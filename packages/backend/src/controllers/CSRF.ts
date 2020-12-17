@@ -7,6 +7,6 @@ import { Controller } from '@decorator/class';
 export class CSRFController {
   @Get('get_csrf')
   async getCsrf(@Res() res: Response) {
-    return res.json({ message: 'csrf_token' });
+    return res.status(200).json({ message: 'csrf_token' });
   }
 }

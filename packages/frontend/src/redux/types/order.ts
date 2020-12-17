@@ -1,29 +1,12 @@
 import { PostOrderErrors } from '@reducers/order';
-import { FileDocument } from './cart';
-
-export type OrderType =
-  | 'all'
-  | 'completed'
-  | 'pending'
-  | 'rejected'
-  | 'paid'
-  | 'unpaid'
-  | 'approved'
-  | 'deleted';
+import { Order as FullOrder, OrderType } from '@job/common';
 
 export interface Order {
   _id: string;
   createdAt: string;
   orderedFor: string;
   status: string;
-  deleted: boolean;
-  paid: boolean;
   totalCost: number;
-}
-
-export interface FullOrder extends Order {
-  documents: FileDocument[];
-  orderedBy: { _id: string; name: string };
 }
 
 export enum OrderActions {
@@ -57,7 +40,7 @@ interface SetOrderErrors {
 
 interface SetOrderStatus {
   type: typeof OrderActions.SET_ORDER_STATUS;
-  payload: { id: string; type: 'rejected' | 'finished' | 'approved' | 'pay' };
+  payload: { id: string; type: OrderType };
 }
 
 interface SetOrderChangingStatus {

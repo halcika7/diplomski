@@ -16,7 +16,22 @@
     "frontend-prod": "yarn --cwd packages/frontend start",
     "dev": "concurrently \"yarn server\" \"yarn frontend\"",
     "prod": "concurrently \"yarn server-prod\" \"yarn frontend-prod\"",
-    "lint": "eslint --fix packages/frontend/**/*.{ts,tsx} packages/backend/src/**/*.ts"
+    "lerna:lint:ts": "lerna run lint:ts:fix",
+    "lint:ts": "yarn --cwd packages/frontend lint:ts:fix; yarn --cwd packages/common lint:ts:fix; yarn --cwd packages/backend lint:ts:fix",
+    "lerna:format": "lerna run format:write",
+    "format": "yarn --cwd packages/frontend format:write; yarn --cwd packages/common format:write; yarn --cwd packages/backend format:write"
+  },
+  "lint-staged": {
+    "packages/**/*.{js,jsx}": [
+      "yarn run --silent lerna:lint:ts",
+      "yarn run --silent lerna:format",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "dependencies": {
     "concurrently": "^5.2.0"

@@ -3,12 +3,17 @@ import { BaseController } from './Base';
 import { Get, Patch, Post } from '@decorator/method';
 import { Body, Param, Res } from '@decorator/param';
 import { Response } from 'express';
-import { HTTPCodes } from '@job/common';
 import { authMiddleware } from '@middleware/auth';
 import { PricingService } from '@service/Pricing';
-import { AddBindingBody, AddPaperBody, UpdatePriceBindingPaper } from '@ctypes';
 import { BindingService } from '@service/Binding';
 import { PaperService } from '@service/Paper';
+import {
+  HTTPCodes,
+  AddBindingBody,
+  AddPaperBody,
+  PaperBinding,
+  UpdatePriceBindingPaper,
+} from '@job/common';
 
 @Controller('/pricing')
 export class PricingController extends BaseController {
@@ -44,7 +49,7 @@ export class PricingController extends BaseController {
   @Patch('/:type', authMiddleware(['admin', 'worker']))
   async updatePaperBinding(
     @Res() res: Response,
-    @Param('type') type: 'paper' | 'binding',
+    @Param('type') type: PaperBinding,
     @Body() body: UpdatePriceBindingPaper
   ) {
     const { status, message } =
@@ -58,7 +63,7 @@ export class PricingController extends BaseController {
   @Patch('/:type/:available/:id')
   async changePaperBidingAvailability(
     @Res() res: Response,
-    @Param('type') type: 'paper' | 'binding',
+    @Param('type') type: PaperBinding,
     @Param('available') available: string,
     @Param('id') id: string
   ) {

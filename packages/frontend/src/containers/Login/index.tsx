@@ -17,13 +17,13 @@ import { useSelector } from 'react-redux';
 const reduxProps = createSelector(
   (state: AppState) => state.auth.isAuthenticated,
   isAuthenticated => ({ isAuthenticated })
-)
+);
 
 const Login = () => {
   const location = useLocation();
   const dispatch = useThunkDispatch();
   const history = useHistory();
-  const {isAuthenticated} = useSelector(reduxProps);
+  const { isAuthenticated } = useSelector(reduxProps);
   const token = new URLSearchParams(location.search).get('token');
   const error = new URLSearchParams(location.search).get('err');
 
@@ -31,7 +31,7 @@ const Login = () => {
     if (token) {
       dispatch(getUserData);
       dispatch(authSuccess(token));
-      history.replace('/');
+      history.replace('/dashboard');
     }
     if (error) {
       history.replace('/');
@@ -39,12 +39,12 @@ const Login = () => {
   }, [error, token, dispatch, history]);
 
   useEffect(() => {
-    if(isAuthenticated) {
+    if (isAuthenticated) {
       history.push('/dashboard');
     }
-  }, [history, isAuthenticated])
+  }, [history, isAuthenticated]);
 
-  if(isAuthenticated) return <Redirect to="/dashboard" />
+  if (isAuthenticated) return <Redirect to="/dashboard" />;
 
   return (
     <div className="homepage">

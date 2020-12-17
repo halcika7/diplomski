@@ -1,6 +1,9 @@
 import React, { Suspense, FC, ReactNode } from 'react';
 
-const StatsPercentageSuspense: FC<{ children: ReactNode, classes?: string }> = ({ children }) => (
+const StatsPercentageSuspense: FC<{
+  children: ReactNode;
+  classes?: string;
+}> = ({ children }) => (
   <Suspense
     fallback={
       <div className="col-6 col-xl-3">

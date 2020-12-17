@@ -1,18 +1,18 @@
 .table tr td {
-    min-width: 120px;
+  min-width: 120px;
 }
 
 .table tr td:not(:first-child) {
-    padding: 5px 15px;
+  padding: 5px 15px;
 }
 
 .price_ul {
-    list-style: none;
-    padding: 0;
-    margin-top: 41px;
-    width: 100px;
+  list-style: none;
+  padding: 0;
+  margin-top: 41px;
+  width: 100px;
 }
 
 .price_ul li {
-    margin-top: 10px;
+  margin-top: 10px;
 }

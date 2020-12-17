@@ -3,11 +3,16 @@ import { BaseController } from './Base';
 import { Get, Patch, Post } from '@decorator/method';
 import { Body, Param, Req, Res } from '@decorator/param';
 import { Response } from 'express';
-import { HTTPCodes } from '@job/common';
 import { authMiddleware } from '@middleware/auth';
 import { UserService } from '@service/User';
 import { multerImage } from '@middleware/multer';
-import { AddUserBody, RequestUser } from '@ctypes';
+import { RequestUser } from '@ctypes';
+import {
+  HTTPCodes,
+  AddUserBody,
+  PersonalInfoBody,
+  UserRole,
+} from '@job/common';
 
 @Controller('/user')
 export class UserController extends BaseController {
@@ -40,7 +45,7 @@ export class UserController extends BaseController {
   async updatePersonalInfo(
     @Res() res: Response,
     @Req() req: RequestUser,
-    @Body() info: any
+    @Body() info: PersonalInfoBody
   ) {
     const {
       status,
@@ -54,7 +59,7 @@ export class UserController extends BaseController {
   @Patch('/:role/:id', authMiddleware(['admin']))
   async updateUserRole(
     @Res() res: Response,
-    @Param('role') role: string,
+    @Param('role') role: UserRole,
     @Param('id') id: string
   ) {
     const { status, message } = await this.userService.updateUserRole(role, id);
@@ -77,7 +82,7 @@ export class UserController extends BaseController {
   }
 
   @Get('/:role', authMiddleware(['worker', 'admin']))
-  async getUsersByRole(@Res() res: Response, @Param('role') role: string) {
+  async getUsersByRole(@Res() res: Response, @Param('role') role: UserRole) {
     const users = await this.userService.getUsersByRole(role);
 
     return this.sendResponse(res, HTTPCodes.OK, { users });

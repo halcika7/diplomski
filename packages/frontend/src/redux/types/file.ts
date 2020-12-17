@@ -1,14 +1,7 @@
+import { FileTypeFront as FileType } from '@job/common';
+
 export enum FileActions {
   SET_FILES = 'SET_FILES',
-}
-
-export interface FileType {
-  _id: string;
-  name: string;
-  path: string;
-  createdAt: string;
-  updatedAt: string;
-  orderedBy: { name: string, _id: string };
 }
 
 interface SetFiles {

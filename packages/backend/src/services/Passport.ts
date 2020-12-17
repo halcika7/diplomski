@@ -19,7 +19,6 @@ export class PassportService extends BaseService {
 
   private readonly jwt = JWTService;
 
-  // eslint-disable-next-line no-useless-constructor
   constructor() {
     super();
   }
@@ -70,17 +69,24 @@ export class PassportService extends BaseService {
 
   private async passportCallback(
     err: Error | undefined,
-    { _id, role }: UserInterface,
+    { _id, role, createdAt }: UserInterface,
     res: Response
   ) {
     const { url } = Configuration.appConfig;
 
     if (err) return res.redirect(`${url}/?err=${err}`);
 
-    const accessToken = this.jwt.signToken({ id: _id, role });
+    const accessToken = this.jwt.signToken({
+      id: _id,
+      role,
+      year: new Date(createdAt).getFullYear(),
+    });
     this.cookie.setRefreshToken(
       res,
-      this.jwt.signToken({ id: _id, role }, true)
+      this.jwt.signToken(
+        { id: _id, role, year: new Date(createdAt).getFullYear() },
+        true
+      )
     );
 
     return res.redirect(`${url}/?token=${accessToken}`);

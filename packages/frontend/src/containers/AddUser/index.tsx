@@ -38,7 +38,6 @@ const AddUser = () => {
     dispatch(addUser({ role, email }));
   };
 
-
   useEffect(() => {
     return () => {
       dispatch(restUserResponse);
@@ -51,9 +50,9 @@ const AddUser = () => {
       setDisabled(false);
     }
 
-    if(status === 200) {
-      setEmail('')
-      setRole('professor')
+    if (status === 200) {
+      setEmail('');
+      setRole('professor');
     }
   }, [status]);
 

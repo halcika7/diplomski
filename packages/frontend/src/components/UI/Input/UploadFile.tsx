@@ -9,14 +9,14 @@ interface Props {
 }
 
 const UploadFile: FC<Props> = ({ setFile, error, span, file }) => {
-  const inputRef = useRef<any>();
-  const spanRef = useRef<any>();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const spanRef = useRef<HTMLSpanElement>(null);
 
   const check = (e: ChangeEvent<HTMLInputElement>) => {
-    let input = inputRef.current;
-    let label = input.nextElementSibling,
+    let input = inputRef.current!;
+    let label = input.nextElementSibling!,
       labelVal = label.innerHTML;
-    if(!e.target || !e.target.files) return;
+    if (!e.target || !e.target.files) return;
     let file = e.target.files[0];
     let err = null;
     const types = [
@@ -25,7 +25,7 @@ const UploadFile: FC<Props> = ({ setFile, error, span, file }) => {
     ];
     if (types.every(type => (file ? file.type !== type : true))) {
       err = file && file.type + ' is not a supported format\n';
-      spanRef.current.innerText = err ? err : '';
+      spanRef.current!.innerText = err ? err : '';
     }
 
     if (err) {
@@ -35,8 +35,8 @@ const UploadFile: FC<Props> = ({ setFile, error, span, file }) => {
 
     const fileName = e.target.value.split('\\').pop();
 
-    if (fileName) spanRef.current.innerText = fileName;
-    else label.innerText = labelVal;
+    if (fileName) spanRef.current!.innerText = fileName;
+    else label.innerHTML = labelVal;
 
     setFile(file);
 
@@ -51,13 +51,13 @@ const UploadFile: FC<Props> = ({ setFile, error, span, file }) => {
 
   useEffect(() => {
     if (error) {
-      spanRef.current.innerText = error;
+      spanRef.current!.innerText = error;
     }
   }, [error]);
 
   useEffect(() => {
     if (span || !file) {
-      spanRef.current.innerText = '';
+      spanRef.current!.innerText = '';
     }
   }, [span, file]);
 

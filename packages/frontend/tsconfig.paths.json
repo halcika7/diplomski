@@ -1,17 +1,18 @@
 {
-    "extends": "../../tsconfig.json",
-    "compilerOptions": {
-      "rootDir": "src",
-      "baseUrl": ".",
-      "isolatedModules": true,
-      "paths": {
-        "@axios": ["src/library/axios"],
-        "@decode": ["src/library/decode"],
-        "@actions": ["src/redux/actions/index"],
-        "@images/*": ["src/assets/img/*"],
-        "@components/*": ["src/components/*"],
-        "@reducers/*": ["src/redux/reducers/*"],
-        "@dispatch": ["src/redux/AppThunkDispatch"]
-      }
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "baseUrl": ".",
+    "isolatedModules": true,
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "@axios": ["src/library/axios"],
+      "@decode": ["src/library/decode"],
+      "@actions": ["src/redux/actions/index"],
+      "@images/*": ["src/assets/img/*"],
+      "@components/*": ["src/components/*"],
+      "@reducers/*": ["src/redux/reducers/*"],
+      "@dispatch": ["src/redux/AppThunkDispatch"]
     }
   }
+}

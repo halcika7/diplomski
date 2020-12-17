@@ -1,8 +1,6 @@
 import React, { FC } from 'react';
-import { FileType } from 'src/redux/types/file';
-import Table from '.';
-
-// import Alert from '../../components/UI/Alert';
+import { FileTypeFront as FileType } from '@job/common';
+import Table from './index';
 
 interface Props {
   files: FileType[];
@@ -66,19 +64,5 @@ const FilesDataTable: FC<Props> = ({ files }) => {
     </div>
   );
 };
-
-// {props.files.successMessage && (
-//     <Alert
-//       message={props.files.successMessage}
-//       clear={props.clearMessages}
-//       className="success-alert"
-//     />
-//   )}
-//   {props.files.failedMessage && (
-//     <Alert
-//       message={props.files.failedMessage}
-//       clear={props.clearMessages}
-//     />
-//   )}
 
 export default React.memo(FilesDataTable);

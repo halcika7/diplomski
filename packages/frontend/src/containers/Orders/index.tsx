@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
-import { OrderType } from 'src/redux/types/order';
+import { OrderType } from '@job/common';
 import {
   getOrders,
   setOrders,
@@ -14,6 +14,7 @@ import { AppState } from '@reducers/index';
 import { useSelector } from 'react-redux';
 import Spinner from '@components/UI/Spinner/Spinner';
 import Alert from '@components/UI/Alert';
+import { AnyDictionary } from '@job/common';
 
 const redux = createSelector(
   (state: AppState) => state.order.orders,
@@ -28,7 +29,7 @@ const redux = createSelector(
   })
 );
 
-interface Props extends Record<string, any> {
+interface Props extends AnyDictionary {
   orderType?: OrderType;
   role?: string;
 }
@@ -38,7 +39,7 @@ const OrdersDataTable: FC<Props> = ({ orderType, role }) => {
   const { orders, message, status, isChanging } = useSelector(redux);
 
   const updateStatus = (
-    type: 'rejected' | 'finished' | 'approved' | 'pay',
+    type: 'rejected' | 'finished' | 'approved' | 'completed',
     id: string
   ) => () => {
     if (isChanging) return;
@@ -88,11 +89,7 @@ const OrdersDataTable: FC<Props> = ({ orderType, role }) => {
           className={status === 200 ? 'alert-success' : 'alert-danger'}
         />
       )}
-      <Order
-        data={orders}
-        role={role}
-        updateStatus={updateStatus}
-      />
+      <Order data={orders} role={role} updateStatus={updateStatus} />
     </>
   );
 };

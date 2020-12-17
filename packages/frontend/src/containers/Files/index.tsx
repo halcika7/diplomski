@@ -10,7 +10,7 @@ import Spinner from '@components/UI/Spinner/Spinner';
 
 const reduxProps = createSelector(
   (state: AppState) => state.file.files,
-  (files) => ({ files })
+  files => ({ files })
 );
 
 const Files = () => {

@@ -1,10 +1,12 @@
 import { Logger } from './Logger';
 
-export abstract class LoggerFactory {
+export class LoggerFactory {
   private static readonly loggerMap: Map<string, Logger> = new Map<
     string,
     Logger
   >();
+
+  private constructor() {}
 
   static getLogger(Class: string) {
     if (!LoggerFactory.loggerMap.has(Class)) {

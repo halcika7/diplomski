@@ -1,9 +1,5 @@
-import {
-  OrderActionTypes,
-  OrderActions,
-  Order,
-  FullOrder,
-} from '../types/order';
+import { OrderActionTypes, OrderActions, Order } from '../types/order';
+import { Order as FullOrder } from '@job/common';
 
 export interface PostOrderErrors {
   useFor: string;
@@ -55,12 +51,7 @@ export function OrderReducer(
         : prevState.orders;
 
       if (order) {
-        if (type === 'pay') {
-          order.paid = true;
-          order.status = 'completed'
-        } else {
-          order.status = type;
-        }
+        order.status = type;
       }
 
       if (orders) {
@@ -68,8 +59,7 @@ export function OrderReducer(
 
         orders[index] = {
           ...orders[index],
-          paid: type === 'pay',
-          status: type !== 'pay' ? type : orders[index].status,
+          status: orders[index].status,
         };
       }
 

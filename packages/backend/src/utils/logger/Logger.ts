@@ -3,14 +3,11 @@ import winston, { Logger as Winston } from 'winston';
 import { Configuration } from '@env';
 import { Injectable } from '@decorator/class';
 
-interface Log {
-  app: string;
-  hostName: string;
-  event: string;
-  timestamp: string;
-  class: string;
-  method: string;
-  err?: LogError;
+enum LogLevels {
+  DEBUG = 'debug',
+  INFO = 'info',
+  WARN = 'warn',
+  ERROR = 'error',
 }
 
 interface LogError {
@@ -19,11 +16,14 @@ interface LogError {
   name?: string;
 }
 
-enum LogLevels {
-  DEBUG = 'debug',
-  INFO = 'info',
-  WARN = 'warn',
-  ERROR = 'error',
+interface Log {
+  app: string;
+  hostName: string;
+  event: string;
+  timestamp: string;
+  class: string;
+  method: string;
+  err?: LogError;
 }
 
 const WinstonLogger = winston.createLogger({

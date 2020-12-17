@@ -4,9 +4,9 @@ import { Get, Post } from '@decorator/method';
 import { Req, Res, Cookie } from '@decorator/param';
 import { Request, Response } from 'express';
 import { CookieService } from '@service/Cookie';
-import { HTTPCodes } from '@job/common';
 import { Configuration } from '@env';
 import { AuthService } from '@service/Auth';
+import { HTTPCodes } from '@job/common';
 
 @Controller('/auth')
 export class AuthController extends BaseController {
@@ -35,9 +35,9 @@ export class AuthController extends BaseController {
       );
 
       this.cookie.setRefreshToken(res, refreshToken || '');
-      return this.sendResponse(res, 200, { ...rest });
+      return this.sendResponse(res, HTTPCodes.OK, { ...rest });
     } catch (error) {
-      return this.sendResponse(res, 401, {});
+      return this.sendResponse(res, HTTPCodes.UNAUTHORIZED, {});
     }
   }
 }

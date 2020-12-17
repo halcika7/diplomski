@@ -33,7 +33,7 @@ export class HttpException extends Error {
     }
   };
 
-  public getResponse(): string | object {
+  public getResponse(): string | Record<string, unknown> {
     return this.response;
   }
 
@@ -42,7 +42,7 @@ export class HttpException extends Error {
   }
 
   public static createBody(
-    objectOrError: object | string,
+    objectOrError: Record<string, unknown> | string,
     message?: string,
     statusCode?: number
   ) {

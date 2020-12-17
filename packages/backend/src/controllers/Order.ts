@@ -6,6 +6,7 @@ import { Body, Param, Req, Res } from '@decorator/param';
 import { Response } from 'express';
 import { authMiddleware } from '@middleware/auth';
 import { RequestUser } from '@ctypes';
+import { HTTPCodes, OrderFor, OrderType, UserRole } from '@job/common';
 
 @Controller('/order')
 export class OrderController extends BaseController {
@@ -17,7 +18,7 @@ export class OrderController extends BaseController {
   async postOrder(
     @Res() res: Response,
     @Req() req: RequestUser,
-    @Body() { orderedFor }: { orderedFor: 'Personal' | 'University' }
+    @Body() { orderedFor }: { orderedFor: OrderFor }
   ) {
     const { status, ...rest } = await this.orderService.makeOrder(
       req.user.id,
@@ -47,18 +48,18 @@ export class OrderController extends BaseController {
   async getOrders(
     @Res() res: Response,
     @Req() req: RequestUser,
-    @Param('order_type') orderType: string
+    @Param('order_type') orderType: OrderType
   ) {
     const orders = await this.orderService.getOrders(req.user, orderType);
 
-    return this.sendResponse(res, 200, { orders });
+    return this.sendResponse(res, HTTPCodes.OK, { orders });
   }
 
   private updateStatus(res: Response) {
     return async (
       id: string,
-      type: 'finished' | 'rejected' | 'approved',
-      role: 'administration' | 'worker' | 'professor',
+      type: OrderType,
+      role: UserRole,
       rejectedBy?: string
     ) => {
       const { status, message } = await this.orderService.updateOrderStatus(
@@ -90,10 +91,8 @@ export class OrderController extends BaseController {
     return this.updateStatus(res)(id, 'approved', 'worker');
   }
 
-  @Patch('/pay/:id', authMiddleware(['worker']))
-  async payOrder(@Res() res: Response, @Param('id') id: string) {
-    const { status, message } = await this.orderService.payOrder(id);
-
-    return this.sendResponse(res, status, { message });
+  @Patch('/completed/:id', authMiddleware(['worker']))
+  async completeOrder(@Res() res: Response, @Param('id') id: string) {
+    return this.updateStatus(res)(id, 'completed', 'professor');
   }
 }

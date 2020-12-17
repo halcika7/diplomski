@@ -2,9 +2,14 @@ import { UserRepository } from '@repository/User';
 import { CloudinaryService } from '@service/Cloudinary';
 import { Injectable } from '@decorator/class';
 import { BaseService } from './Base';
-import { AddUserBody } from '@ctypes';
 import { UserInterface } from '@model/User/User';
-import { isEmpty } from '@job/common';
+import {
+  isEmpty,
+  AddUserBody,
+  PersonalInfoBody,
+  UserRole,
+  HTTPCodes,
+} from '@job/common';
 
 const facebookRegex = new RegExp('http(?:s)://(?:www.)facebook.com/');
 const twitterRegex = new RegExp('http(?:s)://twitter.com/');
@@ -65,7 +70,7 @@ export class UserService extends BaseService {
     return { secure_url };
   }
 
-  private validateInfo(info: any) {
+  private validateInfo(info: PersonalInfoBody) {
     const errors = {} as Record<string, string>;
 
     Object.entries(info).forEach(([key, value]) => {
@@ -95,23 +100,25 @@ export class UserService extends BaseService {
     return errors;
   }
 
-  async updatePersonalInfo(info: any, id: string) {
+  async updatePersonalInfo(info: PersonalInfoBody, id: string) {
     const errors = this.validateInfo(info);
 
     if (Object.keys(errors).length > 0) {
-      return this.returnResponse(400, { errors });
+      return this.returnResponse(HTTPCodes.BAD_REQUEST, { errors });
     }
 
     const updated = await this.userRepository.update(info, id);
 
     if (!updated.nModified) {
-      return this.returnResponse(400, { message: 'Profile  was not updated' });
+      return this.returnResponse(HTTPCodes.BAD_REQUEST, {
+        message: 'Profile  was not updated',
+      });
     }
 
-    return this.returnResponse(200, { message: 'Profile updated' });
+    return this.returnResponse(HTTPCodes.OK, { message: 'Profile updated' });
   }
 
-  async getUsersByRole(role: string) {
+  async getUsersByRole(role: UserRole) {
     return this.userRepository.getUsersByRole(role);
   }
 
@@ -119,26 +126,30 @@ export class UserService extends BaseService {
     return this.userRepository.findUserToEdit(id);
   }
 
-  async updateUserRole(role: string, id: string) {
+  async updateUserRole(role: UserRole, id: string) {
     const updated = await this.userRepository.update({ role }, id);
 
     if (!updated.nModified) {
-      return this.returnResponse(400, { message: 'User role not updated' });
+      return this.returnResponse(HTTPCodes.BAD_REQUEST, {
+        message: 'User role not updated',
+      });
     }
 
-    return this.returnResponse(200, { message: 'User role updated' });
+    return this.returnResponse(HTTPCodes.OK, { message: 'User role updated' });
   }
 
   async updateUserBlockedStatus(blocked: boolean, id: string) {
     const updated = await this.userRepository.update({ blocked }, id);
 
     if (!updated.nModified) {
-      return this.returnResponse(400, {
+      return this.returnResponse(HTTPCodes.BAD_REQUEST, {
         message: 'User Blocked status not changed',
       });
     }
 
-    return this.returnResponse(200, { message: 'User Blocked status changed' });
+    return this.returnResponse(HTTPCodes.OK, {
+      message: 'User Blocked status changed',
+    });
   }
 
   private validateUser(
@@ -169,13 +180,13 @@ export class UserService extends BaseService {
     const { isValid, errors } = this.validateUser(data, found);
 
     if (!isValid) {
-      return this.returnResponse(400, { errors });
+      return this.returnResponse(HTTPCodes.BAD_REQUEST, { errors });
     }
 
     await this.userRepository
       .createUser({ ...data, googleID: 'google', name: 'name' })
       .save();
 
-    return this.returnResponse(200, { message: 'User added' });
+    return this.returnResponse(HTTPCodes.OK, { message: 'User added' });
   }
 }

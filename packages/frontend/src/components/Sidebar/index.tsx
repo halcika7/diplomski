@@ -1,11 +1,17 @@
 import React, { FC } from 'react';
+
+// components
 import { NavLink } from 'react-router-dom';
+import DropdownLink from './DropdownLink';
+
+// hooks
+import { createSelector } from 'reselect';
+import { useSelector } from 'react-redux';
+
+// types
+import { AppState } from '../../redux/reducers/index';
 
 import './Sidebaricons.css';
-import DropdownLink from './DropdownLink';
-import { createSelector } from 'reselect';
-import { AppState } from '../../redux/reducers/index';
-import { useSelector } from 'react-redux';
 
 interface Props {
   role: string;
@@ -23,18 +29,23 @@ const Sidebar: FC<Props> = ({ role }) => {
     <div className="sidebar" data-color="blue">
       <div className="sidebar-wrapper">
         <div className="logo">
-          <NavLink to="/" className="simple-text logo-mini">
+          <NavLink to="/profile" className="simple-text logo-mini">
             <div className="logo-img">
               <img src={picture} alt={name} />
             </div>
           </NavLink>
-          <NavLink to="/" className="simple-text logo-normal">
+          <NavLink to="/profile" className="simple-text logo-normal">
             {name}
           </NavLink>
         </div>
         <ul className="nav">
           <li>
-            <NavLink className="nav-link" activeClassName="active" to="/" exact>
+            <NavLink
+              className="nav-link"
+              activeClassName="active"
+              to="/dashboard"
+              exact
+            >
               <i className="tim-icons icon-chart-pie-36" />
               <p>Dashboard</p>
             </NavLink>
@@ -116,7 +127,6 @@ const Sidebar: FC<Props> = ({ role }) => {
               { to: '/completed-orders', linkName: 'Completed Orders' },
               { to: '/pending-orders', linkName: 'Pending Orders' },
               { to: '/rejected-orders', linkName: 'Rejected Orders' },
-              { to: '/paid-orders', linkName: 'Paid Orders' },
               { to: '/unpaid-orders', linkName: 'Unpaid Orders' },
               {
                 to: '/add-order',

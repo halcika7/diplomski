@@ -23,7 +23,7 @@ function App() {
     dispatch(refreshToken);
   }, [dispatch]);
 
-  if (loading) return <Spinner />
+  if (loading) return <Spinner />;
 
   return (
     <div className="wrapper">

@@ -23,7 +23,7 @@ import passport, { PassportService } from '@service/Passport';
 import { Configuration } from '@env';
 import { connect } from './configs/db-connect';
 
-import container from './inversify.config';
+import container from './inversify/inversify.config';
 import { InversifyExpressServer } from 'inversify-express-utils';
 
 import '@controller/Auth';
@@ -34,6 +34,7 @@ import '@controller/Cart';
 import '@controller/Order';
 import '@controller/Pricing';
 import '@controller/File';
+import '@controller/Dashboard';
 import { errorHandle } from './middlewares/errorHandling';
 
 const { cookie, environment, url, server, db } = Configuration.appConfig;

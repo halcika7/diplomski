@@ -77,7 +77,7 @@ const AddOrder = () => {
   const isSubmitDisabled = () =>
     documents.length < 1 || !validUseFor.includes(useFor) || sending;
 
-  const uploadFile = (e: any) => {
+  const uploadFile = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
 
     if (isDisabled()) return;

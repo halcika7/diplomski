@@ -23,13 +23,6 @@ export interface UserData {
   phone: string;
 }
 
-export type UserType =
-  | 'admin'
-  | 'administration'
-  | 'all'
-  | 'worker'
-  | 'professor';
-
 export interface User extends UserData {
   _id: string;
   role: string;

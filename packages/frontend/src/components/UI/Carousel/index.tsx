@@ -1,8 +1,6 @@
 import React from 'react';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel as ReactCarousel } from 'react-responsive-carousel';
 
-import './index.css';
 import img from '@images/book-stack-books-bookshop-264635.jpg';
 import img1 from '@images/book-bindings-books-indoors-2041540.jpg';
 import img2 from '@images/all-bong-7cq0F-sTw9M-unsplash.jpg';
@@ -10,6 +8,9 @@ import img3 from '@images/bank-phrom-Tzm3Oyu_6sk-unsplash.jpg';
 import img4 from '@images/large-format-printing-1243566-638x480.jpg';
 import img5 from '@images/old-youth-lDDyRE1Ec8Q-unsplash.jpg';
 import img6 from '@images/plotter-in-action-1511025-640x480.jpg';
+
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import './index.css';
 
 const Carousel = () => (
   <div className="container mt-5 mb-5">

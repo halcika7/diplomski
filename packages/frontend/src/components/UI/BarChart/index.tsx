@@ -1,15 +1,16 @@
 import React, { FC } from 'react';
-import { ResponsiveBarCanvas } from '@nivo/bar';
+import { ResponsiveBar } from '@nivo/bar';
+import { OrdersByMonths } from '@job/common';
 
 import VisibilitySensor from '../../../helpers/VisibilitySensor';
 
 interface Props {
-  data: any[];
+  data: OrdersByMonths[];
 }
 
 const BarChart: FC<Props> = ({ data }) => (
   <VisibilitySensor height="350px">
-    <ResponsiveBarCanvas
+    <ResponsiveBar
       data={data}
       keys={['Total Earnings', 'Number of Orders']}
       indexBy="month"
@@ -35,8 +36,6 @@ const BarChart: FC<Props> = ({ data }) => (
       }}
       theme={{
         axis: {
-          fontSize: '14px',
-          tickColor: '#111',
           ticks: {
             line: {
               stroke: 'black',
@@ -50,7 +49,7 @@ const BarChart: FC<Props> = ({ data }) => (
               fill: '#111',
             },
           },
-        }  as any,
+        },
       }}
     />
   </VisibilitySensor>

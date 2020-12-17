@@ -6,6 +6,8 @@ import { FileUploadBody } from '@ctypes';
 import { DocumentService } from './Document';
 import { BindingInterface } from '@model/Binding/Binding';
 import { PaperInterface } from '@model/Paper/Paper';
+import { CartDocument } from '@model/Cart/Cart';
+import { NumberHelper } from '@job/common';
 
 import { gzip } from 'zlib';
 import { promisify } from 'util';
@@ -13,7 +15,6 @@ import { join } from 'path';
 import { writeFile, unlink } from 'fs';
 import { PaperService } from './Paper';
 import { BindingService } from './Binding';
-import { CartDocument } from '@model/Cart/Cart';
 
 const cwd = process.cwd();
 const zip = promisify(gzip);
@@ -31,6 +32,8 @@ interface GetFilePrice {
 export class FileService extends BaseService {
   private readonly directory = join(cwd, 'dist', 'public', 'files', 'temp');
 
+  private readonly number: NumberHelper;
+
   constructor(
     private readonly documentService: DocumentService,
     private readonly paperService: PaperService,
@@ -38,6 +41,7 @@ export class FileService extends BaseService {
     private readonly fileRepository: FilesRepository
   ) {
     super();
+    this.number = new NumberHelper();
   }
 
   private getPath(
@@ -62,15 +66,10 @@ export class FileService extends BaseService {
         body.print === 'Black/White' ? 'blackWhitePrinting' : 'colorPrinting';
       const paperPrice = this.paperService.getPaperPrice(
         pages,
-        // eslint-disable-next-line security/detect-object-injection
         paper[printOption]
       );
 
-      let price = Number(
-        `${Math.round(
-          paperPrice * numberOfCopies + (('e+2' as unknown) as number)
-        )}e-2`
-      );
+      let price = this.number.number(paperPrice * numberOfCopies);
 
       if (body.binding) {
         const additionalPrice = this.bindingService.getBindingPrice(
@@ -82,7 +81,7 @@ export class FileService extends BaseService {
       }
       return {
         pages,
-        price: (price.toFixed(2) as unknown) as number,
+        price: parseFloat(this.number.getTwoDigitNumber(price)),
       };
     } catch (err) {
       if (err.message) return { err: err.message };

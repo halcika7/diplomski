@@ -1,4 +1,4 @@
-import React, { useState, useEffect,MouseEvent } from 'react';
+import React, { useState, useEffect, MouseEvent } from 'react';
 import UploadImage from '@components/UploadImage/UploadImage';
 import { updateProfilePicture, restUserResponse } from '@actions';
 import { useThunkDispatch } from '@dispatch';
@@ -23,7 +23,7 @@ const PhotoUpload = () => {
     dispatch(restUserResponse);
 
     const formData = new FormData();
-    formData.append('image', image as unknown as string);
+    formData.append('image', (image as unknown) as string);
     dispatch(updateProfilePicture(formData));
   };
 

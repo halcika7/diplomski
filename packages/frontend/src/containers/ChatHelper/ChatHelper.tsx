@@ -6,15 +6,15 @@ import classes from './Chat.module.css';
 const ChatHelper = ({
   props,
   socket,
-  // allMessagesByUser,
-  // id,
-  // retrieveAllMessages,
-  // retriveMessage,
-  // setunreadMessages,
-}: any) => {
+}: // allMessagesByUser,
+// id,
+// retrieveAllMessages,
+// retriveMessage,
+// setunreadMessages,
+any) => {
   const [showChat, setShowChat] = useState<any>(false);
-  const [unread,] = useState<any>(0);
-  const [unreadedMessages,] = useState<any>([]);
+  const [unread] = useState<any>(0);
+  const [unreadedMessages] = useState<any>([]);
   // useEffect(() => {
   //   socket.emit('getAllMessages', { id, token: localStorage.jwtToken });
   //   socket.on('message', data => {

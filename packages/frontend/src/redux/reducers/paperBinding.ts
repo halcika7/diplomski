@@ -1,9 +1,13 @@
 import {
-  Binding,
-  Paper,
   PaperBindingActionTypes,
   PaperBindingActions,
 } from '../types/paperBinding';
+import {
+  BindingErrors,
+  PaperErrors,
+  PaperFront as Paper,
+  BindingFront as Binding,
+} from '@job/common';
 
 export const InitialBindingErrors = {
   name: '',
@@ -28,30 +32,6 @@ export const InitialPaperErrors = {
     from1000: '',
   },
 };
-
-export interface BindingErrors {
-  name: string;
-  upTo25: string;
-  from25upTo50: string;
-  from50upTo100: string;
-  from100upTo150: string;
-}
-
-export interface PaperErrors {
-  name: string;
-  blackWhitePrinting: {
-    upTo250: string;
-    from250upTo500: string;
-    from500upTo1000: string;
-    from1000: string;
-  };
-  colorPrinting: {
-    upTo250: string;
-    from250upTo500: string;
-    from500upTo1000: string;
-    from1000: string;
-  };
-}
 
 export interface PaperBindingState {
   papers: Paper[];

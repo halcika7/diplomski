@@ -29,6 +29,6 @@
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "noEmitOnError": true,
-    "noErrorTruncation": true
+    "noErrorTruncation": true,
   }
 }

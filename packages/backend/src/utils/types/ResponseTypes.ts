@@ -1,3 +1,5 @@
+import { AnyDictionary } from '@job/common';
+
 export interface ResponseMessage {
   status: number;
   message: string;
@@ -11,7 +13,7 @@ export interface ResponseObject {
 export interface ValidationResponse {
   status: number;
   message?: string;
-  errors?: { [key: string]: any };
+  errors?: AnyDictionary;
 }
 
 export interface ResponseTokens extends ResponseMessage {

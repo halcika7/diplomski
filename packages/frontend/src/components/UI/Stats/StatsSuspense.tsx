@@ -1,4 +1,4 @@
-import React, { Suspense, FC , ReactNode} from 'react';
+import React, { Suspense, FC, ReactNode } from 'react';
 
 interface Props {
   classes?: string;
@@ -18,7 +18,7 @@ const StatsSuspense: FC<Props> = ({ children, classes }) => (
                 width: '80%',
                 backgroundColor: '#E8ECE9',
               }}
-            ></p>
+            />
             <span
               className="card-title h3"
               style={{
@@ -27,7 +27,7 @@ const StatsSuspense: FC<Props> = ({ children, classes }) => (
                 display: 'block',
                 backgroundColor: '#E8ECE9',
               }}
-            ></span>
+            />
           </div>
         </div>
       </div>

@@ -1,53 +1,24 @@
 import jwt_decode from 'jwt-decode';
 
 export type DecodedToken = {
-  readonly id: number | undefined;
+  readonly id: string;
   readonly exp: number;
-  readonly role: string | undefined;
+  readonly role: string;
+  readonly year: number;
 };
 
-export class AuthToken {
-  readonly decodedToken: DecodedToken = {
-    id: undefined,
-    exp: 0,
-    role: undefined,
-  };
-
-  constructor(readonly token?: string) {
-    try {
-      if (token) this.decodedToken = jwt_decode(token);
-    } catch (e) {
-      this.decodedToken = {
-        id: undefined,
-        exp: 0,
-        role: undefined,
-      };
-    }
-  }
-
-  private expiresAt(): Date {
-    return new Date(this.decodedToken.exp * 1000);
-  }
-
-  get isExpired(): boolean {
-    return new Date() > this.expiresAt();
-  }
-
-  get isAuthenticated(): boolean {
-    return !this.isExpired;
-  }
-
-  get authorizationString() {
-    return `Bearer ${this.token}`;
-  }
-
+export abstract class AuthToken {
   static getRole = (token: string): string => {
-    const { role } = jwt_decode(token);
+    const { role } = jwt_decode<DecodedToken>(token);
 
-    return role;
+    return role as string;
   };
 
   static getTokenData(token: string) {
-    return jwt_decode(token) as { id: string; role: string };
+    try {
+      return jwt_decode<DecodedToken>(token);
+    } catch (error) {
+      return { id: null, role: null, year: null };
+    }
   }
 }

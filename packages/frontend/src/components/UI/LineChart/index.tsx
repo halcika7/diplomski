@@ -1,31 +1,37 @@
-import React from 'react';
-import { ResponsiveLineCanvas } from '@nivo/line';
+import React, { FC, ReactNode } from 'react';
+import { ResponsiveLine } from '@nivo/line';
+import { OrderCostMonth } from '@job/common';
 import VisibilitySensor from '../../../helpers/VisibilitySensor';
 
-const axisBottom: any = (xLabel: any) => ({
+interface Props {
+  data: OrderCostMonth[] | { x: number; y: number }[];
+  xLabel: string;
+  yLabel: string;
+}
+
+const axisBottom: any = (xLabel: string) => ({
   orient: 'bottom',
   tickSize: 5,
   tickPadding: 5,
   tickRotation: -60,
-  legend: xLabel,
+  legend: xLabel as ReactNode,
   legendOffset: 45,
   legendPosition: 'middle',
 });
 
-const axisLeft: any = (yLabel: any) => ({
+const axisLeft: any = (yLabel: string) => ({
   orient: 'left',
   tickSize: 5,
   tickPadding: 5,
   tickRotation: 0,
-  legend: yLabel,
+  legend: yLabel as ReactNode,
   legendOffset: -40,
   legendPosition: 'middle',
-  tickColor: '#543543',
 });
 
-const LineChart = ({ data, xLabel, yLabel }: any) => (
+const LineChart: FC<Props> = ({ data, xLabel, yLabel }) => (
   <VisibilitySensor height="350px">
-    <ResponsiveLineCanvas
+    <ResponsiveLine
       data={[
         {
           id: 'Some ID',

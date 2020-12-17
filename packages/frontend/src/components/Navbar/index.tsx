@@ -1,10 +1,18 @@
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useState } from 'react';
+
+// components
 import { Link } from 'react-router-dom';
+
+// hooks
 import { useThunkDispatch } from '../../redux/AppThunkDispatch';
-import { logoutUser as logoutAction } from '../../redux/actions';
 import { createSelector } from 'reselect';
-import { AppState } from '../../redux/reducers/index';
 import { useSelector } from 'react-redux';
+
+// actions
+import { logoutUser as logoutAction } from '../../redux/actions';
+
+// types
+import { AppState } from '../../redux/reducers/index';
 
 interface Props {
   role: string;
@@ -19,26 +27,30 @@ const reduxProps = createSelector(
 const Navbar = ({ role }: Props) => {
   const dispatch = useThunkDispatch();
   const { name, picture } = useSelector(reduxProps);
-  const nav = useRef<any>();
   const [unseenNotifications] = useState(0);
   const [, setShowNotifications] = useState(false);
 
-  const toggleSidebar = useCallback((e: any) => {
+  const toggleSidebar = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     document.querySelector('html')?.classList.toggle('nav-open');
     e.currentTarget.classList.toggle('toggled');
-  }, []);
+  };
 
   const onLogout = () => dispatch(logoutAction);
 
-  const toggleNotifications = useCallback((e: any) => {
+  const toggleNotifications = (
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ) => {
     e.preventDefault();
-    e.currentTarget.parentElement.classList.toggle('show');
-    setShowNotifications(prev => !prev);
-  }, []);
+    if (e.currentTarget.parentElement) {
+      e.currentTarget.parentElement.classList.toggle('show');
+      setShowNotifications(prev => !prev);
+    }
+  };
 
   return (
     <div
-      ref={nav}
       className="navbar-light bg-white fixed-top navbar navbar-expand-lg"
       style={{ borderTop: '2px solid #1d8cf8' }}
     >
@@ -86,14 +98,13 @@ const Navbar = ({ role }: Props) => {
                     <span className="number">{unseenNotifications}</span>
                   )}
                   <i className="far fa-bell" />
-                  <p className="d-lg-none" onClick={toggleNotifications}>
-                    Notifications
-                  </p>
+                  <p className="d-lg-none">Notifications</p>
                 </a>
               </li>
             )}
             <li className="dropdown nav-item">
               <a
+                role="button"
                 aria-label="Options"
                 data-toggle="dropdown"
                 aria-haspopup="true"

@@ -1,42 +1,42 @@
 .file {
-    display: none;
+  display: none;
 }
 
 img.removed {
-    cursor: pointer;
-    width: 100%;
+  cursor: pointer;
+  width: 100%;
 }
 
 img.default {
-    cursor: pointer;
-    border: 2px rgb(223, 218, 218) dashed;
-    padding: 50px;
-    height: 150px;
-    width: 150px;
+  cursor: pointer;
+  border: 2px rgb(223, 218, 218) dashed;
+  padding: 50px;
+  height: 150px;
+  width: 150px;
 }
 
 .label {
-    position: relative;
+  position: relative;
 }
 
 .label > button {
-    position: absolute;
-    display: block;
-    right: 5px;
-    top: 5px;
-    font-weight: 800;
-    cursor: pointer;
-    background-color: transparent;
-    border: none;
-    outline: none;
-    color: #fff;
-    font-size: 3rem;
+  position: absolute;
+  display: block;
+  right: 5px;
+  top: 5px;
+  font-weight: 800;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 3rem;
 }
 
 .label > .default ~ button {
-    display: none;
+  display: none;
 }
 
 .label img {
-    max-width: 280px;
+  max-width: 280px;
 }

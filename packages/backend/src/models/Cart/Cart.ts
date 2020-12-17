@@ -1,20 +1,12 @@
 import { Document, Types } from 'mongoose';
+import { Document as Doc, Cart } from '@job/common';
 
-export interface CartDocument {
-  _id?: Types.ObjectId;
-  path: string;
-  pages: number;
-  copies: number;
-  price: number;
-  print: 'Color' | 'Black/White';
-  paper: string;
-  binding: string;
-  name: string;
+export interface CartDocument extends Doc {
+  _id: Types.ObjectId;
 }
 
-export interface CartData {
+export interface CartData extends Cart {
   documents: CartDocument[];
-  totalCost: number;
   userId: Types.ObjectId;
 }
 

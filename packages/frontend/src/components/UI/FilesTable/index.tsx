@@ -1,16 +1,15 @@
 import React, { FC } from 'react';
-
-import pdfImg from '../../../assets/img/pdf-image.png';
-import wordImg from '../../../assets/img/word-image.png';
-import { FileDocument } from '../../../redux/types/cart';
+import { FileDocument } from '@job/common';
 import { truncText } from '../../../helpers/truncText';
+
+import pdfImg from '@images/pdf-image.png';
+import wordImg from '@images/word-image.png';
 
 interface Props {
   documents: FileDocument[];
   totalPrice: number;
-  hideFooter?: boolean;
-  deleteFile: (val: string) => void;
-  deleteFiles: () => void;
+  deleteFile?: (val: string) => void;
+  deleteFiles?: () => void;
 }
 
 const FilesTable: FC<Props> = ({
@@ -18,19 +17,18 @@ const FilesTable: FC<Props> = ({
   totalPrice,
   deleteFile,
   deleteFiles,
-  hideFooter = false,
 }) => (
   <div className="col-12">
     <div className="card">
       <div className="card-header">
         <h4 className="card-title">
-          {!hideFooter ? (
+          {deleteFile ? (
             <strong>Uploaded files</strong>
           ) : (
             <strong>Order files</strong>
           )}
         </h4>
-        {!hideFooter && (
+        {deleteFiles && (
           <button className="btn btn-danger" onClick={deleteFiles}>
             Remove files
           </button>
@@ -81,7 +79,7 @@ const FilesTable: FC<Props> = ({
                   <td>{file.print}</td>
                   <td>{file.price} KM</td>
                   <td>
-                    {!hideFooter ? (
+                    {deleteFile ? (
                       <button
                         className="btn btn-danger btn-sm"
                         type="button"

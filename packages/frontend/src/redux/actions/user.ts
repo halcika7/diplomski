@@ -1,6 +1,5 @@
 import {
   User,
-  UserType,
   UserActions,
   UserActionTypes,
   UserData,
@@ -13,6 +12,7 @@ import {
   ProfileErrors,
   AddUserErrors,
 } from '../reducers/user';
+import { UserRole } from '@job/common';
 
 const setUserData = (userData: UserData): UserActionTypes => ({
   type: UserActions.SET_USER_DATA,
@@ -106,7 +106,7 @@ export const setUsers = (users: User[] | null): UserActionTypes => ({
   payload: users,
 });
 
-export const getUsers = (role: UserType) => async (
+export const getUsers = (role: UserRole) => async (
   dispatch: AppThunkDispatch
 ) => {
   const { data } = await axios.get<{
@@ -184,14 +184,14 @@ export const addUser = (postData: { role: string; email: string }) => async (
     message: string;
     errors?: AddUserErrors;
   }>('/user/add', postData);
-  
+
   dispatch(setUserResponse(data.message, status));
 
   if (status === 200) {
     dispatch(resetAddUserErrors);
   }
 
-  if(data.errors) {
+  if (data.errors) {
     dispatch(setAddUserErrors(data.errors));
   }
 };

@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
-// import BootstrapTable, { ColumnDescription } from 'react-bootstrap-table-next';
+
+// components
 import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator';
@@ -9,14 +10,18 @@ import ToolkitProvider, {
   CSVExport,
 } from 'react-bootstrap-table2-toolkit';
 
-import { Binding } from 'src/redux/types/paperBinding';
+// types
+import {
+  BindingFront as Binding,
+  PaperFront as Paper,
+  FileTypeFront as FileType,
+} from '@job/common';
 import { Order } from 'src/redux/types/order';
-import { Paper } from 'src/redux/types/paperBinding';
 import { User } from 'src/redux/types/user';
 
+// css
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import './index.css';
-import { FileType } from 'src/redux/types/file';
 
 const { SearchBar, ClearSearchButton } = Search;
 const { ExportCSVButton } = CSVExport;
@@ -75,9 +80,16 @@ const Table: FC<Props> = ({
             </div>
           )}
           <div className="col-sm-6">
-            <SearchBar {...props.searchProps} tableId="1" />
-            {withClear && (
-              <ClearSearchButton {...props.searchProps} className="btn-sm" />
+            {data.length > 0 && (
+              <>
+                <SearchBar {...props.searchProps} tableId="1" />
+                {withClear && (
+                  <ClearSearchButton
+                    {...props.searchProps}
+                    className="btn-sm"
+                  />
+                )}
+              </>
             )}
           </div>
         </div>

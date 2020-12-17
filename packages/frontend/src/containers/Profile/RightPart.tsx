@@ -26,46 +26,48 @@ const RightPart: FC<Props> = ({ image, name, fLink, tLink }) => (
           <h5 className="title">{name}</h5>
         </div>
       </div>
-      {(fLink || tLink) && <div className="card-footer">
-        <div className="button-container">
-          {fLink && (
-            <a
-              aria-label="Facebook"
-              href={fLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-icon btn-round btn btn-facebook"
-              style={{
-                display: 'inline-flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '38px',
-                height: '38px',
-              }}
-            >
-              <i className="fab fa-facebook" />
-            </a>
-          )}
-          {tLink && (
-            <a
-              aria-label="Twitter"
-              href={tLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-icon btn-round btn btn-twitter"
-              style={{
-                display: 'inline-flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '38px',
-                height: '38px',
-              }}
-            >
-              <i className="fab fa-twitter" />
-            </a>
-          )}
+      {(fLink || tLink) && (
+        <div className="card-footer">
+          <div className="button-container">
+            {fLink && (
+              <a
+                aria-label="Facebook"
+                href={fLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-icon btn-round btn btn-facebook"
+                style={{
+                  display: 'inline-flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: '38px',
+                  height: '38px',
+                }}
+              >
+                <i className="fab fa-facebook" />
+              </a>
+            )}
+            {tLink && (
+              <a
+                aria-label="Twitter"
+                href={tLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-icon btn-round btn btn-twitter"
+                style={{
+                  display: 'inline-flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: '38px',
+                  height: '38px',
+                }}
+              >
+                <i className="fab fa-twitter" />
+              </a>
+            )}
+          </div>
         </div>
-      </div>}
+      )}
     </div>
   </div>
 );

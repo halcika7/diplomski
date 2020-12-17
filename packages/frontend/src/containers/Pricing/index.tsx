@@ -59,7 +59,7 @@ const Pricing = () => {
                 <table className={classes.table + ' mt-3'}>
                   <tbody>
                     <tr>
-                      {papers.map((paper: any, i: number) => (
+                      {papers.map((paper, i: number) => (
                         <td key={paper.name + i}>Per copy {paper.name}</td>
                       ))}
                     </tr>
@@ -160,7 +160,7 @@ const Pricing = () => {
             <h3 className="col-12 card-title mb-4 text-center d-inline-block">
               DOCUMENT BINDING
             </h3>
-            {bindings.map((binding: any, i: number) => (
+            {bindings.map((binding, i: number) => (
               <React.Fragment key={'heading' + i}>
                 <h4
                   style={{

@@ -2,16 +2,10 @@ import { axios } from '@axios';
 
 // types
 import { AppThunkDispatch } from '../AppThunkDispatch';
-import { Cart } from '../types/cart';
-import {
-  Order,
-  OrderType,
-  OrderActionTypes,
-  OrderActions,
-  FullOrder,
-} from '../types/order';
+import { Order, OrderActionTypes, OrderActions } from '../types/order';
 import { PostOrderErrors, InitialOrderErrors } from '../reducers/order';
 import { setCart, resetUploadErrors } from '@actions';
+import { CartFront as Cart, Order as FullOrder, OrderType } from '@job/common';
 
 export const setOrderMessage = (
   message: string,
@@ -81,10 +75,7 @@ export const getOrder = (id: string) => async (dispatch: AppThunkDispatch) => {
   return dispatch(setOrder(data.order));
 };
 
-const setOrderStatus = (
-  type: 'rejected' | 'finished' | 'approved' | 'pay',
-  id: string
-): OrderActionTypes => ({
+const setOrderStatus = (type: OrderType, id: string): OrderActionTypes => ({
   type: OrderActions.SET_ORDER_STATUS,
   payload: { id, type },
 });
@@ -94,11 +85,9 @@ const setIsOrderStatusChanging = (val: boolean): OrderActionTypes => ({
   payload: val,
 });
 
-export const updateOrderStatus = (
-  type: 'rejected' | 'finished' | 'approved' | 'pay',
-  id: string
-) => async (dispatch: AppThunkDispatch) => {
-
+export const updateOrderStatus = (type: OrderType, id: string) => async (
+  dispatch: AppThunkDispatch
+) => {
   dispatch(setIsOrderStatusChanging(true));
 
   const { data, status } = await axios.patch<{

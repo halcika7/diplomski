@@ -1,18 +1,24 @@
 import { BindingInterface } from '@model/Binding/Binding';
 import { BaseService } from './Base';
 import { Injectable } from '@decorator/class';
+import { BindingRepository } from '@repository/Binding';
 import {
+  isEmpty,
   AddBindingBody,
   UpdateAvailabilityBindingPaper,
   UpdatePriceBindingPaper,
-} from '@ctypes';
-import { BindingRepository } from '@repository/Binding';
-import { isEmpty } from '@job/common';
+  StringDictionary,
+  NumberHelper,
+  HTTPCodes,
+} from '@job/common';
 
 @Injectable()
 export class BindingService extends BaseService {
+  private readonly number: NumberHelper;
+
   constructor(private readonly bindingRepository: BindingRepository) {
     super();
+    this.number = new NumberHelper();
   }
 
   getBindingPrice(binding: BindingInterface, copies: number, pages: number) {
@@ -31,22 +37,18 @@ export class BindingService extends BaseService {
       price = numberOfSets * binding.from100upTo150;
 
       if (!remainder) {
-        return Number(
-          `${Math.round(price * copies + (('e+2' as unknown) as number))}e-2`
-        );
+        return this.number.number(price * copies);
       }
 
       price += this.getBindingPrice(binding, 1, remainder);
     }
 
-    return Number(
-      `${Math.round(price * copies + (('e+2' as unknown) as number))}e-2`
-    );
+    return this.number.number(price * copies);
   }
 
   async updateBindingPrice(data: UpdatePriceBindingPaper) {
     if (Number.isNaN(data.value) || data.value <= 0 || !data.value) {
-      return this.returnResponse(400, {
+      return this.returnResponse(HTTPCodes.BAD_REQUEST, {
         message: 'Price should be a number and greater than 0',
       });
     }
@@ -54,18 +56,24 @@ export class BindingService extends BaseService {
     const updated = await this.bindingRepository.updateBindingPrice(data);
     const modified = !!updated.nModified;
 
-    return this.returnResponse(modified ? 200 : 400, {
-      message: `Binding ${data.option} was${modified ? '' : ' not'} updated`,
-    });
+    return this.returnResponse(
+      modified ? HTTPCodes.OK : HTTPCodes.BAD_REQUEST,
+      {
+        message: `Binding ${data.option} was${modified ? '' : ' not'} updated`,
+      }
+    );
   }
 
   async updateAvailability(data: UpdateAvailabilityBindingPaper) {
     const updated = await this.bindingRepository.updateAvailability(data);
     const modified = !!updated.nModified;
 
-    return this.returnResponse(modified ? 200 : 400, {
-      message: `Paper ${data.id} was${modified ? '' : ' not'} updated`,
-    });
+    return this.returnResponse(
+      modified ? HTTPCodes.OK : HTTPCodes.BAD_REQUEST,
+      {
+        message: `Paper ${data.id} was${modified ? '' : ' not'} updated`,
+      }
+    );
   }
 
   private validateBinding(
@@ -78,7 +86,7 @@ export class BindingService extends BaseService {
     }: AddBindingBody,
     binding: BindingInterface | null
   ) {
-    const errors = {} as Record<string, string>;
+    const errors = {} as StringDictionary;
 
     if (binding) {
       errors.name = 'Binding with provided name already exists';
@@ -123,13 +131,13 @@ export class BindingService extends BaseService {
     const { isValid, errors } = this.validateBinding(data, found);
 
     if (!isValid) {
-      return this.returnResponse(400, { errors });
+      return this.returnResponse(HTTPCodes.BAD_REQUEST, { errors });
     }
 
     await this.bindingRepository
       .createBinding({ ...data, available: true })
       .save();
 
-    return this.returnResponse(200, { message: 'Binding added' });
+    return this.returnResponse(HTTPCodes.OK, { message: 'Binding added' });
   }
 }

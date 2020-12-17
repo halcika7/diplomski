@@ -1,17 +1,24 @@
 import React, { FC, useEffect } from 'react';
 
-import Alert from '../../components/UI/Alert';
-import { Paper } from 'src/redux/types/paperBinding';
+// hooks
+import { useThunkDispatch } from '@dispatch';
+import { createSelector } from 'reselect';
+import { useSelector } from 'react-redux';
+
+// components
+import Alert from '@components/UI/Alert';
 import Table from './index';
+
+// types
+import { PaperFront as Paper } from '@job/common';
+import { AppState } from '@reducers/index';
+
+// actions
 import {
   updatePaperBindingPrice,
   resetPaperBindingResponse,
   updatePaperBindingAvailability,
 } from '@actions';
-import { useThunkDispatch } from '@dispatch';
-import { createSelector } from 'reselect';
-import { AppState } from '@reducers/index';
-import { useSelector } from 'react-redux';
 
 interface Props {
   role: string;

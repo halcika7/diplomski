@@ -2,21 +2,24 @@ import Paper from '@model/Paper';
 import { PaperInterface } from '@model/Paper/Paper';
 import { BaseRepository } from './Base';
 import { Injectable } from '@decorator/class';
-import { Dictionary } from '../utils/genericTypes';
 import {
   UpdateAvailabilityBindingPaper,
   UpdatePriceBindingPaper,
-} from '@ctypes';
+  AnyDictionary,
+  BooleanNumberDictionary,
+} from '@job/common';
 
 @Injectable()
 export class PaperRepository extends BaseRepository {
-  // eslint-disable-next-line no-useless-constructor
   constructor() {
     super();
   }
 
   createPaper(data: Partial<PaperInterface>): PaperInterface {
-    return super.createModelInstance<Dictionary, PaperInterface>(Paper, data);
+    return super.createModelInstance<AnyDictionary, PaperInterface>(
+      Paper,
+      data
+    );
   }
 
   async findByName(name: string) {
@@ -35,7 +38,7 @@ export class PaperRepository extends BaseRepository {
     ]).then(papers => papers.map(paper => paper.name));
   }
 
-  private updateOne(id: string, data: Record<string, boolean | number>) {
+  private updateOne(id: string, data: BooleanNumberDictionary) {
     return Paper.updateOne({ _id: id }, { ...data });
   }
 

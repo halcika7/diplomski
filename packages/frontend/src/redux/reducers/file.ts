@@ -1,4 +1,5 @@
-import { FileActionTypes, FileActions, FileType } from '../types/file';
+import { FileActionTypes, FileActions } from '../types/file';
+import { FileTypeFront as FileType } from '@job/common';
 
 export interface FileState {
   files: FileType[] | null;

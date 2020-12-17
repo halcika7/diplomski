@@ -3,11 +3,18 @@ import { OrderRepository } from '@repository/Order';
 import { BaseService } from './Base';
 import { Injectable } from '@decorator/class';
 import { CartRepository } from '@repository/Cart';
-import { Token } from '@ctypes';
 import { Types, Aggregate } from 'mongoose';
 import { OrderInterface } from '@model/Order/Order';
 import { UserRepository } from '@repository/User';
 import { EmailService } from './Email';
+import {
+  OrderAggregate,
+  Token,
+  OrderFor,
+  OrderType,
+  UserRole,
+  HTTPCodes,
+} from '@job/common';
 
 const { ObjectId } = Types;
 
@@ -24,7 +31,7 @@ export class OrderService extends BaseService {
     super();
   }
 
-  private getEmails(role: string, id?: string) {
+  private getEmails(role: UserRole, id?: string) {
     return this.userRepository
       .getEmails(role, id)
       .then(users => users.map(user => user.email));
@@ -36,13 +43,15 @@ export class OrderService extends BaseService {
       : order?.orderedBy._id;
   }
 
-  async makeOrder(userId: string, orderedFor: 'Personal' | 'University') {
+  async makeOrder(userId: string, orderedFor: OrderFor) {
     const cart = await this.cartRepository.findById(userId);
     const documents = cart!.documents.map(doc => doc);
     const valid = ['Personal', 'University'];
 
     if (!valid.includes(orderedFor)) {
-      this.returnResponse(400, { errors: { useFor: 'Use for is not valid' } });
+      this.returnResponse(HTTPCodes.BAD_REQUEST, {
+        errors: { useFor: 'Use for is not valid' },
+      });
     }
 
     this.fileService.addFilesToDB(cart!.documents, userId);
@@ -56,7 +65,6 @@ export class OrderService extends BaseService {
         orderedBy: userId,
         orderedFor,
         status: orderedFor === 'University' ? 'pending' : 'approved',
-        paid: false,
       })
       .save();
 
@@ -74,26 +82,22 @@ export class OrderService extends BaseService {
     cart!.totalCost = 0;
     await cart?.save();
 
-    return this.returnResponse(200, {
+    return this.returnResponse(HTTPCodes.OK, {
       cart: { documents: cart?.documents, totalCost: cart?.totalCost },
       message: 'Order successful',
     });
   }
 
-  getOrders(user: Token, orderType: string): Aggregate<OrderInterface[]> {
-    const validStatus = ['completed', 'pending', 'rejected', 'approved'];
-    let paid = null;
-    let status = validStatus.includes(orderType) ? orderType : null;
-
-    if (orderType === 'paid') {
-      paid = true;
-    } else if (orderType === 'unpaid') {
-      paid = false;
-    }
-
-    if (orderType === 'paid' || orderType === 'unpaid') {
-      status = 'finished';
-    }
+  getOrders(user: Token, orderType: string): Aggregate<OrderAggregate[]> {
+    const validStatus = [
+      'completed',
+      'pending',
+      'rejected',
+      'approved',
+      'finished',
+    ];
+    const paid = null;
+    const status = validStatus.includes(orderType) ? orderType : null;
 
     const matchParam = {
       orderedBy: user.role === 'professor' ? new ObjectId(user.id) : null,
@@ -109,7 +113,10 @@ export class OrderService extends BaseService {
     const order = await this.orderRepository.getOrder(orderId);
 
     if (!order) {
-      return this.returnResponseMessage(400, 'Order was not found');
+      return this.returnResponseMessage(
+        HTTPCodes.BAD_REQUEST,
+        'Order was not found'
+      );
     }
 
     const orderedById = this.getOrderedBy(order);
@@ -117,25 +124,22 @@ export class OrderService extends BaseService {
 
     if (user.role === 'professor' && orderedById.toString() !== user.id) {
       return this.returnResponseMessage(
-        400,
+        HTTPCodes.BAD_REQUEST,
         'This order is not ordered by you'
       );
     }
 
     if (user.role === 'administration' && orderedFor !== 'University') {
       return this.returnResponseMessage(
-        400,
+        HTTPCodes.BAD_REQUEST,
         'This order is not ordered for University purposes'
       );
     }
 
-    return this.returnResponse(200, { order });
+    return this.returnResponse(HTTPCodes.OK, { order });
   }
 
-  private validateOrderStatus(
-    order: OrderInterface,
-    status: 'finished' | 'rejected' | 'approved' | 'completed'
-  ) {
+  private validateOrderStatus(order: OrderInterface, status: OrderType) {
     if (
       ((status === 'finished' || status === 'rejected') &&
         order.status !== 'approved') ||
@@ -154,20 +158,23 @@ export class OrderService extends BaseService {
 
   async updateOrderStatus(
     id: string,
-    status: 'finished' | 'rejected' | 'approved',
-    role: 'administration' | 'worker' | 'professor',
+    status: OrderType,
+    role: UserRole,
     rejectedBy?: string
   ) {
     const order = await this.orderRepository.getOrder(id);
 
     if (!order) {
-      return this.returnResponseMessage(400, 'Order was not found');
+      return this.returnResponseMessage(
+        HTTPCodes.BAD_REQUEST,
+        'Order was not found'
+      );
     }
 
     const message = this.validateOrderStatus(order, status);
 
     if (message) {
-      return this.returnResponseMessage(400, message);
+      return this.returnResponseMessage(HTTPCodes.BAD_REQUEST, message);
     }
 
     order.status = status;
@@ -181,36 +188,20 @@ export class OrderService extends BaseService {
 
     const emails = await this.getEmails(role, userId);
 
-    await Promise.all([
-      order.save(),
-      this.emailService.sendEmail({
-        emails,
-        orderId: order._id,
-        type: status,
-        rejected,
-      }),
-    ]);
-
-    return this.returnResponse(200, { message: `Order ${status}` });
-  }
-
-  async payOrder(id: string) {
-    const order = await this.orderRepository.getOrderToPay(id);
-
-    if (!order) {
-      return this.returnResponse(404, { message: 'Order not found' });
+    if (status !== 'completed') {
+      await Promise.all([
+        order.save(),
+        this.emailService.sendEmail({
+          emails,
+          orderId: order._id,
+          type: status,
+          rejected,
+        }),
+      ]);
+    } else {
+      await order.save();
     }
 
-    const message = this.validateOrderStatus(order, 'completed');
-
-    if (message) {
-      return this.returnResponseMessage(400, message);
-    }
-
-    order.paid = true;
-    order.status = 'completed';
-    await order.save();
-
-    return this.returnResponse(200, { message: 'Order paid' });
+    return this.returnResponse(HTTPCodes.OK, { message: `Order ${status}` });
   }
 }

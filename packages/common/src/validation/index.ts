@@ -4,10 +4,10 @@ export const isUndefined = (obj: any): obj is undefined =>
 export const isNil = (obj: any): obj is null | undefined =>
   isUndefined(obj) || obj === null;
 
-export const isObject = (fn: any): fn is object =>
+export const isObject = (fn: any): fn is Record<string, unknown> =>
   !isNil(fn) && typeof fn === 'object';
 
-export const isPlainObject = (fn: any): fn is object => {
+export const isPlainObject = (fn: any): fn is Record<string, unknown> => {
   if (!isObject(fn)) return false;
 
   const proto = Object.getPrototypeOf(fn);

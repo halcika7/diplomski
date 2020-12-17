@@ -3,6 +3,7 @@ import { Configuration } from '@env';
 import pug from 'pug';
 import { join } from 'path';
 import { Injectable } from '@decorator/class';
+import { OrderType, OrderFor } from '@job/common';
 
 const { sendgrid, url: URL } = Configuration.appConfig;
 
@@ -11,7 +12,7 @@ sgMail.setApiKey(sendgrid);
 interface Email {
   emails: string[];
   orderId: string;
-  type: 'Personal' | 'University' | 'approved' | 'rejected' | 'finished';
+  type: OrderType | OrderFor;
   rejected?: string;
 }
 

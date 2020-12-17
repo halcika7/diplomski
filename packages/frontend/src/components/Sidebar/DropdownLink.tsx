@@ -4,8 +4,8 @@ import { toggleDropdown } from '../../helpers/toggleDropdown';
 
 interface Props {
   linkName: string;
-  linkIcon:  string;
-  links: { linkName: string, show?: boolean, to: string }[]
+  linkIcon: string;
+  links: { linkName: string; show?: boolean; to: string }[];
 }
 
 const DropdownLink: FC<Props> = ({ linkName, linkIcon, links }) => {
@@ -28,12 +28,13 @@ const DropdownLink: FC<Props> = ({ linkName, linkIcon, links }) => {
         <i className="fas fa-angle-down" />
       </Link>
       <div className="dropdown-menu show" aria-labelledby="dropdownMenuButton">
-        {links.map(link =>
-          link.show !== false && (
-            <Link key={link.linkName} className="dropdown-item" to={link.to}>
-              {link.linkName}
-            </Link>
-          )
+        {links.map(
+          link =>
+            link.show !== false && (
+              <Link key={link.linkName} className="dropdown-item" to={link.to}>
+                {link.linkName}
+              </Link>
+            )
         )}
       </div>
     </li>

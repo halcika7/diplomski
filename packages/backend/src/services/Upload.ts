@@ -7,7 +7,7 @@ import { Injectable } from '@decorator/class';
 import { FileUploadBody } from '@ctypes';
 import { BindingRepository } from '@repository/Binding';
 import { PaperRepository } from '@repository/Paper';
-import { isEmpty } from '@job/common';
+import { isEmpty, StringDictionary } from '@job/common';
 
 @Injectable()
 export class UploadService extends BaseService {
@@ -29,7 +29,7 @@ export class UploadService extends BaseService {
     userId: string,
     pages: number
   ) {
-    const errors: Record<string, string> = {};
+    const errors: StringDictionary = {};
     const validPrints = ['Color', 'Black/White'];
     const numberOfCopies = parseInt(copies, 10);
     const [cart, paperName, bindingName] = await Promise.all([

@@ -1,13 +1,15 @@
 /* eslint-disable no-useless-constructor */
 import redis, { RedisClient } from 'redis';
 
-export abstract class RedisService {
+export class RedisService {
   private static readonly REDIS_PORT =
     process.env.NODE_ENV === 'production'
       ? parseInt(process.env.REDIS_PORT as string, 10)
       : 6379;
 
   private static readonly _client = redis.createClient(RedisService.REDIS_PORT);
+
+  private constructor() {}
 
   static getAsync(key: string): Promise<string> {
     return new Promise((resolve, _) =>

@@ -4,34 +4,23 @@ import { Injectable } from '@decorator/class';
 import { CartRepository } from '@repository/Cart';
 import { Types } from 'mongoose';
 import { CartData } from '@model/Cart/Cart';
-
-interface FileDocument {
-  path: string;
-  pages: number;
-  copies: number;
-  price: number;
-  print: 'Color' | 'Black/White';
-  paper: string;
-  binding: string;
-  name: string;
-}
+import { Document, NumberHelper } from '@job/common';
 
 @Injectable()
 export class CartService extends BaseService {
+  private readonly number: NumberHelper;
+
   constructor(
     private readonly cartRepository: CartRepository,
     private readonly storageService: StorageService
   ) {
     super();
+    this.number = new NumberHelper();
   }
 
-  private getTotal(documents: FileDocument[]) {
+  private getTotal(documents: Document[]) {
     const totalCost = documents.reduce((start, next) => start + next.price, 0);
-    return Number(
-      `${Math.round(
-        totalCost + totalCost * 0.17 + (('e+2' as unknown) as number)
-      )}e-2`
-    );
+    return this.number.number(totalCost + totalCost * 0.17);
   }
 
   async getOrCreateCart(id: string) {
@@ -50,7 +39,7 @@ export class CartService extends BaseService {
     return { documents: cart.documents, totalCost: cart.totalCost };
   }
 
-  async updateCart(updateData: FileDocument, userId: string) {
+  async updateCart(updateData: Document, userId: string) {
     const cart = await this.cartRepository.findById(userId);
     cart!.documents.push(updateData);
     cart!.totalCost = this.getTotal(cart!.documents);

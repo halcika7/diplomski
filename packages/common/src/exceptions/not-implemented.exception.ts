@@ -13,7 +13,7 @@ export class NotImplementedException extends HttpException {
    * @param description string or object describing the error condition.
    * @param error a short description of the HTTP error.
    */
-  constructor(objectOrError?: string | object | any) {
+  constructor(objectOrError?: string | Record<string, unknown> | any) {
     super(
       HttpException.createBody(
         objectOrError,

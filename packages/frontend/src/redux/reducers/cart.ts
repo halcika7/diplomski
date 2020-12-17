@@ -1,12 +1,7 @@
-import { FileDocument } from '../types/cart';
 import { CartActionTypes, CartActions } from '../types/cart';
+import { CartFront } from '@job/common';
 
-export interface CartState {
-  documents: FileDocument[];
-  totalCost: number;
-}
-
-export const INITIAL_STATE: CartState = {
+export const INITIAL_STATE: CartFront = {
   documents: [],
   totalCost: 0,
 };

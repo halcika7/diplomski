@@ -1,13 +1,12 @@
 import { FC, lazy } from 'react';
-import { OrderType } from 'src/redux/types/order';
-import { UserType } from 'src/redux/types/user';
+import { UserRole, OrderType, AnyDictionary } from '@job/common';
 
 type Route = {
   path: string;
   exact: boolean;
-  Component: FC<Record<any, any>>;
+  Component: FC<AnyDictionary>;
   orderType?: OrderType;
-  usersType?: UserType;
+  usersType?: UserRole | 'all';
   title?: string;
 };
 
@@ -60,14 +59,8 @@ export const authenticatedRoutes: Route[] = [
     Component: lazy(() => import('../containers/Orders')),
   },
   {
-    path: '/paid-orders',
-    exact: true,
-    orderType: 'paid',
-    Component: lazy(() => import('../containers/Orders')),
-  },
-  {
     path: '/unpaid-orders',
-    orderType: 'unpaid',
+    orderType: 'finished',
     exact: true,
     Component: lazy(() => import('../containers/Orders')),
   },

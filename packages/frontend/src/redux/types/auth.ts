@@ -6,7 +6,12 @@ export enum AuthActions {
 
 interface AuthSuccess {
   type: typeof AuthActions.AUTH_SUCCESS;
-  payload: { role: string; id: string; token: string };
+  payload: {
+    role: string | null;
+    id: string | null;
+    token: string;
+    year: number | null;
+  };
 }
 
 interface AuthReset {

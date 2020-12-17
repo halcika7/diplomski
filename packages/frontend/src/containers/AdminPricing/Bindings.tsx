@@ -9,7 +9,7 @@ import BindingTable from '@components/DataTables/Binding';
 
 const reduxProps = createSelector(
   (state: AppState) => state.paperBinding.bindings,
-  (bindings) => ({ bindings })
+  bindings => ({ bindings })
 );
 
 const Bindings = () => {

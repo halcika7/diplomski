@@ -3,7 +3,7 @@ import { axios } from '@axios';
 // types
 import { AppThunkDispatch } from '../AppThunkDispatch';
 import { UploadActions, UploadActionTypes } from '../types/upload';
-import { Cart } from '../types/cart';
+import { CartFront as Cart } from '@job/common';
 import { setCart } from './cart';
 import { UploadFileErrors, InitialUploadErrors } from '../reducers/upload';
 

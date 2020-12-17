@@ -1,15 +1,15 @@
 import React, { FC, Suspense } from 'react';
 import { Redirect, Route } from 'react-router';
 import Spinner from '@components/UI/Spinner/Spinner';
-import { OrderType } from 'src/redux/types/order';
-import { UserType } from 'src/redux/types/user';
+import { UserRole, OrderType } from '@job/common';
+import { AnyDictionary } from '@job/common';
 
 interface Props {
   role: string;
   allowedRoles: string[] | 'all';
-  Component: FC<Record<any, any>>;
+  Component: FC<AnyDictionary>;
   orderType?: OrderType;
-  usersType?: UserType;
+  usersType?: UserRole | 'all';
   title?: string;
 }
 

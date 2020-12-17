@@ -14,7 +14,7 @@ const VisibilitySensor: FC<Props> = ({ children, height }) => {
         height,
         backgroundColor: '#E8ECE9',
         marginLeft: '-5px',
-        marginRight: '-5px'
+        marginRight: '-5px',
       }}
     />
   );

@@ -1,7 +1,9 @@
 import { Response, CookieOptions } from 'express';
 import { Configuration } from '@env';
 
-export abstract class CookieService {
+export class CookieService {
+  private constructor() {}
+
   private static readonly _refreshName =
     Configuration.appConfig.webToken.REFRESH_TOKEN_NAME;
 

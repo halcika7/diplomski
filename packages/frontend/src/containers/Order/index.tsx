@@ -5,21 +5,32 @@ import { Helmet } from 'react-helmet';
 import Spinner from '@components/UI/Spinner/Spinner';
 import FilesTable from '@components/UI/FilesTable';
 import Alert from '@components/UI/Alert';
-import { getOrder, setOrder, setOrderMessage, updateOrderStatus } from '@actions';
+import {
+  getOrder,
+  setOrder,
+  setOrderMessage,
+  updateOrderStatus,
+} from '@actions';
 import { useThunkDispatch } from '@dispatch';
 import { createSelector } from 'reselect';
 import { AppState } from '@reducers/index';
 import { useSelector } from 'react-redux';
+import { AnyDictionary } from '@job/common';
 
 const redux = createSelector(
   (state: AppState) => state.order.order,
   (state: AppState) => state.order.message,
   (state: AppState) => state.order.status,
   (state: AppState) => state.order.isChangingStatus,
-  (order, message, status, isChanging) => ({ order, message, status, isChanging })
+  (order, message, status, isChanging) => ({
+    order,
+    message,
+    status,
+    isChanging,
+  })
 );
 
-interface Props extends Record<string, any> {
+interface Props extends AnyDictionary {
   role?: string;
 }
 
@@ -37,7 +48,7 @@ const Order: FC<Props> = ({ role }) => {
   const { id } = useParams<{ id: string }>();
 
   const updateStatus = (
-    type: 'rejected' | 'finished' | 'approved' | 'pay',
+    type: 'rejected' | 'finished' | 'approved' | 'completed',
     id: string
   ) => () => {
     if (isChanging) return;
@@ -94,19 +105,16 @@ const Order: FC<Props> = ({ role }) => {
               <div className="row">
                 <div className="col-12 mb-5">
                   <p>
-                    Ordered by {order.orderedBy.name},{' '}
-                    {new Date(order.createdAt).toLocaleString()}
+                    Ordered by{' '}
+                    {typeof order.orderedBy !== 'string'
+                      ? order.orderedBy.name
+                      : 'Someone'}
+                    , {new Date(order.createdAt).toLocaleString()}
                   </p>
                   <p>Ordered for {order.orderedFor} use</p>
                   <p style={{ textTransform: 'capitalize' }}>
                     Status - {order.status}
                   </p>
-                  <p>Paid - {order.paid.toString().toUpperCase()}</p>
-                  {order.deleted && (
-                    <p style={{ fontWeight: 900, color: '#f00' }}>
-                      This Order is deleted!
-                    </p>
-                  )}
                 </div>
                 <div className="col-12">
                   {role === 'worker' && order.status === 'approved' && (
@@ -118,17 +126,15 @@ const Order: FC<Props> = ({ role }) => {
                       Finish Order
                     </button>
                   )}
-                  {role === 'worker' &&
-                    order.status === 'finished' &&
-                    !order.paid && (
-                      <button
-                        className="btn btn-sm btn-success"
-                        onClick={updateStatus('pay', id)}
-                      >
-                        <i className="fas fa-money-bill-alt"></i>
-                        Confirm that order was paid
-                      </button>
-                    )}
+                  {role === 'worker' && order.status === 'finished' && (
+                    <button
+                      className="btn btn-sm btn-success"
+                      onClick={updateStatus('completed', id)}
+                    >
+                      <i className="fas fa-money-bill-alt"></i>
+                      Confirm that order was paid
+                    </button>
+                  )}
                   {role === 'administration' && order.status === 'pending' && (
                     <button
                       className="btn btn-sm btn-primary"
@@ -153,13 +159,7 @@ const Order: FC<Props> = ({ role }) => {
             </div>
           </div>
         </div>
-        <FilesTable
-          documents={order.documents}
-          totalPrice={order.totalCost}
-          hideFooter
-          deleteFile={() => {}}
-          deleteFiles={() => {}}
-        />
+        <FilesTable documents={order.documents} totalPrice={order.totalCost} />
       </div>
     </>
   );

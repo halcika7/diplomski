@@ -1,9 +1,6 @@
 import { Document } from 'mongoose';
+import { FileType } from '@job/common';
 
-export interface FileInterface extends Document {
-  name: string;
-  path: string;
+export interface FileInterface extends FileType, Document {
   orderedBy: string;
-  createdAt: Date;
-  updatedAt: Date;
 }

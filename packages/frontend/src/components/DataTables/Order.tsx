@@ -1,10 +1,14 @@
 import React, { FC } from 'react';
+
+// components
 import { Link } from 'react-router-dom';
-import { Order as OrderType } from 'src/redux/types/order';
 import Table from './index';
 
+// types
+import { Order as OrderType } from 'src/redux/types/order';
+
 type UpdateStatusAction = (
-  type: 'rejected' | 'finished' | 'approved' | 'pay',
+  type: 'rejected' | 'finished' | 'approved' | 'completed',
   id: string
 ) => () => void;
 
@@ -55,19 +59,17 @@ const buttonFormatter = (role: string, updateStatus: UpdateStatusAction) => (
         </button>
       </>
     )}
-    {(role === 'worker' || role === 'admin') &&
-      row.status === 'finished' &&
-      !row.paid && (
-        <button
-          className="btn btn-success padding"
-          data-toggle="tooltip"
-          data-placment="top"
-          title="Pay Order"
-          onClick={updateStatus('pay', row._id)}
-        >
-          <i className="fas fa-money-bill-alt"></i>
-        </button>
-      )}
+    {(role === 'worker' || role === 'admin') && row.status === 'finished' && (
+      <button
+        className="btn btn-success padding"
+        data-toggle="tooltip"
+        data-placment="top"
+        title="Pay Order"
+        onClick={updateStatus('completed', row._id)}
+      >
+        <i className="fas fa-money-bill-alt"></i>
+      </button>
+    )}
   </>
 );
 
@@ -83,7 +85,10 @@ const rowClasses = (row: OrderType) =>
     : '';
 
 const priceFormatter = (_: undefined, row: OrderType) =>
-  row.totalCost.toLocaleString(undefined, { maximumFractionDigits: 2 }) + ' KM';
+  row.totalCost.toLocaleString(undefined, {
+    maximumFractionDigits: 2,
+    minimumFractionDigits: 2,
+  }) + ' KM';
 
 const columns = (role: string, updateStatus: UpdateStatusAction) => [
   {
@@ -112,13 +117,6 @@ const columns = (role: string, updateStatus: UpdateStatusAction) => [
   {
     dataField: 'status',
     text: 'Status',
-    align: 'center',
-    headerAlign: 'center',
-    sort: true,
-  },
-  {
-    dataField: 'paid',
-    text: 'Paid',
     align: 'center',
     headerAlign: 'center',
     sort: true,

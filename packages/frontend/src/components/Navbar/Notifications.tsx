@@ -1,6 +1,10 @@
 import React, { useRef, useEffect } from 'react';
+
+// components
 import { Link } from 'react-router-dom';
 import TimeAgo from 'react-timeago';
+
+// typings
 
 const Notifications = ({
   notifications,

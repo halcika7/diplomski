@@ -9,7 +9,6 @@ interface Props {
   disabled: boolean;
 }
 
-
 const ToggleSwitchButton: FC<Props> = ({ name, value, disabled, setValue }) => (
   <>
     <label className="d-block">{name}</label>

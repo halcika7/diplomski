@@ -1,5 +1,6 @@
 import { Injectable } from '@decorator/class';
 import { ResponseMessage, ResponseObject } from '@ctypes';
+import { AnyDictionary } from '@job/common';
 
 @Injectable()
 export class BaseService {
@@ -12,7 +13,7 @@ export class BaseService {
 
   protected returnResponse(
     status: number,
-    objectResp: Record<string, any>
+    objectResp: AnyDictionary
   ): ResponseObject {
     return { status, ...objectResp };
   }

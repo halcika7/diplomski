@@ -19,7 +19,7 @@ export {
   changeUserBlockStatus,
   resetProfileErrors,
   resetAddUserErrors,
-  addUser
+  addUser,
 } from './user';
 export { getCart, setCart, clearCart, removeDocument } from './cart';
 export {
@@ -44,3 +44,10 @@ export {
   resetPaperErrors,
 } from './paperBinding';
 export { getFiles } from './file';
+export {
+  getDashboard,
+  updateChartEarningByMonths,
+  updateChartEarningByMonth,
+  updateChartOrdersByMonths,
+  updateChartOrdersByMonth,
+} from './dashboard';

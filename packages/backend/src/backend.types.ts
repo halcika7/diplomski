@@ -1,3 +1,5 @@
+/* eslint-disable no-shadow */
+/* eslint-disable max-classes-per-file */
 declare module 'pdfjs-dist/es5/build/pdf.js' {
   // Type definitions for PDF.js v2.1
   // Project: https://github.com/mozilla/pdf.js
@@ -11,11 +13,11 @@ declare module 'pdfjs-dist/es5/build/pdf.js' {
 
   const version: string;
 
-  const GlobalWorkerOptions: GlobalWorkerOptions;
-
   interface GlobalWorkerOptions {
     workerSrc: string;
   }
+
+  const GlobalWorkerOptions: GlobalWorkerOptions;
 
   interface PDFPromise<T> {
     isResolved(): boolean;
@@ -63,19 +65,30 @@ declare module 'pdfjs-dist/es5/build/pdf.js' {
   class PDFDataRangeTransport {
     constructor(
       length: number,
-      initialData: Uint8Array | BufferSource,
+      initialData: Uint8Array | any,
       progressiveDone?: boolean
     );
+
     addRangeListener(listener: PDFDataRangeTransportListener): void;
+
     addProgressListener(listener: PDFDataRangeTransportListener): void;
+
     addProgressiveReadListener(listener: PDFDataRangeTransportListener): void;
+
     addProgressiveDoneListener(listener: PDFDataRangeTransportListener): void;
+
     onDataRange(begin: number, chunk: unknown): void;
+
     onDataProgress(loaded: number, total: number): void;
+
     onDataProgressiveRead(chunk: unknown): void;
+
     onDataProgressiveDone(): void;
+
     transportReady(): void;
+
     requestDataRange(begin: number, end: number): void;
+
     abort(): void;
   }
 
@@ -87,11 +100,17 @@ declare module 'pdfjs-dist/es5/build/pdf.js' {
 
   class PDFWorker {
     constructor(params?: PDFWorkerParameters);
+
     readonly promise: Promise<unknown>;
+
     readonly port: any | null;
+
     readonly messageHandler: unknown | null;
+
     destroy(): void;
+
     static fromPort(params?: PDFWorkerParameters): PDFWorker;
+
     static getWorkerSrc(): string;
   }
   enum CMapCompressionType {
@@ -99,9 +118,7 @@ declare module 'pdfjs-dist/es5/build/pdf.js' {
     BINARY = 1,
     STREAM = 2,
   }
-  interface CMapReaderFactory {
-    new (params: { baseUrl: string; isCompressed: boolean }): CMapReader;
-  }
+
   interface CMapReader {
     fetch(params: {
       name: string;
@@ -110,6 +127,11 @@ declare module 'pdfjs-dist/es5/build/pdf.js' {
       compressionType: CMapCompressionType;
     }>;
   }
+
+  interface CMapReaderFactory {
+    new (params: { baseUrl: string; isCompressed: boolean }): CMapReader;
+  }
+
   interface PDFSource {
     /** The URL of the PDF. */
     url?: string;
@@ -118,7 +140,7 @@ declare module 'pdfjs-dist/es5/build/pdf.js' {
      * (Uint8Array) to improve the memory usage. If PDF data is BASE64-encoded,
      * use atob() to convert it to a binary string first.
      */
-    data?: Uint8Array | BufferSource | string;
+    data?: Uint8Array | any | string;
     /**
      * Basic authentication headers.
      */
@@ -139,7 +161,7 @@ declare module 'pdfjs-dist/es5/build/pdf.js' {
      * A typed array with the first portion or
      * all of the pdf data. Used by the extension since some data is already
      * loaded before the switch to range requests.  */
-    initialData?: Uint8Array | BufferSource;
+    initialData?: Uint8Array | any;
     /*
      * The PDF file length. It's used for progress
      * reports and range requests operations.
@@ -260,71 +282,6 @@ declare module 'pdfjs-dist/es5/build/pdf.js' {
     total: number;
   }
 
-  interface PDFDocumentProxy {
-    /**
-     * Total number of pages the PDF contains.
-     **/
-    numPages: number;
-
-    /**
-     * A unique ID to identify a PDF.  Not guaranteed to be unique.  [jbaldwin: haha what]
-     **/
-    fingerprint: string;
-
-    /**
-     * True if embedded document fonts are in use.  Will be set during rendering of the pages.
-     **/
-    embeddedFontsUsed(): boolean;
-
-    /**
-     * @param number The page number to get.  The first page is 1.
-     * @return A promise that is resolved with a PDFPageProxy.
-     **/
-    getPage(number: number): PDFPromise<PDFPageProxy>;
-
-    /**
-     * TODO: return type of Promise<???>
-     *  A promise that is resolved with a lookup table for mapping named destinations to reference numbers.
-     **/
-    getDestinations(): PDFPromise<any[]>;
-
-    /**
-     *  A promise that is resolved with an array of all the JavaScript strings in the name tree.
-     **/
-    getJavaScript(): PDFPromise<string[]>;
-
-    /**
-     *  A promise that is resolved with an array that is a tree outline (if it has one) of the PDF.  @see PDFTreeNode
-     **/
-    getOutline(): PDFPromise<PDFTreeNode[]>;
-
-    /**
-     * A promise that is resolved with the info and metadata of the PDF.
-     **/
-    getMetadata(): PDFPromise<{ info: PDFInfo; metadata: PDFMetadata }>;
-
-    /**
-     * Is the PDF encrypted?
-     **/
-    isEncrypted(): PDFPromise<boolean>;
-
-    /**
-     * A promise that is resolved with Uint8Array that has the raw PDF data.
-     **/
-    getData(): PDFPromise<Uint8Array>;
-
-    /**
-     * TODO: return type of Promise<???>
-     * A promise that is resolved when the document's data is loaded.
-     **/
-    dataLoaded(): PDFPromise<any[]>;
-
-    /**
-     *
-     **/
-    destroy(): void;
-  }
-
   interface PDFRef {
     num: number;
     gen: any; // todo
@@ -368,8 +325,8 @@ declare module 'pdfjs-dist/es5/build/pdf.js' {
   interface PDFAnnotations {
     getData(): PDFAnnotationData;
     hasHtml(): boolean; // always false
-    getHtmlElement(commonOjbs: any): HTMLElement; // throw new NotImplementedException()
-    getEmptyContainer(tagName: string, rect: number[]): HTMLElement; // deprecated
+    getHtmlElement(commonOjbs: any): any; // throw new NotImplementedException()
+    getEmptyContainer(tagName: string, rect: number[]): any; // deprecated
     isViewable(): boolean;
     loadResources(keys: any): PDFPromise<any>;
     getOperatorList(evaluator: any): PDFPromise<any>;
@@ -389,7 +346,7 @@ declare module 'pdfjs-dist/es5/build/pdf.js' {
   }
 
   interface PDFRenderParams {
-    canvasContext: CanvasRenderingContext2D;
+    canvasContext: any;
     viewport?: PDFPageViewport;
     textLayer?: PDFRenderTextLayer;
     imageLayer?: PDFRenderImageLayer;
@@ -398,78 +355,8 @@ declare module 'pdfjs-dist/es5/build/pdf.js' {
   }
 
   interface PDFViewerParams {
-    container: HTMLElement;
-    viewer?: HTMLElement;
-  }
-
-  /**
-   * RenderTask is basically a promise but adds a cancel function to termiate it.
-   **/
-  interface PDFRenderTask extends PDFLoadingTask<PDFPageProxy> {
-    /**
-     * Cancel the rendering task.  If the task is currently rendering it will not be cancelled until graphics pauses with a timeout.  The promise that this object extends will resolve when cancelled.
-     **/
-    cancel(): void;
-  }
-
-  interface PDFPageProxy {
-    /**
-     * Page index of the page.  First page is 0.
-     */
-    pageIndex: number;
-
-    /**
-     * Page number of the page.  First page is 1.
-     **/
-    pageNumber: number;
-
-    /**
-     * The number of degrees the page is rotated clockwise.
-     **/
-    rotate: number;
-
-    /**
-     * The reference that points to this page.
-     **/
-    ref: PDFRef;
-
-    /**
-     * @return An array of the visible portion of the PDF page in the user space units - [x1, y1, x2, y2].
-     **/
-    view: number[];
-
-    /**
-     * @param params viewport options
-     * @return
-     **/
-    getViewport(params: ViewportParameters): PDFPageViewport;
-
-    /**
-     * A promise that is resolved with an array of the annotation objects.
-     **/
-    getAnnotations(): PDFPromise<PDFAnnotations>;
-
-    /**
-     * Begins the process of rendering a page to the desired context.
-     * @param params Rendering options.
-     * @return An extended promise that is resolved when the page finishes rendering.
-     **/
-    render(params: PDFRenderParams): PDFRenderTask;
-
-    /**
-     * A promise that is resolved with the string that is the text content frm the page.
-     **/
-    getTextContent(): PDFPromise<TextContent>;
-
-    /**
-     * marked as future feature
-     **/
-    //getOperationList(): PDFPromise<>;
-
-    /**
-     * Destroyes resources allocated by the page.
-     **/
-    destroy(): void;
+    container: any;
+    viewer?: any;
   }
 
   interface TextContentItem {
@@ -488,7 +375,7 @@ declare module 'pdfjs-dist/es5/build/pdf.js' {
 
   /**
    * A PDF document and page is built of many objects.  E.g. there are objects for fonts, images, rendering code and such.  These objects might get processed inside of a worker.  The `PDFObjects` implements some basic functions to manage these objects.
-   **/
+   * */
   interface PDFObjects {
     get(objId: number, callback?: any): any;
     resolve(objId: number, data: any): any;
@@ -506,16 +393,14 @@ declare module 'pdfjs-dist/es5/build/pdf.js' {
      * For coordinate systems whose origin lies in the bottom-left, this
      * means normalization to (BL,TR) ordering. For systems with origin in the
      * top-left, this means (TL,BR) ordering.
-     **/
+     * */
     normalizeRect(rect: number[]): number[];
   }
-
-  export const PDFJS: PDFJSStatic;
 
   interface PDFJSStatic {
     /**
      * The maximum allowed image size in total pixels e.g. width * height.  Images above this value will not be drawn.  Use -1 for no limit.
-     **/
+     * */
     maxImageSize: number;
 
     /**
@@ -531,7 +416,7 @@ declare module 'pdfjs-dist/es5/build/pdf.js' {
 
     /**
      * By default fonts are converted to OpenType fonts and loaded via font face rules.  If disabled, the font will be rendered using a built in font renderer that constructs the glyphs with primitive path commands.
-     **/
+     * */
     disableFontFace: boolean;
 
     /**
@@ -650,8 +535,145 @@ declare module 'pdfjs-dist/es5/build/pdf.js' {
     PDFSinglePageViewer(params: PDFViewerParams): void;
   }
 
+  export const PDFJS: PDFJSStatic;
+
   interface PDFLoadingTask<T> {
     promise: PDFPromise<T>;
+  }
+
+  interface PDFPageProxy {
+    /**
+     * Page index of the page.  First page is 0.
+     */
+    pageIndex: number;
+
+    /**
+     * Page number of the page.  First page is 1.
+     * */
+    pageNumber: number;
+
+    /**
+     * The number of degrees the page is rotated clockwise.
+     * */
+    rotate: number;
+
+    /**
+     * The reference that points to this page.
+     * */
+    ref: PDFRef;
+
+    /**
+     * @return An array of the visible portion of the PDF page in the user space units - [x1, y1, x2, y2].
+     * */
+    view: number[];
+
+    /**
+     * @param params viewport options
+     * @return
+     * */
+    getViewport(params: ViewportParameters): PDFPageViewport;
+
+    /**
+     * A promise that is resolved with an array of the annotation objects.
+     * */
+    getAnnotations(): PDFPromise<PDFAnnotations>;
+
+    /**
+     * Begins the process of rendering a page to the desired context.
+     * @param params Rendering options.
+     * @return An extended promise that is resolved when the page finishes rendering.
+     * */
+    render(params: PDFRenderParams): any;
+
+    /**
+     * A promise that is resolved with the string that is the text content frm the page.
+     * */
+    getTextContent(): PDFPromise<TextContent>;
+
+    /**
+     * marked as future feature
+     * */
+    // getOperationList(): PDFPromise<>;
+
+    /**
+     * Destroyes resources allocated by the page.
+     * */
+    destroy(): void;
+  }
+
+  /**
+   * RenderTask is basically a promise but adds a cancel function to termiate it.
+   * */
+  interface PDFRenderTask extends PDFLoadingTask<PDFPageProxy> {
+    /**
+     * Cancel the rendering task.  If the task is currently rendering it will not be cancelled until graphics pauses with a timeout.  The promise that this object extends will resolve when cancelled.
+     * */
+    cancel(): void;
+  }
+
+  interface PDFDocumentProxy {
+    /**
+     * Total number of pages the PDF contains.
+     * */
+    numPages: number;
+
+    /**
+     * A unique ID to identify a PDF.  Not guaranteed to be unique.  [jbaldwin: haha what]
+     * */
+    fingerprint: string;
+
+    /**
+     * True if embedded document fonts are in use.  Will be set during rendering of the pages.
+     * */
+    embeddedFontsUsed(): boolean;
+
+    /**
+     * @param number The page number to get.  The first page is 1.
+     * @return A promise that is resolved with a PDFPageProxy.
+     * */
+    getPage(number: number): PDFPromise<PDFPageProxy>;
+
+    /**
+     * TODO: return type of Promise<???>
+     *  A promise that is resolved with a lookup table for mapping named destinations to reference numbers.
+     * */
+    getDestinations(): PDFPromise<any[]>;
+
+    /**
+     *  A promise that is resolved with an array of all the JavaScript strings in the name tree.
+     * */
+    getJavaScript(): PDFPromise<string[]>;
+
+    /**
+     *  A promise that is resolved with an array that is a tree outline (if it has one) of the PDF.  @see PDFTreeNode
+     * */
+    getOutline(): PDFPromise<PDFTreeNode[]>;
+
+    /**
+     * A promise that is resolved with the info and metadata of the PDF.
+     * */
+    getMetadata(): PDFPromise<{ info: PDFInfo; metadata: PDFMetadata }>;
+
+    /**
+     * Is the PDF encrypted?
+     * */
+    isEncrypted(): PDFPromise<boolean>;
+
+    /**
+     * A promise that is resolved with Uint8Array that has the raw PDF data.
+     * */
+    getData(): PDFPromise<Uint8Array>;
+
+    /**
+     * TODO: return type of Promise<???>
+     * A promise that is resolved when the document's data is loaded.
+     * */
+    dataLoaded(): PDFPromise<any[]>;
+
+    /**
+     *
+     * */
+    destroy(): void;
   }
 
   const Util: PDFJSUtilStatic;
@@ -666,7 +688,7 @@ declare module 'pdfjs-dist/es5/build/pdf.js' {
    * @param passwordCallback Used to request a password if wrong or no password was provided.  The callback receives two parameters: function that needs to be called with new password and the reason.
    * @param progressCallback Progress callback.
    * @return A promise that is resolved with PDFDocumentProxy object.
-   **/
+   * */
   function getDocument(
     url: string,
     pdfDataRangeTransport?: PDFDataRangeTransport,
@@ -678,7 +700,7 @@ declare module 'pdfjs-dist/es5/build/pdf.js' {
   ): PDFLoadingTask<PDFDocumentProxy>;
 
   function getDocument(
-    data: Uint8Array | BufferSource,
+    data: Uint8Array | any,
     pdfDataRangeTransport?: PDFDataRangeTransport,
     passwordCallback?: (
       fn: (password: string) => void,

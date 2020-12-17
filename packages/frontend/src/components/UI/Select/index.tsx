@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FC } from 'react';
 import ReactSelect from 'react-select';
+import { AnyDictionary } from '@job/common';
 
 type SelectType = { value: string; label: string };
 
@@ -21,7 +22,7 @@ const options: { [key: string]: SelectType[] } = {
 };
 
 const styles = (value: string) => ({
-  control: (base: Record<string, any>, state: Record<string, any>) => ({
+  control: (base: AnyDictionary, state: AnyDictionary) => ({
     ...base,
     backgroundColor: 'transparent',
     color: '#111',
@@ -36,20 +37,37 @@ const styles = (value: string) => ({
   }),
 });
 
-const Select = ({
+interface Props {
+  label: string;
+  value: string | number | boolean;
+  option?: string;
+  error?: string;
+  disabled?: boolean;
+  values?: any[];
+  valuesWithoutMap?: {
+    value: string | number | boolean;
+    label: string | number | boolean;
+  }[];
+  change: (val: any) => void;
+}
+
+const Select: FC<Props> = ({
   label,
   value,
   change,
   option,
   error,
-  disabled,
+  disabled = false,
   values,
-}: any) => {
-  const [data, setData] = useState<{ value: string; label: string }[]>([]);
+  valuesWithoutMap,
+}) => {
+  const [data, setData] = useState<
+    { value: string | number | boolean; label: string | number | boolean }[]
+  >([]);
   const defValue =
     value === '' ? { label, value: label } : { label: value, value };
 
-  const onChange = (e: SelectType) => change(e.label);
+  const onChange = (e: SelectType) => change(e.value);
 
   useEffect(() => {
     if (values) {
@@ -57,6 +75,12 @@ const Select = ({
       setData(newData);
     }
   }, [values]);
+
+  useEffect(() => {
+    if (valuesWithoutMap) {
+      setData(valuesWithoutMap);
+    }
+  }, [valuesWithoutMap]);
 
   useEffect(() => {
     if (option) {
@@ -71,7 +95,7 @@ const Select = ({
         <ReactSelect
           options={data}
           onChange={onChange as any}
-          styles={styles(value)}
+          styles={styles(value as string)}
           value={defValue}
           required
           className={error ? 'is-invalid' : disabled ? 'disabled' : ''}
