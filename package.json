@@ -22,7 +22,7 @@
     "format": "yarn --cwd packages/frontend format:write; yarn --cwd packages/common format:write; yarn --cwd packages/backend format:write"
   },
   "lint-staged": {
-    "packages/**/*.{js,jsx}": [
+    "packages/**/*.{ts,tsx}": [
       "yarn run --silent lerna:lint:ts",
       "yarn run --silent lerna:format",
       "git add"
