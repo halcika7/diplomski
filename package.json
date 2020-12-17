@@ -17,9 +17,7 @@
     "dev": "concurrently \"yarn server\" \"yarn frontend\"",
     "prod": "concurrently \"yarn server-prod\" \"yarn frontend-prod\"",
     "lerna:lint:ts": "lerna run lint:ts:fix",
-    "lint:ts": "yarn --cwd packages/frontend lint:ts:fix; yarn --cwd packages/common lint:ts:fix; yarn --cwd packages/backend lint:ts:fix",
-    "lerna:format": "lerna run format:write",
-    "format": "yarn --cwd packages/frontend format:write; yarn --cwd packages/common format:write; yarn --cwd packages/backend format:write"
+    "lerna:format": "lerna run format:write"
   },
   "lint-staged": {
     "packages/**/*.{ts,tsx}": [
