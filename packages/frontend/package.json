@@ -128,14 +128,21 @@
       "!src/library/axios.ts",
       "!src/redux/types/**"
     ],
-    "setupFilesAfterEnv": ["<rootDir>src/setupTests.ts"],
-    "testPathIgnorePatterns": ["/node_modules/", "__mocks__"],
-
-    "transformIgnorePatterns": ["/node_modules/"],
-    "testMatch": ["**/src/**/*.test.{ts,tsx}"],
+    "setupFilesAfterEnv": [
+      "<rootDir>src/setupTests.ts"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "__mocks__"
+    ],
+    "transformIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "testMatch": [
+      "**/src/**/*.test.{ts,tsx}"
+    ],
     "moduleNameMapper": {
-      "\\.(css|jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
-        "<rootDir>src/__tests__/__mocks__/fileMock.ts"
+      "\\.(css|jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>src/__tests__/__mocks__/fileMock.ts"
     }
   }
 }
