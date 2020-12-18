@@ -1,6 +1,5 @@
 import React, { FC, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
-import { OrderType } from '@job/common';
 import {
   getOrders,
   setOrders,
@@ -14,7 +13,7 @@ import { AppState } from '@reducers/index';
 import { useSelector } from 'react-redux';
 import Spinner from '@components/UI/Spinner/Spinner';
 import Alert from '@components/UI/Alert';
-import { AnyDictionary } from '@job/common';
+import { AnyDictionary, OrderType, UserRole } from '@job/common';
 
 const redux = createSelector(
   (state: AppState) => state.order.orders,
@@ -38,10 +37,7 @@ const OrdersDataTable: FC<Props> = ({ orderType, role }) => {
   const dispatch = useThunkDispatch();
   const { orders, message, status, isChanging } = useSelector(redux);
 
-  const updateStatus = (
-    type: 'rejected' | 'finished' | 'approved' | 'completed',
-    id: string
-  ) => () => {
+  const updateStatus = (type: OrderType, id: string) => () => {
     if (isChanging) return;
 
     dispatch(updateOrderStatus(type, id));
@@ -89,7 +85,11 @@ const OrdersDataTable: FC<Props> = ({ orderType, role }) => {
           className={status === 200 ? 'alert-success' : 'alert-danger'}
         />
       )}
-      <Order data={orders} role={role} updateStatus={updateStatus} />
+      <Order
+        data={orders}
+        role={role as UserRole}
+        updateStatus={updateStatus}
+      />
     </>
   );
 };

@@ -27,7 +27,7 @@ const reduxProps = createSelector(
 const Navbar = ({ role }: Props) => {
   const dispatch = useThunkDispatch();
   const { name, picture } = useSelector(reduxProps);
-  const [unseenNotifications] = useState(0);
+  const [unseenNotifications, setUn] = useState(0);
   const [, setShowNotifications] = useState(false);
 
   const toggleSidebar = (
@@ -35,18 +35,17 @@ const Navbar = ({ role }: Props) => {
   ) => {
     document.querySelector('html')?.classList.toggle('nav-open');
     e.currentTarget.classList.toggle('toggled');
+    setUn(1);
   };
 
   const onLogout = () => dispatch(logoutAction);
 
   const toggleNotifications = (
-    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+    e: React.MouseEvent<HTMLAnchorElement | HTMLParagraphElement, MouseEvent>
   ) => {
     e.preventDefault();
-    if (e.currentTarget.parentElement) {
-      e.currentTarget.parentElement.classList.toggle('show');
-      setShowNotifications(prev => !prev);
-    }
+    e.currentTarget.parentElement!.classList.toggle('show');
+    setShowNotifications(prev => !prev);
   };
 
   return (
@@ -98,7 +97,9 @@ const Navbar = ({ role }: Props) => {
                     <span className="number">{unseenNotifications}</span>
                   )}
                   <i className="far fa-bell" />
-                  <p className="d-lg-none">Notifications</p>
+                  <p onClick={toggleNotifications} className="d-lg-none">
+                    Notifications
+                  </p>
                 </a>
               </li>
             )}

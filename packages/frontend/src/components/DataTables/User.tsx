@@ -17,14 +17,15 @@ import { AppState } from '@reducers/index';
 
 // actions
 import { changeUserBlockStatus, restUserResponse } from '@actions';
+import { UserRole } from '@job/common';
 
 interface Props {
   users: User[];
-  role: string;
+  role: UserRole;
 }
 
 const buttonFormatter = (
-  role: string,
+  role: UserRole,
   changeUserBlockedStatus: (data: User) => () => void
 ) => (_: undefined, row: User) => (
   <>
@@ -60,7 +61,7 @@ const imgFormatter = (_: undefined, row: User) => (
 );
 
 const columns = (
-  role: string,
+  role: UserRole,
   changeUserBlockedStatus: (data: User) => () => void
 ) => [
   {

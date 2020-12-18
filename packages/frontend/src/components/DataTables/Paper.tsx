@@ -10,7 +10,7 @@ import Alert from '@components/UI/Alert';
 import Table from './index';
 
 // types
-import { PaperFront as Paper } from '@job/common';
+import { PaperFront as Paper, UserRole } from '@job/common';
 import { AppState } from '@reducers/index';
 
 // actions
@@ -21,7 +21,7 @@ import {
 } from '@actions';
 
 interface Props {
-  role: string;
+  role: UserRole;
   papers: Paper[];
 }
 

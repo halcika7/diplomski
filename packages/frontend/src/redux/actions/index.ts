@@ -20,6 +20,7 @@ export {
   resetProfileErrors,
   resetAddUserErrors,
   addUser,
+  setUserResponse,
 } from './user';
 export { getCart, setCart, clearCart, removeDocument } from './cart';
 export {

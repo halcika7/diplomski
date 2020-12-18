@@ -66,7 +66,7 @@ const Users: FC<Props> = ({ title, usersType }) => {
           <div className="card-header">
             <h2 className="title">{title}</h2>
           </div>
-          <UserDataTable role={role as string} users={users as User[]} />
+          <UserDataTable role={role as UserRole} users={users as User[]} />
         </div>
       </div>
     </>

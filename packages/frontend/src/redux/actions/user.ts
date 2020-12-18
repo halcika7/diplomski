@@ -58,7 +58,7 @@ export const updateProfilePicture = (formData: FormData) => async (
   }
 };
 
-const setUserResponse = (
+export const setUserResponse = (
   message: string,
   status: number | null
 ): UserActionTypes => ({

@@ -12,7 +12,8 @@
       "@images/*": ["src/assets/img/*"],
       "@components/*": ["src/components/*"],
       "@reducers/*": ["src/redux/reducers/*"],
-      "@dispatch": ["src/redux/AppThunkDispatch"]
+      "@dispatch": ["src/redux/AppThunkDispatch"],
+      "@store": ["src/redux/index"]
     }
   }
 }

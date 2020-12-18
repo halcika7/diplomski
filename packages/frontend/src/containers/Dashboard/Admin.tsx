@@ -44,7 +44,7 @@ const Admin = () => {
           </StatsSuspense>
         ))}
         {earningsMonth.map(({ name, heading, heading2 }) => (
-          <StatsPercentageSuspense classes="col-6 col-xl-3" key={name}>
+          <StatsPercentageSuspense key={name}>
             <StatsWithPercentage
               value={dashboard[name]?.thisMonthEarnings}
               oldValue={dashboard[name]?.lastMonthEarnings}
@@ -70,7 +70,7 @@ const Admin = () => {
           </StatsSuspense>
         ))}
         {monthOrders.map(({ name, heading, heading2, icon }) => (
-          <StatsPercentageSuspense classes="col-6 col-xl-3" key={name}>
+          <StatsPercentageSuspense key={name}>
             <StatsWithPercentage
               value={dashboard[name]?.thisMonthOrders}
               oldValue={dashboard[name]?.lastMonthOrders}

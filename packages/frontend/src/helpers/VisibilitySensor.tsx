@@ -7,7 +7,7 @@ interface Props {
 }
 
 const VisibilitySensor: FC<Props> = ({ children, height }) => {
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState<boolean>(false);
   const [element, setElement] = useState<ElementType | ReactNode>(
     <div
       style={{

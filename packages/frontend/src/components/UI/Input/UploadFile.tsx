@@ -23,9 +23,9 @@ const UploadFile: FC<Props> = ({ setFile, error, span, file }) => {
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
       'application/pdf',
     ];
-    if (types.every(type => (file ? file.type !== type : true))) {
-      err = file && file.type + ' is not a supported format\n';
-      spanRef.current!.innerText = err ? err : '';
+    if (types.every(type => file.type !== type)) {
+      err = 'file not supported';
+      spanRef.current!.innerText = err;
     }
 
     if (err) {
@@ -39,14 +39,6 @@ const UploadFile: FC<Props> = ({ setFile, error, span, file }) => {
     else label.innerHTML = labelVal;
 
     setFile(file);
-
-    // Firefox bug fix
-    input.addEventListener('focus', function () {
-      input.classList.add('has-focus');
-    });
-    input.addEventListener('blur', function () {
-      input.classList.remove('has-focus');
-    });
   };
 
   useEffect(() => {

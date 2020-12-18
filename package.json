@@ -17,12 +17,14 @@
     "dev": "concurrently \"yarn server\" \"yarn frontend\"",
     "prod": "concurrently \"yarn server-prod\" \"yarn frontend-prod\"",
     "lerna:lint:ts": "lerna run lint:ts:fix",
+    "lint": "yarn --cwd packages/backend lint:ts:fix; yarn --cwd packages/frontend lint:ts:fix; yarn --cwd packages/common lint:ts:fix",
+    "format": "yarn --cwd packages/backend format:write; yarn --cwd packages/frontend format:write; yarn --cwd packages/common format:write",
     "lerna:format": "lerna run format:write"
   },
   "lint-staged": {
     "packages/**/*.{ts,tsx}": [
-      "yarn run --silent lerna:lint:ts",
-      "yarn run --silent lerna:format",
+      "yarn lint",
+      "yarn format",
       "git add"
     ]
   },
@@ -46,7 +48,9 @@
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-react-hooks": "^2.5.0",
     "eslint-plugin-security": "^1.4.0",
+    "husky": "^4.3.6",
     "lerna": "^3.21.0",
+    "lint-staged": "^10.5.3",
     "prettier": "^2.0.5",
     "typescript": "^3.9.2"
   },

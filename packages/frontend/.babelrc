@@ -36,6 +36,10 @@
           {
             "rootPathSuffix": "./src/redux/AppThunkDispatch",
             "rootPathPrefix": "@dispatch"
+          },
+          {
+            "rootPathSuffix": "./src/redux/index",
+            "rootPathPrefix": "@store"
           }
         ]
       }

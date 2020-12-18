@@ -40,21 +40,14 @@ const Earnings: FC<Props> = ({
       <div
         className="card-body"
         style={
-          !overflow
+          !overflow || loading
             ? { height: '350px', paddingTop: '0' }
-            : overflow && loading
-            ? {
-                height: '350px',
-                paddingTop: '0',
-              }
-            : overflow && !loading
-            ? {
+            : {
                 height: '350px',
                 paddingTop: '0',
                 minWidth: '1500px',
                 overflowX: 'visible',
               }
-            : {}
         }
       >
         {data && !loading && (

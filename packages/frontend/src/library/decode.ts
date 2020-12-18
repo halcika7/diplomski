@@ -17,7 +17,7 @@ export abstract class AuthToken {
   static getTokenData(token: string) {
     try {
       return jwt_decode<DecodedToken>(token);
-    } catch (error) {
+    } catch {
       return { id: null, role: null, year: null };
     }
   }

@@ -3,18 +3,37 @@
   "compilerOptions": {
     "target": "es5",
     "module": "esnext",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "checkJs": true,
     "jsx": "react",
     "declaration": true,
     "declarationMap": true,
     "noEmit": true,
-    "typeRoots": ["./src/types", "./node_modules/@types"],
+    "typeRoots": [
+      "./src/types",
+      "./node_modules/@types",
+      "./node_modules/@jest"
+    ],
     "resolveJsonModule": true,
     "useDefineForClassFields": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "types": [
+      "jest",
+      "node",
+      "@types/jest"
+    ]
   },
-  "include": ["src/**/*", "src/__tests__/**/*"],
-  "exclude": ["node_modules", "public"]
+  "include": [
+    "src/**/*",
+    "src/__tests__/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "public"
+  ]
 }

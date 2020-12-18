@@ -39,7 +39,7 @@ const UploadImage: FC<Props> = ({ setImage, image }) => {
   };
 
   useEffect(() => {
-    if (!image && Image !== defaultImage) {
+    if (!image) {
       SetImage(defaultImage);
       img.current!.className = `${classes.default}`;
       input.current!.value = '';

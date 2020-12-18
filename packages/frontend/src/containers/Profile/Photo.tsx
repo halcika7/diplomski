@@ -1,5 +1,5 @@
 import React, { useState, useEffect, MouseEvent } from 'react';
-import UploadImage from '@components/UploadImage/UploadImage';
+import UploadImage from '@components/UploadImage';
 import { updateProfilePicture, restUserResponse } from '@actions';
 import { useThunkDispatch } from '@dispatch';
 import { createSelector } from 'reselect';

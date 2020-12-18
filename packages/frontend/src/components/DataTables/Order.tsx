@@ -6,13 +6,11 @@ import Table from './index';
 
 // types
 import { Order as OrderType } from 'src/redux/types/order';
+import { UserRole, OrderType as OrderStatus } from '@job/common';
 
-type UpdateStatusAction = (
-  type: 'rejected' | 'finished' | 'approved' | 'completed',
-  id: string
-) => () => void;
+type UpdateStatusAction = (type: OrderStatus, id: string) => () => void;
 
-const buttonFormatter = (role: string, updateStatus: UpdateStatusAction) => (
+const buttonFormatter = (role: UserRole, updateStatus: UpdateStatusAction) => (
   _: undefined,
   row: OrderType
 ) => (
@@ -90,7 +88,7 @@ const priceFormatter = (_: undefined, row: OrderType) =>
     minimumFractionDigits: 2,
   }) + ' KM';
 
-const columns = (role: string, updateStatus: UpdateStatusAction) => [
+const columns = (role: UserRole, updateStatus: UpdateStatusAction) => [
   {
     dataField: 'createdAt',
     text: 'Date when ordered',
@@ -133,7 +131,7 @@ const columns = (role: string, updateStatus: UpdateStatusAction) => [
 
 interface Props {
   data: OrderType[];
-  role?: string;
+  role?: UserRole;
   updateStatus: UpdateStatusAction;
 }
 
@@ -143,7 +141,7 @@ const Order: FC<Props> = ({ data, role, updateStatus }) => (
       <div className="DataTable Orders card-body col-12">
         <Table
           data={data}
-          columns={columns(role as string, updateStatus)}
+          columns={columns(role as UserRole, updateStatus)}
           exportCSV
           withClear
           rowClasses={rowClasses}

@@ -5,10 +5,9 @@ export const toggleDropdown = (
   setToggled: Dispatch<SetStateAction<boolean>>
 ) => {
   e.preventDefault();
-  const { parentElement } = e.currentTarget;
   if (e.currentTarget.classList.value === 'nav-link toggleDropdown') {
-    if (!parentElement) return;
-    parentElement.classList.toggle('show');
+    if (!e.currentTarget.parentElement) return;
+    e.currentTarget.parentElement.classList.toggle('show');
     setToggled(prev => !prev);
   } else {
     setToggled(() => true);

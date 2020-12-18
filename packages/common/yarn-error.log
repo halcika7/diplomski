@@ -1,0 +1,48 @@
+Arguments: 
+  /usr/local/bin/node /usr/local/bin/yarn --cwd packages/common format:write /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/__tests__/App.test.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/__tests__/__mocks__/fileMock.ts /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/__tests__/__mocks__/makeFileMock.ts /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/__tests__/__mocks__/provider.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/__tests__/components/BarChart/index.test.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/__tests__/components/Buttons/index.test.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/__tests__/components/Carousel/index.test.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/__tests__/components/DataTables/Binding.test.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/__tests__/components/DataTables/File.test.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/__tests__/components/DataTables/Order.test.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/__tests__/components/DataTables/Paper.test.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/__tests__/components/DataTables/User.test.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/__tests__/components/FilesTable/index.test.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/__tests__/components/Input/index.test.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/__tests__/components/LineChart/index.test.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/__tests__/components/Orders/OrdersYearByMonth.test.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/__tests__/components/Orders/earnings.test.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/__tests__/components/Orders/graphsuspense.test.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/__tests__/components/Select/index.test.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/__tests__/components/Spinner/index.test.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/__tests__/components/Stats/Stats.test.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/__tests__/components/Stats/StatsPercentageSuspense.test.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/__tests__/components/Stats/StatsSuspense.test.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/__tests__/components/Stats/StatsWithPercentage.test.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/__tests__/components/UploadImage/index.test.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/__tests__/components/alert/index.test.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/__tests__/components/footer/index.test.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/__tests__/components/navbar/index.test.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/__tests__/components/sidebar/index.test.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/__tests__/helpers/truncText.test.ts /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/__tests__/library/decode.test.ts /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/components/DataTables/Order.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/components/DataTables/Paper.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/components/DataTables/User.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/components/Navbar/index.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/components/UI/Input/UploadFile.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/components/UI/Orders/Earnings.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/components/UI/Stats/StatsPercentageSuspense.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/components/UploadImage/index.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/containers/AdminPricing/Papers.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/containers/Dashboard/Admin.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/containers/Orders/index.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/containers/Profile/Photo.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/containers/Users/index.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/helpers/StatsVisibilitySensor.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/helpers/VisibilitySensor.tsx /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/helpers/toggleDropdown.ts /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/library/decode.ts /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/redux/actions/index.ts /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/redux/actions/user.ts /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/redux/index.ts /Users/harisbeslic/Desktop/diplomski/packages/frontend/src/setupTests.ts
+
+PATH: 
+  /var/folders/0x/cn3bqzcd1k785cc5cgw385fc0000gn/T/yarn--1608305324524-0.5860694933052386:/Users/harisbeslic/Desktop/diplomski/node_modules/.bin:/Users/harisbeslic/.config/yarn/link/node_modules/.bin:/Users/harisbeslic/Desktop/diplomski/node_modules/.bin:/usr/local/libexec/lib/node_modules/npm/bin/node-gyp-bin:/usr/local/lib/node_modules/npm/bin/node-gyp-bin:/usr/local/bin/node_modules/npm/bin/node-gyp-bin:/Users/harisbeslic/Desktop/diplomski/node_modules/.bin:/Users/harisbeslic/Desktop/node_modules/.bin:/Users/harisbeslic/node_modules/.bin:/Users/node_modules/.bin:/node_modules/.bin:/usr/local/bin:/var/folders/0x/cn3bqzcd1k785cc5cgw385fc0000gn/T/yarn--1608305311898-0.8232680252964681:/Users/harisbeslic/Desktop/diplomski/node_modules/.bin:/Users/harisbeslic/.config/yarn/link/node_modules/.bin:/Users/harisbeslic/Desktop/diplomski/node_modules/.bin:/usr/local/libexec/lib/node_modules/npm/bin/node-gyp-bin:/usr/local/lib/node_modules/npm/bin/node-gyp-bin:/usr/local/bin/node_modules/npm/bin/node-gyp-bin:/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/harisbeslic/Documents/chrome:/Library/Apple/usr/bin
+
+Yarn version: 
+  1.22.4
+
+Node version: 
+  14.15.1
+
+Platform: 
+  darwin x64
+
+Trace: 
+  SyntaxError: /Users/harisbeslic/Desktop/diplomski/package.json: Unexpected token ] in JSON at position 1172
+      at JSON.parse (<anonymous>)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/usr/local/lib/node_modules/yarn/lib/cli.js:310:30)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:321:13
+
+npm manifest: 
+  {
+    "name": "@job/common",
+    "version": "1.0.0",
+    "main": "dist/index.js",
+    "typings": "dist/index.d.ts",
+    "license": "MIT",
+    "private": true,
+    "devDependencies": {
+      "@types/node": "^14.14.14",
+      "typescript": "^4.1.3"
+    },
+    "scripts": {
+      "build": "tsc",
+      "build:watch": "tsc --watch",
+      "lint:ts:fix": "eslint . --ext .ts --fix",
+      "format:write": "prettier --write . --ignore-path ../../.prettierignore"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

@@ -6,6 +6,7 @@ import { AppState } from '@reducers/index';
 import { useSelector } from 'react-redux';
 import { getPapers } from '@actions';
 import PapersTable from '@components/DataTables/Paper';
+import { UserRole } from '@job/common';
 
 const reduxProps = createSelector(
   (state: AppState) => state.auth.role,
@@ -36,7 +37,7 @@ const Papers = () => {
           <div className="card-header">
             <h2 className="title">Paper prices</h2>
           </div>
-          <PapersTable role={role as string} papers={papers} />
+          <PapersTable role={role as UserRole} papers={papers} />
         </div>
       </div>
     </>
