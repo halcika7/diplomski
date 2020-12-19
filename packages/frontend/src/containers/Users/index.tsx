@@ -12,7 +12,7 @@ import { User } from 'src/redux/types/user';
 import { UserRole } from '@job/common';
 
 interface Props extends Record<string, UserRole | string | undefined> {
-  usersType?: UserRole;
+  usersType?: UserRole | 'all';
   title?: string;
 }
 
@@ -23,19 +23,19 @@ const reduxProps = createSelector(
   (role, users, loading) => ({ role, users, loading })
 );
 
-const Users: FC<Props> = ({ title, usersType }) => {
+const Users: FC<Props> = ({ title, usersType = 'all' }) => {
   const { role, users, loading } = useSelector(reduxProps);
   const dispatch = useThunkDispatch();
 
   useEffect(() => {
-    if (usersType) {
-      dispatch(getUsers(usersType));
-    }
+    dispatch(getUsers(usersType));
+  }, [dispatch, usersType]);
 
+  useEffect(() => {
     return () => {
       dispatch(setUsers(null));
     };
-  }, [dispatch, usersType]);
+  }, [dispatch]);
 
   if (loading)
     return (

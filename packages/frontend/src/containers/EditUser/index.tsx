@@ -19,7 +19,7 @@ import { useThunkDispatch } from '@dispatch';
 import { inputs } from './disabledInputs';
 import { useState } from 'react';
 import Alert from '@components/UI/Alert';
-import { AnyDictionary } from '@job/common';
+import { AnyDictionary, UserRole } from '@job/common';
 
 const redux = createSelector(
   (state: AppState) => state.user.userToEdit,
@@ -47,7 +47,7 @@ const EditUser: FC<Props> = ({ role }) => {
     e.preventDefault();
     if (isDisabled()) return;
 
-    dispatch(changeUserRole(newRole as string, id));
+    dispatch(changeUserRole(newRole as UserRole, id));
   };
 
   const onChangeBlockStatus = (e: ChangeEvent<HTMLInputElement>) => {

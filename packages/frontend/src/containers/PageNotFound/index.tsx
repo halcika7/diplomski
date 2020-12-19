@@ -198,7 +198,10 @@ const PageNotFound: FC<Props> = ({ dashboard = true }) => (
       </svg>
     </div>
     <div className="card-footer text-center pt-5 pb-5">
-      <Link className="btn-fill btn btn-primary" to="/">
+      <Link
+        className="btn-fill btn btn-primary"
+        to={dashboard ? '/dashboard' : '/'}
+      >
         {dashboard ? 'Go to Dashboard' : 'Go Home'}
       </Link>
     </div>

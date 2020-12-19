@@ -8,6 +8,7 @@ import { createSelector } from 'reselect';
 import { AppState } from '@reducers/index';
 import { useSelector } from 'react-redux';
 import Alert from '@components/UI/Alert';
+import { UserRole } from '@job/common';
 
 const redux = createSelector(
   (state: AppState) => state.user.addUserErrors,
@@ -18,7 +19,7 @@ const redux = createSelector(
 
 const AddUser = () => {
   const { errors, message, status } = useSelector(redux);
-  const [role, setRole] = useState<string>('professor');
+  const [role, setRole] = useState<UserRole>('professor');
   const [email, setEmail] = useState('');
   const [disabled, setDisabled] = useState<boolean>(false);
   const dispatch = useThunkDispatch();

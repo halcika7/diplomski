@@ -21,6 +21,7 @@ export {
   resetAddUserErrors,
   addUser,
   setUserResponse,
+  setUserData,
 } from './user';
 export { getCart, setCart, clearCart, removeDocument } from './cart';
 export {
@@ -31,6 +32,7 @@ export {
   setOrderMessage,
   setOrders,
   updateOrderStatus,
+  setIsOrderStatusChanging,
 } from './order';
 export {
   getPaperBindings,
@@ -43,8 +45,9 @@ export {
   addPaper,
   resetBindingErrors,
   resetPaperErrors,
+  setPaperBindings,
 } from './paperBinding';
-export { getFiles } from './file';
+export { getFiles, setFiles } from './file';
 export {
   getDashboard,
   updateChartEarningByMonths,

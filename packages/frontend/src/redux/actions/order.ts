@@ -69,7 +69,7 @@ export const getOrder = (id: string) => async (dispatch: AppThunkDispatch) => {
   }>(`/order/${id}`);
 
   if (status === 400) {
-    dispatch(setOrderMessage(data.message, status));
+    return dispatch(setOrderMessage(data.message, status));
   }
 
   return dispatch(setOrder(data.order));
@@ -80,7 +80,7 @@ const setOrderStatus = (type: OrderType, id: string): OrderActionTypes => ({
   payload: { id, type },
 });
 
-const setIsOrderStatusChanging = (val: boolean): OrderActionTypes => ({
+export const setIsOrderStatusChanging = (val: boolean): OrderActionTypes => ({
   type: OrderActions.SET_ORDER_CHANGING_STATUS,
   payload: val,
 });

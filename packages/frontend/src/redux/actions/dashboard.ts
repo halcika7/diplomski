@@ -2,9 +2,14 @@ import { axios } from '@axios';
 import { DashboardState } from '@reducers/dashboard';
 import { AppThunkDispatch } from '../AppThunkDispatch';
 import { DashboardActions } from '../types/dashboard';
-import { FilterOrders, OrdersByMonths, OrderCostMonth } from '@job/common';
+import {
+  FilterOrders,
+  OrdersByMonths,
+  OrderCostMonth,
+  UserRole,
+} from '@job/common';
 
-export const getDashboard = (role: string) => async (
+export const getDashboard = (role: UserRole) => async (
   dispatch: AppThunkDispatch
 ) => {
   const { data } = await axios.get<Partial<DashboardState>>(

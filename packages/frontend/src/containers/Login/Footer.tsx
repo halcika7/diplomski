@@ -2,6 +2,7 @@ import React from 'react';
 
 import printShopImg from '@images/PRINTSHOP18.jpg';
 import GoogleLoginButton from './GoogleLoginButton';
+import { Link } from 'react-router-dom';
 
 const Footer = () => (
   <div
@@ -11,11 +12,7 @@ const Footer = () => (
     <div className="container">
       <ul className="navbar-nav w-100 d-flex flex-row pr-0 pl-0 pt-5 pb-5 flex-wrap flex-md-nowrap">
         <li className="nav-item p-0">
-          <a
-            className="navbar-brand mr-5 ml-0 text-dark"
-            href="/"
-            onClick={e => e.preventDefault()}
-          >
+          <Link className="navbar-brand mr-5 ml-0 text-dark" to="/">
             <img
               className="mr-2 z-depth-4"
               src={printShopImg}
@@ -24,17 +21,17 @@ const Footer = () => (
               width="80"
             />
             Print Shop
-          </a>
+          </Link>
           <div className="mt-3 mb-3">
-            <i className="fas fa-map-marker-alt mr-2 text-dark"></i>
-            Sarajevo, Bosnia and Herzegovina, Semira FRaste 6
+            <i className="fas fa-map-marker-alt mr-2 text-dark" />
+            Sarajevo, Bosnia and Herzegovina, Semira Fraste 6
           </div>
           <div className="mt-3 mb-3">
-            <i className="fas fa-phone mr-2 text-dark"></i>
+            <i className="fas fa-phone mr-2 text-dark" />
             +387-33-000-000
           </div>
           <div className="mt-3 mb-3">
-            <i className="fas fa-envelope mr-2 text-dark"></i>
+            <i className="fas fa-envelope mr-2 text-dark" />
             printshop@ibu.edu.ba
           </div>
         </li>

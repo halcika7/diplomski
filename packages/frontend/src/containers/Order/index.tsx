@@ -15,7 +15,7 @@ import { useThunkDispatch } from '@dispatch';
 import { createSelector } from 'reselect';
 import { AppState } from '@reducers/index';
 import { useSelector } from 'react-redux';
-import { AnyDictionary } from '@job/common';
+import { AnyDictionary, OrderType } from '@job/common';
 
 const redux = createSelector(
   (state: AppState) => state.order.order,
@@ -47,10 +47,7 @@ const Order: FC<Props> = ({ role }) => {
   const { order, message, isChanging, status } = useSelector(redux);
   const { id } = useParams<{ id: string }>();
 
-  const updateStatus = (
-    type: 'rejected' | 'finished' | 'approved' | 'completed',
-    id: string
-  ) => () => {
+  const updateStatus = (type: OrderType, id: string) => () => {
     if (isChanging) return;
 
     dispatch(updateOrderStatus(type, id));

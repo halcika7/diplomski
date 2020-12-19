@@ -126,7 +126,9 @@
       "!src/index.tsx",
       "!src/routes/**",
       "!src/library/axios.ts",
-      "!src/redux/types/**"
+      "!src/redux/types/**",
+      "!src/redux/actions/index.ts",
+      "!src/redux/index.ts"
     ],
     "setupFilesAfterEnv": [
       "<rootDir>src/setupTests.ts"

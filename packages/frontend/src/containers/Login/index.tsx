@@ -48,21 +48,16 @@ const Login = () => {
 
   return (
     <div className="homepage">
-      <React.Fragment>
-        <Navbar />
-        <Carousel />
-        <AboutUs />
-        <Cards />
-        <div className="z-depth-4">
-          <WhyChooseUs />
-          <Services />
-        </div>
-        <Printing />
-        <Footer />
-      </React.Fragment>
-      <div className="card">
-        <div className="card-body"></div>
+      <Navbar />
+      <Carousel />
+      <AboutUs />
+      <Cards />
+      <div className="z-depth-4">
+        <WhyChooseUs />
+        <Services />
       </div>
+      <Printing />
+      <Footer />
     </div>
   );
 };

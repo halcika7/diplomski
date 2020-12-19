@@ -10,6 +10,7 @@ import Admin from './Admin';
 import Professors from './Professors';
 import Administration from './Administration';
 import Graphs from './Graphs';
+import { UserRole } from '@job/common';
 
 const reduxProps = createSelector(
   (state: AppState) => state.auth.role,
@@ -22,7 +23,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (role) {
-      dispatch(getDashboard(role as string));
+      dispatch(getDashboard(role as UserRole));
     }
   }, [dispatch, role]);
 

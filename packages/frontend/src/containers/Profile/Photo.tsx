@@ -14,6 +14,7 @@ const reduxProps = createSelector(
 const PhotoUpload = () => {
   const dispatch = useThunkDispatch();
   const [image, setImage] = useState<File>();
+  console.log('🚀 ~ file: Photo.tsx ~ line 17 ~ PhotoUpload ~ image', image);
   const [updating, setUpdating] = useState<boolean>(false);
   const message = useSelector(reduxProps);
 

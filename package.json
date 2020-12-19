@@ -22,10 +22,9 @@
     "lerna:format": "lerna run format:write"
   },
   "lint-staged": {
-    "packages/**/*.{ts,tsx}": [
-      "yarn lint",
-      "yarn format",
-      "git add"
+    "packages/**/*.{ts,tsx,.json}": [
+      "yarn run --silent lint",
+      "yarn run --silent format"
     ]
   },
   "husky": {

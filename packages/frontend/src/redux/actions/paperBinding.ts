@@ -22,7 +22,7 @@ import {
   UpdatePriceBindingPaper,
 } from '@job/common';
 
-const setPaperBindings = (data: {
+export const setPaperBindings = (data: {
   papers: Paper[];
   bindings: Binding[];
 }): PaperBindingActionTypes => ({

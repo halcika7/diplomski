@@ -52,14 +52,12 @@ export function OrderReducer(
 
       if (order) {
         order.status = type;
-      }
+      } else {
+        const index = orders!.findIndex(order => order._id === id);
 
-      if (orders) {
-        const index = orders.findIndex(order => order._id === id);
-
-        orders[index] = {
-          ...orders[index],
-          status: orders[index].status,
+        orders![index] = {
+          ...orders![index],
+          status: orders![index].status,
         };
       }
 

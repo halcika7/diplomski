@@ -11,6 +11,7 @@
       "@actions": ["src/redux/actions/index"],
       "@images/*": ["src/assets/img/*"],
       "@components/*": ["src/components/*"],
+      "@containers/*": ["src/containers/*"],
       "@reducers/*": ["src/redux/reducers/*"],
       "@dispatch": ["src/redux/AppThunkDispatch"],
       "@store": ["src/redux/index"]

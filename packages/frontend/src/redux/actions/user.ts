@@ -14,7 +14,7 @@ import {
 } from '../reducers/user';
 import { UserRole } from '@job/common';
 
-const setUserData = (userData: UserData): UserActionTypes => ({
+export const setUserData = (userData: UserData): UserActionTypes => ({
   type: UserActions.SET_USER_DATA,
   payload: { data: userData },
 });
@@ -53,6 +53,7 @@ export const updateProfilePicture = (formData: FormData) => async (
   if (data.error) {
     dispatch(setUploadError(data.error, 400));
   }
+
   if (data.url) {
     dispatch(setUserPhoto(data.url, 'Profile image successfully updated', 200));
   }
@@ -106,7 +107,7 @@ export const setUsers = (users: User[] | null): UserActionTypes => ({
   payload: users,
 });
 
-export const getUsers = (role: UserRole) => async (
+export const getUsers = (role: UserRole | 'all') => async (
   dispatch: AppThunkDispatch
 ) => {
   const { data } = await axios.get<{
@@ -135,7 +136,7 @@ export const getUserToEdit = (id: string) => async (
   return dispatch(setUserToEdit(data.user));
 };
 
-export const changeUserRole = (role: string, id: string) => async (
+export const changeUserRole = (role: UserRole, id: string) => async (
   dispatch: AppThunkDispatch
 ) => {
   const { data, status } = await axios.patch<{
@@ -177,7 +178,7 @@ const setAddUserErrors = (payload: AddUserErrors): UserActionTypes => ({
 export const resetAddUserErrors = (dispatch: AppThunkDispatch) =>
   dispatch(setAddUserErrors({ email: '' }));
 
-export const addUser = (postData: { role: string; email: string }) => async (
+export const addUser = (postData: { role: UserRole; email: string }) => async (
   dispatch: AppThunkDispatch
 ) => {
   const { data, status } = await axios.post<{
