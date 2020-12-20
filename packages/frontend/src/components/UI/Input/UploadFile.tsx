@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, ChangeEvent, FC } from 'react';
+import { useRef, useEffect, ChangeEvent, FC } from 'react';
 import './UploadFile.css';
 
 interface Props {
@@ -13,11 +13,11 @@ const UploadFile: FC<Props> = ({ setFile, error, span, file }) => {
   const spanRef = useRef<HTMLSpanElement>(null);
 
   const check = (e: ChangeEvent<HTMLInputElement>) => {
-    let input = inputRef.current!;
-    let label = input.nextElementSibling!,
-      labelVal = label.innerHTML;
+    const input = inputRef.current!;
+    const label = input.nextElementSibling!;
+    const labelVal = label.innerHTML;
     if (!e.target || !e.target.files) return;
-    let file = e.target.files[0];
+    const file = e.target.files[0];
     let err = null;
     const types = [
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document',

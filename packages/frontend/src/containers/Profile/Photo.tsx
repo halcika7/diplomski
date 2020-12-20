@@ -1,9 +1,9 @@
-import React, { useState, useEffect, MouseEvent } from 'react';
+import { useState, useEffect, MouseEvent } from 'react';
 import UploadImage from '@components/UploadImage';
 import { updateProfilePicture, restUserResponse } from '@actions';
 import { useThunkDispatch } from '@dispatch';
 import { createSelector } from 'reselect';
-import { AppState } from '@reducers';
+import { AppState } from '@reducers/index';
 import { useSelector } from 'react-redux';
 
 const reduxProps = createSelector(
@@ -14,7 +14,6 @@ const reduxProps = createSelector(
 const PhotoUpload = () => {
   const dispatch = useThunkDispatch();
   const [image, setImage] = useState<File>();
-  console.log('🚀 ~ file: Photo.tsx ~ line 17 ~ PhotoUpload ~ image', image);
   const [updating, setUpdating] = useState<boolean>(false);
   const message = useSelector(reduxProps);
 
@@ -43,7 +42,7 @@ const PhotoUpload = () => {
 
   return (
     <div className="col-12">
-      <label className="d-block w-100 mb-3">Change Profile Picture</label>
+      <span className="d-block w-100 mb-3">Change Profile Picture</span>
       <UploadImage setImage={setImage} image={image} />
       <button
         type="button"

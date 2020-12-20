@@ -1,4 +1,4 @@
-import React from 'react';
+import { memo } from 'react';
 
 import img from '@images/smartmockups_jzx6rltz.jpg';
 
@@ -10,8 +10,8 @@ const Printing = () => (
         <div className="col-lg-4 mt-4 mt-lg-0 mb-4">
           <div className="card text-center z-depth-4">
             <div className="icon bg-danger first">
-              <i className="fas fa-newspaper"></i>
-              <i className="fas fa-hand-point-up"></i>
+              <i className="fas fa-newspaper" />
+              <i className="fas fa-hand-point-up" />
             </div>
             <div className="card-body text-center">
               <p className="h4 mb-4 mt-2 bold">Select Option</p>
@@ -26,15 +26,15 @@ const Printing = () => (
         <div className="col-lg-4 mt-4 mt-lg-0 mb-4">
           <div className="card text-center z-depth-4">
             <div className="icon bg-warning second">
-              <i className="fas fa-file-alt"></i>
-              <i className="fas fa-arrow-alt-circle-up"></i>
+              <i className="fas fa-file-alt" />
+              <i className="fas fa-arrow-alt-circle-up" />
             </div>
             <div className="card-body text-center">
               <p className="h4 mb-4 mt-2 bold">Upload Your Design</p>
               <span className="text-warning h3 mb-2 bold">02</span>
               <p className="font-size-14px mt-4 mb-4">
-                Upload your finished design here and we'll print it for you with
-                your choices
+                Upload your finished design here and we&apos;ll print it for you
+                with your choices
               </p>
             </div>
           </div>
@@ -42,7 +42,7 @@ const Printing = () => (
         <div className="col-lg-4 mt-4 mt-lg-0">
           <div className="card text-center z-depth-4">
             <div className="icon bg-info">
-              <i className="fas fa-shopping-cart"></i>
+              <i className="fas fa-shopping-cart" />
             </div>
             <div className="card-body text-center">
               <p className="h4 mb-4 mt-2 bold">Checkout & Order</p>
@@ -62,4 +62,4 @@ const Printing = () => (
   </div>
 );
 
-export default React.memo(Printing);
+export default memo(Printing);

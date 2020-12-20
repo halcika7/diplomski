@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import { Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 import { createSelector } from 'reselect';
 import {
@@ -8,7 +8,7 @@ import {
   professorRoutes,
   adminRoutes,
 } from './routes';
-import { AppState } from '@reducers';
+import { AppState } from '@reducers/index';
 import { useSelector } from 'react-redux';
 import Spinner from '@components/UI/Spinner/Spinner';
 import ProtectedRoute from './protectedRoute';
@@ -45,7 +45,6 @@ const Routes = () => {
       {role && (
         <Route
           exact
-          // path={rootPaths}
           render={() => (
             <>
               <Sidebar role={role as string} />

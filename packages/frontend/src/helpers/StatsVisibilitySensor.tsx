@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FC, ReactElement, ReactNode } from 'react';
+import { memo, useState, useEffect, FC, ReactElement, ReactNode } from 'react';
 import VizSensor from 'react-visibility-sensor';
 
 interface Props {
@@ -18,7 +18,7 @@ const elem1 = (
             display: 'block',
             backgroundColor: '#E8ECE9',
           }}
-        ></span>
+        />
         <span
           className="mb-1 h5"
           style={{
@@ -27,7 +27,7 @@ const elem1 = (
             display: 'block',
             backgroundColor: '#E8ECE9',
           }}
-        ></span>
+        />
         <span
           style={{
             height: '22px',
@@ -35,7 +35,7 @@ const elem1 = (
             display: 'block',
             backgroundColor: '#E8ECE9',
           }}
-        ></span>
+        />
       </div>
     </div>
   </div>
@@ -52,7 +52,7 @@ const elem2 = (
             width: '80%',
             backgroundColor: '#E8ECE9',
           }}
-        ></p>
+        />
         <span
           className="card-title h3"
           style={{
@@ -61,7 +61,7 @@ const elem2 = (
             display: 'block',
             backgroundColor: '#E8ECE9',
           }}
-        ></span>
+        />
       </div>
     </div>
   </div>
@@ -90,4 +90,4 @@ const StatsVisibilitySensor: FC<Props> = ({ children, stats = false }) => {
   );
 };
 
-export default React.memo(StatsVisibilitySensor);
+export default memo(StatsVisibilitySensor);

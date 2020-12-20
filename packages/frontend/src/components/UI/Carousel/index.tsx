@@ -1,4 +1,3 @@
-// import React from 'react';
 import { Carousel as ReactCarousel } from 'react-responsive-carousel';
 
 import img from '@images/book-stack-books-bookshop-264635.jpg';

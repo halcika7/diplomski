@@ -1,4 +1,4 @@
-import React from 'react';
+import { memo } from 'react';
 
 const Cards = () => (
   <div className="container pt-3">
@@ -63,4 +63,4 @@ const Cards = () => (
   </div>
 );
 
-export default React.memo(Cards);
+export default memo(Cards);

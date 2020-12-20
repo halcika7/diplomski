@@ -1,4 +1,4 @@
-import React from 'react';
+import { memo } from 'react';
 
 const AboutUs = () => (
   <div className="whyus aboutus container-fluid mb-5 z-depth-4">
@@ -65,9 +65,9 @@ const AboutUs = () => (
               aria-labelledby="profile-tab"
             >
               <p className="mt-5 mb-4 font-size-14px">
-                Our mission is to surpass our client's expectations on every
-                project with superior quality, service, and value. We treat
-                every customer with sincerity and fairness.
+                Our mission is to surpass our client&apos;s expectations on
+                every project with superior quality, service, and value. We
+                treat every customer with sincerity and fairness.
               </p>
             </div>
             <div
@@ -96,4 +96,4 @@ const AboutUs = () => (
   </div>
 );
 
-export default React.memo(AboutUs);
+export default memo(AboutUs);

@@ -1,4 +1,3 @@
-import React from 'react';
 import { mount } from 'enzyme';
 import PageNotFound from '@containers/PageNotFound';
 import { BrowserRouter } from 'react-router-dom';

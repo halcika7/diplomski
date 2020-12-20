@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+import { useState, memo } from 'react';
 
 // components
 import { Link } from 'react-router-dom';
@@ -33,6 +34,7 @@ const Navbar = ({ role }: Props) => {
   const toggleSidebar = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
+    // eslint-disable-next-line no-unused-expressions
     document.querySelector('html')?.classList.toggle('nav-open');
     e.currentTarget.classList.toggle('toggled');
     setUn(1);
@@ -127,7 +129,7 @@ const Navbar = ({ role }: Props) => {
               >
                 <li className="nav-link">
                   <Link
-                    to={`/profile`}
+                    to="/profile"
                     className="nav-item dropdown-item whiteMax"
                   >
                     Profile
@@ -153,4 +155,4 @@ const Navbar = ({ role }: Props) => {
   );
 };
 
-export default React.memo(Navbar);
+export default memo(Navbar);

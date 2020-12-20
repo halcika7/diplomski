@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import { memo, Fragment, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import classes from './index.module.css';
 import Spinner from '@components/UI/Spinner/Spinner';
 import { getPaperBindings } from '@actions';
 import { createSelector } from 'reselect';
-import { AppState } from '@reducers';
+import { AppState } from '@reducers/index';
 import { useSelector } from 'react-redux';
 import { useThunkDispatch } from '@dispatch';
 
@@ -56,37 +56,39 @@ const Pricing = () => {
                 <li>1000+</li>
               </ul>
               <div className="table-responsive">
-                <table className={classes.table + ' mt-3'}>
+                <table className={`${classes.table} mt-3`}>
                   <tbody>
                     <tr>
-                      {papers.map((paper, i: number) => (
-                        <td key={paper.name + i}>Per copy {paper.name}</td>
+                      {papers.map(paper => (
+                        <td key={paper.name + new Date().getTime()}>
+                          Per copy {paper.name}
+                        </td>
                       ))}
                     </tr>
                     <tr>
-                      {papers.map((paper, i: number) => (
-                        <td key={'priceblackwhite0' + i}>
+                      {papers.map(paper => (
+                        <td key={`priceblackwhite0${new Date().getTime()}`}>
                           {paper.blackWhitePrinting.upTo250} KM
                         </td>
                       ))}
                     </tr>
                     <tr>
-                      {papers.map((paper, i: number) => (
-                        <td key={'priceblackwhite1' + i}>
+                      {papers.map(paper => (
+                        <td key={`priceblackwhite1${new Date().getTime()}`}>
                           {paper.blackWhitePrinting.from250upTo500} KM
                         </td>
                       ))}
                     </tr>
                     <tr>
-                      {papers.map((paper, i: number) => (
-                        <td key={'priceblackwhite2' + i}>
+                      {papers.map(paper => (
+                        <td key={`priceblackwhite2${new Date().getTime()}`}>
                           {paper.blackWhitePrinting.from500upTo1000} KM
                         </td>
                       ))}
                     </tr>
                     <tr>
-                      {papers.map((paper, i: number) => (
-                        <td key={'priceblackwhite3' + i}>
+                      {papers.map(paper => (
+                        <td key={`priceblackwhite3${new Date().getTime()}`}>
                           {paper.blackWhitePrinting.from1000} KM
                         </td>
                       ))}
@@ -114,39 +116,39 @@ const Pricing = () => {
                 <li>1000+</li>
               </ul>
               <div className="table-responsive">
-                <table className={classes.table + ' mt-3'}>
+                <table className={`${classes.table} mt-3`}>
                   <tbody>
                     <tr>
-                      {papers.map((paper, i: number) => (
-                        <td key={paper.name + i + 'color'}>
+                      {papers.map(paper => (
+                        <td key={`${paper.name + new Date().getTime()}color`}>
                           Per copy {paper.name}
                         </td>
                       ))}
                     </tr>
                     <tr>
-                      {papers.map((paper, i: number) => (
-                        <td key={'colorPrinting0' + i}>
+                      {papers.map(paper => (
+                        <td key={`colorPrinting0${new Date().getTime()}`}>
                           {paper.colorPrinting.upTo250} KM
                         </td>
                       ))}
                     </tr>
                     <tr>
-                      {papers.map((paper, i: number) => (
-                        <td key={'colorPrinting1' + i}>
+                      {papers.map(paper => (
+                        <td key={`colorPrinting1${new Date().getTime()}`}>
                           {paper.colorPrinting.from250upTo500} KM
                         </td>
                       ))}
                     </tr>
                     <tr>
-                      {papers.map((paper, i: number) => (
-                        <td key={'colorPrinting2' + i}>
+                      {papers.map(paper => (
+                        <td key={`colorPrinting2${new Date().getTime()}`}>
                           {paper.colorPrinting.from500upTo1000} KM
                         </td>
                       ))}
                     </tr>
                     <tr>
-                      {papers.map((paper, i: number) => (
-                        <td key={'colorPrinting3' + i}>
+                      {papers.map(paper => (
+                        <td key={`colorPrinting3${new Date().getTime()}`}>
                           {paper.colorPrinting.from1000} KM
                         </td>
                       ))}
@@ -160,8 +162,8 @@ const Pricing = () => {
             <h3 className="col-12 card-title mb-4 text-center d-inline-block">
               DOCUMENT BINDING
             </h3>
-            {bindings.map((binding, i: number) => (
-              <React.Fragment key={'heading' + i}>
+            {bindings.map(binding => (
+              <Fragment key={`heading${new Date().getTime()}`}>
                 <h4
                   style={{
                     color: '#2aabe4',
@@ -172,7 +174,7 @@ const Pricing = () => {
                 >
                   {binding.name} Binding
                 </h4>
-                <table className={classes.table + ' mt-3 mb-3'}>
+                <table className={`${classes.table} mt-3 mb-3`}>
                   <tbody>
                     <tr>
                       <td />
@@ -180,23 +182,23 @@ const Pricing = () => {
                     </tr>
                     <tr>
                       <td>1 - 25 pages</td>
-                      <td>{binding['upTo25']} KM</td>
+                      <td>{binding.upTo25} KM</td>
                     </tr>
                     <tr>
                       <td>25 - 50 pages</td>
-                      <td>{binding['from25upTo50']} KM</td>
+                      <td>{binding.from25upTo50} KM</td>
                     </tr>
                     <tr>
                       <td>50 - 100 pages</td>
-                      <td>{binding['from50upTo100']} KM</td>
+                      <td>{binding.from50upTo100} KM</td>
                     </tr>
                     <tr>
                       <td>100 - 150 pages</td>
-                      <td>{binding['from100upTo150']} KM</td>
+                      <td>{binding.from100upTo150} KM</td>
                     </tr>
                   </tbody>
                 </table>
-              </React.Fragment>
+              </Fragment>
             ))}
           </div>
         </div>
@@ -209,4 +211,4 @@ const Pricing = () => {
   );
 };
 
-export default React.memo(Pricing);
+export default memo(Pricing);

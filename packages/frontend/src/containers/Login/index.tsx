@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import { Redirect, useHistory, useLocation } from 'react-router-dom';
 import Navbar from './Navbar';
 import Cards from './Cards';
@@ -11,7 +11,7 @@ import { useThunkDispatch } from '@dispatch';
 import { authSuccess, getUserData } from '@actions';
 import Carousel from '@components/UI/Carousel';
 import { createSelector } from 'reselect';
-import { AppState } from '@reducers';
+import { AppState } from '@reducers/index';
 import { useSelector } from 'react-redux';
 
 const reduxProps = createSelector(
@@ -62,4 +62,4 @@ const Login = () => {
   );
 };
 
-export default React.memo(Login);
+export default memo(Login);

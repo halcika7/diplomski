@@ -1,11 +1,11 @@
-import React from 'react';
+import { lazy, memo } from 'react';
 import { createSelector } from 'reselect';
-import { AppState } from '@reducers';
+import { AppState } from '@reducers/index';
 import { useSelector } from 'react-redux';
 import { earnings, orders } from './ts-files/professorColumns';
 import StatsSuspense from '@components/UI/Stats/StatsSuspense';
 
-const Stats = React.lazy(() => import('../../components/UI/Stats/Stats'));
+const Stats = lazy(() => import('../../components/UI/Stats/Stats'));
 
 const redux = createSelector(
   (state: AppState) => state.dashboard,
@@ -25,7 +25,7 @@ const Professors = () => {
         {earnings.map(row => (
           <StatsSuspense classes="col-6 col-xl-3" key={row.name}>
             <Stats
-              value={dashboard[row.name] + ' KM'}
+              value={`${dashboard[row.name]} KM`}
               heading={row.heading}
               icon="money-wave"
             />
@@ -50,4 +50,4 @@ const Professors = () => {
   );
 };
 
-export default React.memo(Professors);
+export default memo(Professors);

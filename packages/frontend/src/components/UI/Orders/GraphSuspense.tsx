@@ -1,4 +1,4 @@
-import React, { Suspense, FC, ReactNode } from 'react';
+import { memo, Suspense, FC, ReactNode } from 'react';
 
 const GraphSuspense: FC<{ children: ReactNode }> = ({ children }) => (
   <Suspense
@@ -13,7 +13,7 @@ const GraphSuspense: FC<{ children: ReactNode }> = ({ children }) => (
               width: '70%',
               backgroundColor: '#E8ECE9',
             }}
-          ></span>
+          />
           <div
             className="card-body"
             style={{
@@ -22,7 +22,7 @@ const GraphSuspense: FC<{ children: ReactNode }> = ({ children }) => (
               width: '100%',
               backgroundColor: '#E8ECE9',
             }}
-          ></div>
+          />
         </div>
       </div>
     }
@@ -31,4 +31,4 @@ const GraphSuspense: FC<{ children: ReactNode }> = ({ children }) => (
   </Suspense>
 );
 
-export default React.memo(GraphSuspense);
+export default memo(GraphSuspense);

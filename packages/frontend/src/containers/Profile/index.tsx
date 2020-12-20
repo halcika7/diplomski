@@ -1,7 +1,7 @@
-import React from 'react';
+import { memo, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { createSelector } from 'reselect';
-import { AppState } from '@reducers';
+import { AppState } from '@reducers/index';
 import { useSelector } from 'react-redux';
 import RightPart from './RightPart';
 import { restUserResponse, resetProfileErrors } from '@actions';
@@ -10,7 +10,6 @@ import Alert from '@components/UI/Alert';
 import PhotoUpload from './Photo';
 import ProfileForm from './Form';
 import DisabledInput from '@components/UI/Input/DisabledInput';
-import { useEffect } from 'react';
 
 const reduxProps = createSelector(
   (state: AppState) => state.user.userData,
@@ -92,4 +91,4 @@ const Profile = () => {
   );
 };
 
-export default React.memo(Profile);
+export default memo(Profile);

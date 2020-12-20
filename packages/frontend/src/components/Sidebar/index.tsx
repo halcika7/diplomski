@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { memo, FC } from 'react';
 
 // components
 import { NavLink } from 'react-router-dom';
@@ -141,4 +141,4 @@ const Sidebar: FC<Props> = ({ role }) => {
   );
 };
 
-export default React.memo(Sidebar);
+export default memo(Sidebar);

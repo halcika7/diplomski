@@ -1,8 +1,8 @@
 import { useThunkDispatch } from '@dispatch';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { getFiles } from '@actions';
 import { createSelector } from 'reselect';
-import { AppState } from '@reducers';
+import { AppState } from '@reducers/index';
 import { useSelector } from 'react-redux';
 import FilesTable from '@components/DataTables/File';
 import { Helmet } from 'react-helmet';
@@ -21,12 +21,13 @@ const Files = () => {
     dispatch(getFiles);
   }, [dispatch]);
 
-  if (!files)
+  if (!files) {
     return (
       <div className="card-body">
         <Spinner />
       </div>
     );
+  }
 
   return (
     <>

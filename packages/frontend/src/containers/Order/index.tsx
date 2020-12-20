@@ -1,4 +1,4 @@
-import React, { useEffect, FC } from 'react';
+import { memo, useEffect, FC } from 'react';
 import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
@@ -128,8 +128,9 @@ const Order: FC<Props> = ({ role }) => {
                     <button
                       className="btn btn-sm btn-success"
                       onClick={updateStatus('completed', id)}
+                      type="button"
                     >
-                      <i className="fas fa-money-bill-alt"></i>
+                      <i className="fas fa-money-bill-alt" />
                       Confirm that order was paid
                     </button>
                   )}
@@ -137,8 +138,9 @@ const Order: FC<Props> = ({ role }) => {
                     <button
                       className="btn btn-sm btn-primary"
                       onClick={updateStatus('approved', id)}
+                      type="button"
                     >
-                      <i className="fas fa-check"></i>
+                      <i className="fas fa-check" />
                       Approve Order
                     </button>
                   )}
@@ -147,8 +149,9 @@ const Order: FC<Props> = ({ role }) => {
                     <button
                       className="btn btn-sm btn-danger"
                       onClick={updateStatus('rejected', id)}
+                      type="button"
                     >
-                      <i className="far fa-times-circle"></i>
+                      <i className="far fa-times-circle" />
                       Reject Order
                     </button>
                   )}
@@ -163,4 +166,4 @@ const Order: FC<Props> = ({ role }) => {
   );
 };
 
-export default React.memo(Order);
+export default memo(Order);

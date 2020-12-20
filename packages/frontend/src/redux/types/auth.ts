@@ -1,3 +1,5 @@
+import { AnyDictionary } from '@job/common';
+
 export enum AuthActions {
   AUTH_SUCCESS = 'AUTH_SUCCESS',
   AUTH_RESET = 'AUTH_RESET',
@@ -16,7 +18,7 @@ interface AuthSuccess {
 
 interface AuthReset {
   type: typeof AuthActions.AUTH_RESET;
-  payload: {};
+  payload: AnyDictionary;
 }
 
 interface AuthSetLoading {

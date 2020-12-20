@@ -1,4 +1,4 @@
-import React, { FC, ChangeEvent } from 'react';
+import { FC, ChangeEvent } from 'react';
 import classnames from 'classnames';
 
 interface Props {
@@ -36,7 +36,7 @@ const InputWithLabel: FC<Props> = ({
       disabled={disabled}
       placeholder={placeholder}
       type={type}
-      className={classnames(classes ? classes : '', {
+      className={classnames(classes || '', {
         'is-invalid': error,
       })}
       value={value}

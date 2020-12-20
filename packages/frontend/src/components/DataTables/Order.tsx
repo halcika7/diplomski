@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 // components
 import { Link } from 'react-router-dom';
@@ -15,7 +15,7 @@ const buttonFormatter = (role: UserRole, updateStatus: UpdateStatusAction) => (
   row: OrderType
 ) => (
   <>
-    <button className="btn btn-warning">
+    <button className="btn btn-warning" type="button">
       <Link
         to={`/order/${row._id}`}
         style={{ color: '#fff' }}
@@ -35,8 +35,9 @@ const buttonFormatter = (role: UserRole, updateStatus: UpdateStatusAction) => (
         data-placment="top"
         title="Reject Order"
         onClick={updateStatus('rejected', row._id)}
+        type="button"
       >
-        <i className="far fa-times-circle"></i>
+        <i className="far fa-times-circle" />
       </button>
     )}
     {((role === 'administration' && row.status === 'pending') ||
@@ -52,8 +53,9 @@ const buttonFormatter = (role: UserRole, updateStatus: UpdateStatusAction) => (
             role === 'administration' ? 'approved' : 'finished',
             row._id
           )}
+          type="button"
         >
-          <i className="fas fa-check"></i>
+          <i className="fas fa-check" />
         </button>
       </>
     )}
@@ -64,8 +66,9 @@ const buttonFormatter = (role: UserRole, updateStatus: UpdateStatusAction) => (
         data-placment="top"
         title="Pay Order"
         onClick={updateStatus('completed', row._id)}
+        type="button"
       >
-        <i className="fas fa-money-bill-alt"></i>
+        <i className="fas fa-money-bill-alt" />
       </button>
     )}
   </>
@@ -76,6 +79,7 @@ const dateFormatter = (_: undefined, row: OrderType) => (
 );
 
 const rowClasses = (row: OrderType) =>
+  // eslint-disable-next-line no-nested-ternary
   row.status === 'completed'
     ? 'bg-success'
     : row.status === 'rejected'
@@ -83,10 +87,10 @@ const rowClasses = (row: OrderType) =>
     : '';
 
 const priceFormatter = (_: undefined, row: OrderType) =>
-  row.totalCost.toLocaleString(undefined, {
+  `${row.totalCost.toLocaleString(undefined, {
     maximumFractionDigits: 2,
     minimumFractionDigits: 2,
-  }) + ' KM';
+  })} KM`;
 
 const columns = (role: UserRole, updateStatus: UpdateStatusAction) => [
   {

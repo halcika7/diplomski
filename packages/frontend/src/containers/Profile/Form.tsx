@@ -1,7 +1,7 @@
-import React, { useEffect, useState, MouseEvent, ChangeEvent } from 'react';
+import { useEffect, useState, MouseEvent, ChangeEvent } from 'react';
 import InputWithLabel from '@components/UI/Input/InputWithLabel';
 import { createSelector } from 'reselect';
-import { AppState } from '@reducers';
+import { AppState } from '@reducers/index';
 import { useSelector } from 'react-redux';
 import { restUserResponse, updateInfo } from '@actions';
 import { useThunkDispatch } from '@dispatch';
@@ -97,7 +97,7 @@ const ProfileForm = () => {
 
     resetResponse();
     setUpdating(true);
-    return dispatch(updateInfo(info));
+    dispatch(updateInfo(info));
   };
 
   useEffect(() => {

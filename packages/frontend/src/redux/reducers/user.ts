@@ -93,7 +93,7 @@ export function UserReducer(
         } as UserToEdit,
       };
     case UserActions.SET_USER_BLOCKED_STATUS: {
-      const userToEdit = prevState.userToEdit;
+      const { userToEdit } = prevState;
       const users = Array.isArray(prevState.users)
         ? [...prevState.users]
         : prevState.users;

@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import { memo, FC, useEffect } from 'react';
 
 // hooks
 import { useThunkDispatch } from '@dispatch';
@@ -160,4 +160,4 @@ const BindingDataTable: FC<Props> = ({ bindings }) => {
   );
 };
 
-export default React.memo(BindingDataTable);
+export default memo(BindingDataTable);

@@ -1,4 +1,3 @@
-import React from 'react';
 import { mount } from 'enzyme';
 import StatsSuspense from '@components/UI/Stats/StatsSuspense';
 

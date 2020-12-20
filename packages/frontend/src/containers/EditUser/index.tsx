@@ -1,4 +1,4 @@
-import React, { useEffect, FC, ChangeEvent } from 'react';
+import { useEffect, FC, ChangeEvent, useState, memo } from 'react';
 import { Helmet } from 'react-helmet';
 import DisabledInput from '@components/UI/Input/DisabledInput';
 import ToggleSwitchButton from '@components/UI/Buttons';
@@ -13,11 +13,11 @@ import {
   changeUserBlockStatus,
 } from '@actions';
 import { createSelector } from 'reselect';
-import { AppState } from '@reducers';
+import { AppState } from '@reducers/index';
 import { useSelector } from 'react-redux';
 import { useThunkDispatch } from '@dispatch';
 import { inputs } from './disabledInputs';
-import { useState } from 'react';
+
 import Alert from '@components/UI/Alert';
 import { AnyDictionary, UserRole } from '@job/common';
 
@@ -75,7 +75,7 @@ const EditUser: FC<Props> = ({ role }) => {
     }
   }, [user]);
 
-  if (!user)
+  if (!user) {
     return (
       <div className="card min-height-75vh">
         <div className="card-body">
@@ -84,6 +84,7 @@ const EditUser: FC<Props> = ({ role }) => {
         </div>
       </div>
     );
+  }
 
   return (
     <>
@@ -124,7 +125,7 @@ const EditUser: FC<Props> = ({ role }) => {
               </div>
             ))}
             <div className="col-md-4 mb-2">
-              <label>Facebook Link</label>
+              <span>Facebook Link</span>
               {user.facebookLink ? (
                 <a
                   href={user.facebookLink}
@@ -139,7 +140,7 @@ const EditUser: FC<Props> = ({ role }) => {
               )}
             </div>
             <div className="col-md-4 mb-4">
-              <label>Twitter Link</label>
+              <span>Twitter Link</span>
               {user.twitterLink ? (
                 <a
                   href={user.twitterLink}
@@ -160,7 +161,7 @@ const EditUser: FC<Props> = ({ role }) => {
                 value={newRole}
                 change={setRole}
                 label="Select User Role"
-                option={'roles'}
+                option="roles"
                 disabled={role !== 'admin'}
               />
             </div>
@@ -169,7 +170,7 @@ const EditUser: FC<Props> = ({ role }) => {
                 value={!!blocked}
                 setValue={onChangeBlockStatus}
                 name="Disable User"
-                disabled={role === 'admin' ? false : true}
+                disabled={role !== 'admin'}
               />
             </div>
             {role === 'admin' && (
@@ -191,4 +192,4 @@ const EditUser: FC<Props> = ({ role }) => {
   );
 };
 
-export default React.memo(EditUser);
+export default memo(EditUser);

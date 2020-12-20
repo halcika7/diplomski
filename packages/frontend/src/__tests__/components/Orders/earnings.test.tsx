@@ -1,4 +1,3 @@
-import React from 'react';
 import { mount } from 'enzyme';
 
 import Earnings from '@components/UI/Orders/Earnings';
@@ -27,7 +26,7 @@ describe('Testing Earnings component', () => {
       <Earnings
         data={[{ x: 1, y: 2 }]}
         loading={false}
-        overflow={true}
+        overflow
         title="naofji"
         xLabel="jdfoijsd"
         yLabel="jdfiojsoidj"
@@ -59,7 +58,7 @@ describe('Testing Earnings component', () => {
     const component = mount(
       <Earnings
         data={[{ x: 1, y: 2 }]}
-        loading={true}
+        loading
         overflow
         title="naofji"
         xLabel="jdfoijsd"

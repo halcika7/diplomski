@@ -1,6 +1,7 @@
-import React, { FC } from 'react';
+import { lazy, memo, FC } from 'react';
 import { OrdersByMonths } from '@job/common';
-const BarChart = React.lazy(() => import('../BarChart'));
+
+const BarChart = lazy(() => import('../BarChart'));
 
 interface Props {
   data: OrdersByMonths[] | null;
@@ -19,4 +20,4 @@ const OrdersYearByMonth: FC<Props> = ({ data, loading, title }) => (
   </>
 );
 
-export default React.memo(OrdersYearByMonth);
+export default memo(OrdersYearByMonth);

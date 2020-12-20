@@ -1,4 +1,4 @@
-import React from 'react';
+import { memo } from 'react';
 
 const WhyChooseUs = () => (
   <div className="whyus container-fluid mt-5" style={{ padding: '100px 0' }}>
@@ -165,4 +165,4 @@ const WhyChooseUs = () => (
   </div>
 );
 
-export default React.memo(WhyChooseUs);
+export default memo(WhyChooseUs);

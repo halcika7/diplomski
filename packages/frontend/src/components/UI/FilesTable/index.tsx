@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { FileDocument } from '@job/common';
 import { truncText } from '../../../helpers/truncText';
 
@@ -29,7 +29,11 @@ const FilesTable: FC<Props> = ({
           )}
         </h4>
         {deleteFiles && (
-          <button className="btn btn-danger" onClick={deleteFiles}>
+          <button
+            type="button"
+            className="btn btn-danger"
+            onClick={deleteFiles}
+          >
             Remove files
           </button>
         )}
@@ -49,7 +53,7 @@ const FilesTable: FC<Props> = ({
                 <th>Binding</th>
                 <th>Print Option</th>
                 <th>Price</th>
-                <th />
+                <th aria-labelledby="Buttons" />
               </tr>
             </thead>
             <tbody>
@@ -92,6 +96,7 @@ const FilesTable: FC<Props> = ({
                       <button
                         className="btn btn-primary"
                         style={{ padding: '0' }}
+                        type="button"
                       >
                         <a
                           href={file.path}

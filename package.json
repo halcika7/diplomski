@@ -23,6 +23,8 @@
   },
   "lint-staged": {
     "packages/**/*.{ts,tsx,.json,.env,.babelrc}": [
+      "yarn run --silent lint",
+      "yarn run --silent format",
       "git add"
     ]
   },

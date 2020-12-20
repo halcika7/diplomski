@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 // components
 import BootstrapTable from 'react-bootstrap-table-next';
@@ -95,7 +95,7 @@ const Table: FC<Props> = ({
         </div>
         <BootstrapTable
           noDataIndication={() => <div>No data available</div>}
-          wrapperClasses={'table-responsive UsersTable'}
+          wrapperClasses="table-responsive UsersTable"
           {...props.baseProps}
           striped
           hover

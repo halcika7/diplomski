@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import { ChangeEvent, FC } from 'react';
 
 import classes from './index.module.css';
 
@@ -9,16 +9,19 @@ interface Props {
   disabled: boolean;
 }
 
-const ToggleSwitchButton: React.FC<Props> = ({ name, value, disabled, setValue }) => (
+const ToggleSwitchButton: FC<Props> = ({ name, value, disabled, setValue }) => (
   <>
-    <label className="d-block">{name}</label>
-    <label className={classes.toggleCheck + ' text-white'}>
+    <label htmlFor={name} className="d-block">
+      {name}
+    </label>
+    <label htmlFor={name} className={`${classes.toggleCheck} text-white`}>
       <input
         className={classes.toggleCheckbox}
         type="checkbox"
         checked={value}
         onChange={setValue}
         disabled={disabled}
+        name={name}
       />
       <span className={classes.toggleCheckText} />
     </label>

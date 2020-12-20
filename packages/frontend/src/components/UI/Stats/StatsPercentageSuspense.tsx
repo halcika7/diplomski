@@ -1,4 +1,4 @@
-import React, { Suspense, FC, ReactNode } from 'react';
+import { memo, Suspense, FC, ReactNode } from 'react';
 
 const StatsPercentageSuspense: FC<{
   children: ReactNode;
@@ -16,7 +16,7 @@ const StatsPercentageSuspense: FC<{
                 display: 'block',
                 backgroundColor: '#E8ECE9',
               }}
-            ></span>
+            />
             <span
               className="mb-1 h5"
               style={{
@@ -25,7 +25,7 @@ const StatsPercentageSuspense: FC<{
                 display: 'block',
                 backgroundColor: '#E8ECE9',
               }}
-            ></span>
+            />
             <span
               style={{
                 height: '22px',
@@ -33,7 +33,7 @@ const StatsPercentageSuspense: FC<{
                 display: 'block',
                 backgroundColor: '#E8ECE9',
               }}
-            ></span>
+            />
           </div>
         </div>
       </div>
@@ -43,4 +43,4 @@ const StatsPercentageSuspense: FC<{
   </Suspense>
 );
 
-export default React.memo(StatsPercentageSuspense);
+export default memo(StatsPercentageSuspense);

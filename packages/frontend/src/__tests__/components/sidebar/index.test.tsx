@@ -1,4 +1,3 @@
-import React from 'react';
 import { mount } from 'enzyme';
 import Sidebar from '@components/Sidebar';
 import ReduxProvider from '../../__mocks__/provider';

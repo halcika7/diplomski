@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { memo, FC } from 'react';
 import { FileTypeFront as FileType } from '@job/common';
 import Table from './index';
 
@@ -65,4 +65,4 @@ const FilesDataTable: FC<Props> = ({ files }) => {
   );
 };
 
-export default React.memo(FilesDataTable);
+export default memo(FilesDataTable);

@@ -1,4 +1,3 @@
-import React from 'react';
 import { mount } from 'enzyme';
 import Login from '@containers/Login';
 import { Provider } from 'react-redux';

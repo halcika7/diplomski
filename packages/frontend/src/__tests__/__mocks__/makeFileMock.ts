@@ -4,8 +4,8 @@ export class MockFile {
     const size = 1024;
 
     function range(count: number) {
-      var output = '';
-      for (var i = 0; i < count; i++) {
+      let output = '';
+      for (let i = 0; i < count; i += 1) {
         output += 'a';
       }
       return output;

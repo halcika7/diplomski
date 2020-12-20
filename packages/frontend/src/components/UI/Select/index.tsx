@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FC } from 'react';
+import { memo, useState, useEffect, FC } from 'react';
 import ReactSelect from 'react-select';
 import { AnyDictionary } from '@job/common';
 
@@ -90,7 +90,7 @@ const Select: FC<Props> = ({
 
   return (
     <>
-      <label className="">{label}</label>
+      <span className="">{label}</span>
       <div className="mb-20">
         <ReactSelect
           options={data}
@@ -107,4 +107,4 @@ const Select: FC<Props> = ({
   );
 };
 
-export default React.memo(Select);
+export default memo(Select);

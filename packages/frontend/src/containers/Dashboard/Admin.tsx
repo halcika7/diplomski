@@ -1,6 +1,6 @@
-import React from 'react';
+import { lazy, memo } from 'react';
 import { createSelector } from 'reselect';
-import { AppState } from '@reducers';
+import { AppState } from '@reducers/index';
 import { useSelector } from 'react-redux';
 import {
   earnings,
@@ -10,11 +10,11 @@ import {
 } from './ts-files/adminColumns';
 import StatsSuspense from '@components/UI/Stats/StatsSuspense';
 
-const StatsPercentageSuspense = React.lazy(
+const StatsPercentageSuspense = lazy(
   () => import('../../components/UI/Stats/StatsPercentageSuspense')
 );
-const Stats = React.lazy(() => import('../../components/UI/Stats/Stats'));
-const StatsWithPercentage = React.lazy(
+const Stats = lazy(() => import('../../components/UI/Stats/Stats'));
+const StatsWithPercentage = lazy(
   () => import('../../components/UI/Stats/StatsWithPercentage')
 );
 
@@ -37,7 +37,7 @@ const Admin = () => {
         {earnings.map(row => (
           <StatsSuspense classes="col-6 col-xl-3" key={row.name}>
             <Stats
-              value={dashboard[row.name] + ' KM'}
+              value={`${dashboard[row.name]} KM`}
               heading={row.heading}
               icon="money-wave"
             />
@@ -85,4 +85,4 @@ const Admin = () => {
   );
 };
 
-export default React.memo(Admin);
+export default memo(Admin);

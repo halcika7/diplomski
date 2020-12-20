@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react';
+import { memo, FC, ReactNode } from 'react';
 import { ResponsiveLine } from '@nivo/line';
 import { OrderCostMonth } from '@job/common';
 import VisibilitySensor from '../../../helpers/VisibilitySensor';
@@ -35,13 +35,13 @@ const LineChart: FC<Props> = ({ data, xLabel, yLabel }) => (
       data={[
         {
           id: 'Some ID',
-          data: data,
+          data,
         },
       ]}
       margin={{ top: 50, right: 20, bottom: 70, left: 45 }}
       xScale={{ type: 'point' }}
       yScale={{ type: 'linear', stacked: true, min: 'auto', max: 'auto' }}
-      curve={'monotoneX'}
+      curve="monotoneX"
       axisBottom={axisBottom(xLabel)}
       axisLeft={axisLeft(yLabel)}
       colors={{ scheme: 'category10' }}
@@ -68,4 +68,4 @@ const LineChart: FC<Props> = ({ data, xLabel, yLabel }) => (
   </VisibilitySensor>
 );
 
-export default React.memo(LineChart);
+export default memo(LineChart);

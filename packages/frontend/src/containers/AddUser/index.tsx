@@ -1,11 +1,11 @@
-import React, { useState, ChangeEvent, useEffect } from 'react';
+import { useState, ChangeEvent, useEffect } from 'react';
 import Select from '@components/UI/Select';
 import InputWithLabel from '@components/UI/Input/InputWithLabel';
 import { useThunkDispatch } from '@dispatch';
 import { addUser, resetAddUserErrors, restUserResponse } from '@actions';
 import { Helmet } from 'react-helmet';
 import { createSelector } from 'reselect';
-import { AppState } from '@reducers';
+import { AppState } from '@reducers/index';
 import { useSelector } from 'react-redux';
 import Alert from '@components/UI/Alert';
 import { UserRole } from '@job/common';
@@ -102,7 +102,7 @@ const AddUser = () => {
                     value={role}
                     change={setRole}
                     label="Select User Role"
-                    option={'roles'}
+                    option="roles"
                   />
                 </div>
                 <div className="col-12">

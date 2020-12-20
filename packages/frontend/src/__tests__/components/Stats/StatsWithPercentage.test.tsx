@@ -1,4 +1,3 @@
-import React from 'react';
 import { mount } from 'enzyme';
 import StatsWithPercentage from '@components/UI/Stats/StatsWithPercentage';
 

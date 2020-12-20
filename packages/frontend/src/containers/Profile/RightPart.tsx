@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { memo, FC } from 'react';
 
 interface Props {
   image: string;
@@ -72,4 +72,4 @@ const RightPart: FC<Props> = ({ image, name, fLink, tLink }) => (
   </div>
 );
 
-export default React.memo(RightPart);
+export default memo(RightPart);

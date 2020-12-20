@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { memo, FC } from 'react';
 
 interface Props {
   message: string;
@@ -18,4 +18,4 @@ const Alert: FC<Props> = ({ message, clear, className = 'alert-danger' }) => (
   </div>
 );
 
-export default React.memo(Alert);
+export default memo(Alert);

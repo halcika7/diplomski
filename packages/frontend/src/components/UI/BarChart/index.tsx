@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { memo, FC } from 'react';
 import { ResponsiveBar } from '@nivo/bar';
 import { OrdersByMonths } from '@job/common';
 
@@ -55,4 +55,4 @@ const BarChart: FC<Props> = ({ data }) => (
   </VisibilitySensor>
 );
 
-export default React.memo(BarChart);
+export default memo(BarChart);

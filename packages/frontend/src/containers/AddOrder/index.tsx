@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent, useCallback } from 'react';
+import { useState, useEffect, ChangeEvent, useCallback, memo } from 'react';
 import { Helmet } from 'react-helmet';
 import Select from '@components/UI/Select';
 import InputWithLabel from '@components/UI/Input/InputWithLabel';
@@ -15,7 +15,7 @@ import {
   setOrderMessage,
 } from '@actions';
 import { createSelector } from 'reselect';
-import { AppState } from '@reducers';
+import { AppState } from '@reducers/index';
 import { useSelector } from 'react-redux';
 import FilesTable from '@components/UI/FilesTable';
 import { PostOrderErrors } from '@reducers/order';
@@ -96,7 +96,7 @@ const AddOrder = () => {
   const changeNumberOfCopies = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
 
-    if (!Number.isNaN(value) && parseInt(value) > 0 && value) {
+    if (!Number.isNaN(value) && parseInt(value, 10) > 0 && value) {
       setNumberOfCopies(parseInt(value, 10));
     }
   };
@@ -283,6 +283,7 @@ const AddOrder = () => {
                 className="btn btn-primary"
                 onClick={addOrder}
                 disabled={isSubmitDisabled()}
+                type="button"
               >
                 Submit Order
               </button>
@@ -294,4 +295,4 @@ const AddOrder = () => {
   );
 };
 
-export default React.memo(AddOrder);
+export default memo(AddOrder);

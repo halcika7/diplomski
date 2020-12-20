@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import { memo, FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toggleDropdown } from '../../helpers/toggleDropdown';
 
@@ -41,4 +41,4 @@ const DropdownLink: FC<Props> = ({ linkName, linkIcon, links }) => {
   );
 };
 
-export default React.memo(DropdownLink);
+export default memo(DropdownLink);

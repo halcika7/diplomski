@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import { Suspense } from 'react';
 import { mount } from 'enzyme';
 import AddBinding from '@containers/AdminPricing/AddBinding';
 import { Provider } from 'react-redux';

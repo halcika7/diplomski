@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import { memo, FC, useEffect } from 'react';
 
 // hooks
 import { createSelector } from 'reselect';
@@ -35,6 +35,7 @@ const buttonFormatter = (
       data-toggle="tooltip"
       data-placement="top"
       title={`View User - ${row.name}`}
+      type="button"
     >
       <Link to={`/user/${row._id}`} style={{ color: '#fff' }}>
         <i className="far fa-eye" />
@@ -161,4 +162,4 @@ const UserDataTable: FC<Props> = ({ users, role }) => {
   );
 };
 
-export default React.memo(UserDataTable);
+export default memo(UserDataTable);

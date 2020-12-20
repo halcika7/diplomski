@@ -1,4 +1,4 @@
-import React from 'react';
+import { memo } from 'react';
 import printShopImg from '@images/PRINTSHOP18.jpg';
 import GoogleLoginButton from './GoogleLoginButton';
 
@@ -49,4 +49,4 @@ const Navbar = () => (
   </div>
 );
 
-export default React.memo(Navbar);
+export default memo(Navbar);

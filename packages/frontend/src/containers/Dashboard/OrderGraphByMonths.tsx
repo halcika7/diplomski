@@ -1,15 +1,15 @@
-import React, { useState, FC } from 'react';
+import { lazy, useState, FC } from 'react';
 import { createSelector } from 'reselect';
-import { AppState } from '@reducers';
+import { AppState } from '@reducers/index';
 import { useSelector } from 'react-redux';
 import Select from '@components/UI/Select';
 import { OrdersByMonths, FilterOrders } from '@job/common';
 import { getYears, statuses, orderedFor } from './ts-files/chart';
 
-const GraphSuspense = React.lazy(
+const GraphSuspense = lazy(
   () => import('../../components/UI/Orders/GraphSuspense')
 );
-const OrdersYearByMonth = React.lazy(
+const OrdersYearByMonth = lazy(
   () => import('../../components/UI/Orders/OrdersYearByMonth')
 );
 

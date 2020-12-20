@@ -1,6 +1,5 @@
-import React from 'react';
 import { createSelector } from 'reselect';
-import { AppState } from '@reducers';
+import { AppState } from '@reducers/index';
 import { useSelector } from 'react-redux';
 import GraphEarningByMonths from './GraphByMonths';
 import GraphEarningByMonth from './GraphByMonth';

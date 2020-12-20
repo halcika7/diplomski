@@ -1,12 +1,12 @@
 import { useThunkDispatch } from '@dispatch';
-import { AppState } from '@reducers';
-import React, { FC } from 'react';
+import { AppState } from '@reducers/index';
+import { FC, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
 import { Helmet } from 'react-helmet';
 import UserDataTable from '@components/DataTables/User';
 import { getUsers, setUsers } from '@actions';
-import { useEffect } from 'react';
+
 import Spinner from '@components/UI/Spinner/Spinner';
 import { User } from 'src/redux/types/user';
 import { UserRole } from '@job/common';
@@ -37,7 +37,7 @@ const Users: FC<Props> = ({ title, usersType = 'all' }) => {
     };
   }, [dispatch]);
 
-  if (loading)
+  if (loading) {
     return (
       <div className="row">
         <div className="col-12 card min-height-75vh ">
@@ -50,6 +50,7 @@ const Users: FC<Props> = ({ title, usersType = 'all' }) => {
         </div>
       </div>
     );
+  }
 
   return (
     <>

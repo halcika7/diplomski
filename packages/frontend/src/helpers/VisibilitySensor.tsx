@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FC, ReactNode, ElementType } from 'react';
+import { memo, useState, useEffect, FC, ReactNode, ElementType } from 'react';
 import VizSensor from 'react-visibility-sensor';
 
 interface Props {
@@ -30,4 +30,4 @@ const VisibilitySensor: FC<Props> = ({ children, height }) => {
   );
 };
 
-export default React.memo(VisibilitySensor);
+export default memo(VisibilitySensor);

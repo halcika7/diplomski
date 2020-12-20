@@ -1,6 +1,7 @@
 import Axios from 'axios';
 import { store } from '../redux/index';
 import { authSuccess, authReset } from '@actions';
+import { AnyDictionary } from '@job/common';
 
 const url = process.env.REACT_APP_BACKEND_URL;
 
@@ -12,7 +13,7 @@ const ax = Axios.create({
   baseURL: url,
 });
 
-const rejectPromise = (error: object | string) => Promise.reject(error);
+const rejectPromise = (error: AnyDictionary | string) => Promise.reject(error);
 
 ax.interceptors.request.use(config => {
   const newConfig = { ...config };

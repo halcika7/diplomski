@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
-import { useThunkDispatch } from './redux/AppThunkDispatch';
+import { useEffect } from 'react';
 import { getCSRF, refreshToken } from '@actions';
 
 import './App.css';
 import Routes from './routes/index';
 import { createSelector } from 'reselect';
-import { AppState } from './redux/reducers/index';
+import { AppState } from '@reducers/index';
 import { useSelector } from 'react-redux';
 import Spinner from '@components/UI/Spinner/Spinner';
+import { useThunkDispatch } from '@dispatch';
 
 const reduxProps = createSelector(
   (state: AppState) => state.auth.authLoading,

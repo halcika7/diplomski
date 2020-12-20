@@ -1,4 +1,5 @@
-import React, { useRef, useState, ChangeEvent, FC, useEffect } from 'react';
+import { useRef, useState, ChangeEvent, FC, useEffect } from 'react';
+import * as React from 'react';
 import classes from './UploadImage.module.css';
 
 const defaultImage =
@@ -7,7 +8,7 @@ const defaultImage =
 const readFile = (file: File, cb: (reader: FileReader) => void) => {
   const reader = new FileReader(); // instance of the FileReader
   reader.readAsDataURL(file); // read the local file
-  reader.onloadend = function () {
+  reader.onloadend = function onLoad() {
     cb(reader);
   };
 };
@@ -63,7 +64,7 @@ const UploadImage: FC<Props> = ({ setImage, image }) => {
         onChange={uploadChange}
         accept="image/png,image/jpeg,image/gif,image/jpg"
       />
-      <label htmlFor="file1" className={classes.label}>
+      <span className={classes.label}>
         <img
           ref={img}
           src={Image}
@@ -75,7 +76,7 @@ const UploadImage: FC<Props> = ({ setImage, image }) => {
         <button type="button" onClick={removePicture}>
           X
         </button>
-      </label>
+      </span>
     </>
   );
 };

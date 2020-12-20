@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import { memo, FC, useEffect } from 'react';
 
 // hooks
 import { useThunkDispatch } from '@dispatch';
@@ -190,4 +190,4 @@ const PriceDataTable: FC<Props> = ({ role, papers }) => {
   );
 };
 
-export default React.memo(PriceDataTable);
+export default memo(PriceDataTable);

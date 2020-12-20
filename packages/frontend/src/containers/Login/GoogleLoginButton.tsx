@@ -1,4 +1,4 @@
-import React from 'react';
+import { memo } from 'react';
 
 import classes from './index.module.css';
 
@@ -34,4 +34,4 @@ const GoogleLoginButton = () => (
   </a>
 );
 
-export default React.memo(GoogleLoginButton);
+export default memo(GoogleLoginButton);

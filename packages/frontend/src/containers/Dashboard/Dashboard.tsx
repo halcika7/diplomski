@@ -1,9 +1,9 @@
 import { useThunkDispatch } from '@dispatch';
-import React, { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
-import { AppState } from '@reducers';
+import { AppState } from '@reducers/index';
 import { getDashboard } from '@actions';
 
 import Admin from './Admin';
@@ -48,4 +48,4 @@ const Dashboard = () => {
   );
 };
 
-export default React.memo(Dashboard);
+export default memo(Dashboard);

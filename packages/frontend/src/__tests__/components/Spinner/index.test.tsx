@@ -1,4 +1,3 @@
-import React from 'react';
 import { mount } from 'enzyme';
 
 import SmallSpinner from '@components/UI/Spinner/SmallSpinner';

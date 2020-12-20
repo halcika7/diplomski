@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { memo, FC } from 'react';
 import LineChart from '../LineChart';
 import { OrderCostMonth } from '@job/common';
 
@@ -24,7 +24,7 @@ const Earnings: FC<Props> = ({
   <>
     {title && (
       <h4 className="mt-3 mb-3 ml-3 uppercase">
-        {title} {date && 'in ' + new Date().getFullYear()}
+        {title} {date && `in ${new Date().getFullYear()}`}
       </h4>
     )}
     <div
@@ -58,4 +58,4 @@ const Earnings: FC<Props> = ({
   </>
 );
 
-export default React.memo(Earnings);
+export default memo(Earnings);

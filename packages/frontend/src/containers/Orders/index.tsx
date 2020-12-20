@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import { memo, FC, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import {
   getOrders,
@@ -9,7 +9,7 @@ import {
 import { useThunkDispatch } from '@dispatch';
 import Order from '@components/DataTables/Order';
 import { createSelector } from 'reselect';
-import { AppState } from '@reducers';
+import { AppState } from '@reducers/index';
 import { useSelector } from 'react-redux';
 import Spinner from '@components/UI/Spinner/Spinner';
 import Alert from '@components/UI/Alert';
@@ -58,12 +58,13 @@ const OrdersDataTable: FC<Props> = ({ orderType, role }) => {
     };
   }, [dispatch]);
 
-  if (!orders)
+  if (!orders) {
     return (
       <div className="card-body">
         <Spinner />
       </div>
     );
+  }
 
   return (
     <>
@@ -94,4 +95,4 @@ const OrdersDataTable: FC<Props> = ({ orderType, role }) => {
   );
 };
 
-export default React.memo(OrdersDataTable);
+export default memo(OrdersDataTable);

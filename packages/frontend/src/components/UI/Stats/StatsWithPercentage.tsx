@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { memo, FC } from 'react';
 import { NumberHelper } from '@job/common';
 
 import './Css.css';
@@ -39,7 +39,7 @@ const StatsWithPercentage: FC<Props> = ({
   return (
     <StatsVisibilitySensor>
       <div className="col-6 col-xl-3">
-        <div className={'card-stats card card-overflow ' + icon}>
+        <div className={`card-stats card card-overflow ${icon}`}>
           {value != null && (
             <div className="card-body align-items-center">
               <h5 className="mb-2">
@@ -75,4 +75,4 @@ const StatsWithPercentage: FC<Props> = ({
   );
 };
 
-export default React.memo(StatsWithPercentage);
+export default memo(StatsWithPercentage);

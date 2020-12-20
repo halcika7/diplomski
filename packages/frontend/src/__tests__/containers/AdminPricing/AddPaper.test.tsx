@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import { Suspense } from 'react';
 import { mount } from 'enzyme';
 import AddPaper from '@containers/AdminPricing/AddPaper';
 import { Provider } from 'react-redux';

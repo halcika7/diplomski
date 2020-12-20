@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { memo, FC } from 'react';
 
 import './Css.css';
 import StatsVisibilitySensor from '../../../helpers/StatsVisibilitySensor';
@@ -13,7 +13,7 @@ interface Props {
 const Stats: FC<Props> = ({ icon, heading, value, classes = null }) => (
   <StatsVisibilitySensor stats>
     <div className={!classes ? 'col-6 col-xl-3' : classes}>
-      <div className={'card-stats card card-overflow stats ' + icon}>
+      <div className={`card-stats card card-overflow stats ${icon}`}>
         {(value || value === 0) && (
           <div className="card-body">
             <p>{heading}</p>
@@ -25,4 +25,4 @@ const Stats: FC<Props> = ({ icon, heading, value, classes = null }) => (
   </StatsVisibilitySensor>
 );
 
-export default React.memo(Stats);
+export default memo(Stats);

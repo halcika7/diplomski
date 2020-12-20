@@ -1,4 +1,4 @@
-import React, { Suspense, FC, ReactNode } from 'react';
+import { memo, Suspense, FC, ReactNode } from 'react';
 
 interface Props {
   classes?: string;
@@ -37,4 +37,4 @@ const StatsSuspense: FC<Props> = ({ children, classes }) => (
   </Suspense>
 );
 
-export default React.memo(StatsSuspense);
+export default memo(StatsSuspense);

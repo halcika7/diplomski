@@ -1,4 +1,4 @@
-import React from 'react';
+import { memo } from 'react';
 
 const Services = () => (
   <div className="container-fluid whyus">
@@ -58,7 +58,7 @@ const Services = () => (
               </div>
               <h4 className="h4 mt-3">Custom Prints</h4>
               <p className="font-size-12px mb-4">
-                We'll bring all your creative ideas to life!
+                We&apos;ll bring all your creative ideas to life!
               </p>
             </div>
           </div>
@@ -76,7 +76,7 @@ const Services = () => (
               </div>
               <h4 className="h4 mt-3">Free file check</h4>
               <p className="font-size-12px mb-4">
-                We'll if your file is ready to print!
+                We&apos;ll if your file is ready to print!
               </p>
             </div>
           </div>
@@ -86,4 +86,4 @@ const Services = () => (
   </div>
 );
 
-export default React.memo(Services);
+export default memo(Services);

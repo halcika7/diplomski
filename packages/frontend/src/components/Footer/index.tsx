@@ -1,4 +1,4 @@
-import React from 'react';
+import { memo } from 'react';
 
 const Footer = () => (
   <footer className="footer">
@@ -11,4 +11,4 @@ const Footer = () => (
   </footer>
 );
 
-export default React.memo(Footer);
+export default memo(Footer);
