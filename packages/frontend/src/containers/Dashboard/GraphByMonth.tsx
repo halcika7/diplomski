@@ -1,6 +1,6 @@
 import React, { useState, FC } from 'react';
 import { createSelector } from 'reselect';
-import { AppState } from '@reducers/index';
+import { AppState } from '@reducers';
 import { useSelector } from 'react-redux';
 import Select from '@components/UI/Select';
 import { OrderCostMonth, FilterOrders } from '@job/common';

@@ -1,5 +1,5 @@
 import { useThunkDispatch } from '@dispatch';
-import { AppState } from '@reducers/index';
+import { AppState } from '@reducers';
 import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
 import { createSelector } from 'reselect';

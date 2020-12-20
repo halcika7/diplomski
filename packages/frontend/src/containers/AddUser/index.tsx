@@ -5,7 +5,7 @@ import { useThunkDispatch } from '@dispatch';
 import { addUser, resetAddUserErrors, restUserResponse } from '@actions';
 import { Helmet } from 'react-helmet';
 import { createSelector } from 'reselect';
-import { AppState } from '@reducers/index';
+import { AppState } from '@reducers';
 import { useSelector } from 'react-redux';
 import Alert from '@components/UI/Alert';
 import { UserRole } from '@job/common';

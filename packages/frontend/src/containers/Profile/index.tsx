@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { createSelector } from 'reselect';
-import { AppState } from '@reducers/index';
+import { AppState } from '@reducers';
 import { useSelector } from 'react-redux';
 import RightPart from './RightPart';
 import { restUserResponse, resetProfileErrors } from '@actions';

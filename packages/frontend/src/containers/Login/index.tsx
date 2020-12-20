@@ -11,7 +11,7 @@ import { useThunkDispatch } from '@dispatch';
 import { authSuccess, getUserData } from '@actions';
 import Carousel from '@components/UI/Carousel';
 import { createSelector } from 'reselect';
-import { AppState } from '@reducers/index';
+import { AppState } from '@reducers';
 import { useSelector } from 'react-redux';
 
 const reduxProps = createSelector(

@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent, useEffect } from 'react';
 import InputWithLabel from '@components/UI/Input/InputWithLabel';
-import { AppState } from '@reducers/index';
+import { AppState } from '@reducers';
 import { Helmet } from 'react-helmet';
 import { useSelector } from 'react-redux';
 import { createSelector } from 'reselect';

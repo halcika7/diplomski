@@ -15,7 +15,7 @@ import {
   setOrderMessage,
 } from '@actions';
 import { createSelector } from 'reselect';
-import { AppState } from '@reducers/index';
+import { AppState } from '@reducers';
 import { useSelector } from 'react-redux';
 import FilesTable from '@components/UI/FilesTable';
 import { PostOrderErrors } from '@reducers/order';

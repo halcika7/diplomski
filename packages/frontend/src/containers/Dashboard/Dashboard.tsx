@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
-import { AppState } from '@reducers/index';
+import { AppState } from '@reducers';
 import { getDashboard } from '@actions';
 
 import Admin from './Admin';

@@ -8,7 +8,7 @@ import {
   professorRoutes,
   adminRoutes,
 } from './routes';
-import { AppState } from '@reducers/index';
+import { AppState } from '@reducers';
 import { useSelector } from 'react-redux';
 import Spinner from '@components/UI/Spinner/Spinner';
 import ProtectedRoute from './protectedRoute';

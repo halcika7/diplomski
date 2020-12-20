@@ -2,7 +2,7 @@ import { useThunkDispatch } from '@dispatch';
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { createSelector } from 'reselect';
-import { AppState } from '@reducers/index';
+import { AppState } from '@reducers';
 import { useSelector } from 'react-redux';
 import { getPapers } from '@actions';
 import PapersTable from '@components/DataTables/Paper';

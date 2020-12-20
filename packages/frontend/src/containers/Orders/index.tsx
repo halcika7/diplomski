@@ -9,7 +9,7 @@ import {
 import { useThunkDispatch } from '@dispatch';
 import Order from '@components/DataTables/Order';
 import { createSelector } from 'reselect';
-import { AppState } from '@reducers/index';
+import { AppState } from '@reducers';
 import { useSelector } from 'react-redux';
 import Spinner from '@components/UI/Spinner/Spinner';
 import Alert from '@components/UI/Alert';

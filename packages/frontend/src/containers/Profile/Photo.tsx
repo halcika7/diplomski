@@ -3,7 +3,7 @@ import UploadImage from '@components/UploadImage';
 import { updateProfilePicture, restUserResponse } from '@actions';
 import { useThunkDispatch } from '@dispatch';
 import { createSelector } from 'reselect';
-import { AppState } from '@reducers/index';
+import { AppState } from '@reducers';
 import { useSelector } from 'react-redux';
 
 const reduxProps = createSelector(

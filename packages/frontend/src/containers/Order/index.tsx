@@ -118,8 +118,9 @@ const Order: FC<Props> = ({ role }) => {
                     <button
                       className="btn btn-sm btn-info"
                       onClick={updateStatus('finished', id)}
+                      type="button"
                     >
-                      <i className="fas fa-check"></i>
+                      <i className="fas fa-check" />
                       Finish Order
                     </button>
                   )}

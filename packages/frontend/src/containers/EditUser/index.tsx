@@ -13,7 +13,7 @@ import {
   changeUserBlockStatus,
 } from '@actions';
 import { createSelector } from 'reselect';
-import { AppState } from '@reducers/index';
+import { AppState } from '@reducers';
 import { useSelector } from 'react-redux';
 import { useThunkDispatch } from '@dispatch';
 import { inputs } from './disabledInputs';

@@ -4,7 +4,7 @@ import classes from './index.module.css';
 import Spinner from '@components/UI/Spinner/Spinner';
 import { getPaperBindings } from '@actions';
 import { createSelector } from 'reselect';
-import { AppState } from '@reducers/index';
+import { AppState } from '@reducers';
 import { useSelector } from 'react-redux';
 import { useThunkDispatch } from '@dispatch';
 

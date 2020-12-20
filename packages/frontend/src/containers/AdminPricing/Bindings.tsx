@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { getBindings } from '@actions';
 import { createSelector } from 'reselect';
-import { AppState } from '@reducers/index';
+import { AppState } from '@reducers';
 import { useSelector } from 'react-redux';
 import BindingTable from '@components/DataTables/Binding';
 
