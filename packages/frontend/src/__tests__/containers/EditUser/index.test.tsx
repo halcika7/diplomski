@@ -14,7 +14,7 @@ describe('Testing Login index', () => {
     const history = createBrowserHistory();
     const comp = mount(
       <Provider store={store}>
-        <Router history={history}>
+        <Router history={history as any}>
           <Suspense fallback={null}>
             <EditUser />
           </Suspense>

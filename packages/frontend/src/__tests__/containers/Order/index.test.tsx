@@ -16,7 +16,7 @@ describe('Testing Login index', () => {
     const history = createBrowserHistory();
     const comp = mount(
       <Provider store={store}>
-        <Router history={history}>
+        <Router history={history as any}>
           <Suspense fallback={null}>
             <Order />
           </Suspense>
@@ -34,7 +34,7 @@ describe('Testing Login index', () => {
     const history = createBrowserHistory();
     const comp = mount(
       <Provider store={store}>
-        <Router history={history}>
+        <Router history={history as any}>
           <Suspense fallback={null}>
             <Order role="worker" />
           </Suspense>
@@ -67,7 +67,7 @@ describe('Testing Login index', () => {
     const history = createBrowserHistory();
     const comp = mount(
       <Provider store={store}>
-        <Router history={history}>
+        <Router history={history as any}>
           <Suspense fallback={null}>
             <Order role="worker" />
           </Suspense>
@@ -100,7 +100,7 @@ describe('Testing Login index', () => {
     const history = createBrowserHistory();
     const comp = mount(
       <Provider store={store}>
-        <Router history={history}>
+        <Router history={history as any}>
           <Suspense fallback={null}>
             <Order role="administration" />
           </Suspense>
@@ -136,7 +136,7 @@ describe('Testing Login index', () => {
     const history = createBrowserHistory();
     const comp = mount(
       <Provider store={store}>
-        <Router history={history}>
+        <Router history={history as any}>
           <Suspense fallback={null}>
             <Order role="administration" />
           </Suspense>

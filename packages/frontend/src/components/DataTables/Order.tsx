@@ -63,7 +63,7 @@ const buttonFormatter = (role: UserRole, updateStatus: UpdateStatusAction) => (
       <button
         className="btn btn-success padding"
         data-toggle="tooltip"
-        data-placment="top"
+        data-placement="top"
         title="Pay Order"
         onClick={updateStatus('completed', row._id)}
         type="button"
