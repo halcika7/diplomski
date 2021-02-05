@@ -14,7 +14,7 @@ describe('Testing Contact actions', () => {
     moxios.uninstall();
   });
 
-  it('should succeed', async done => {
+  it('should succeed', done => {
     moxios.withMock(() => {
       store.dispatch<any>(refreshToken);
       moxios.wait(() => {
@@ -35,7 +35,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should fail refresh token', async done => {
+  it('should fail refresh token', done => {
     moxios.withMock(() => {
       store.dispatch<any>(refreshToken);
       moxios.wait(() => {

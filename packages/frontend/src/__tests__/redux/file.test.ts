@@ -12,7 +12,7 @@ describe('Testing Contact actions', () => {
     moxios.uninstall();
   });
 
-  it('should get a cart', async done => {
+  it('should get a cart', done => {
     moxios.withMock(() => {
       store.dispatch<any>(getFiles);
       moxios.wait(() => {

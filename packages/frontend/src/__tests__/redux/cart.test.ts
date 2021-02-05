@@ -12,7 +12,7 @@ describe('Testing Contact actions', () => {
     moxios.uninstall();
   });
 
-  it('should get a cart', async done => {
+  it('should get a cart', done => {
     moxios.withMock(() => {
       store.dispatch<any>(getCart);
       moxios.wait(() => {
@@ -25,7 +25,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should remove document', async done => {
+  it('should remove document', done => {
     moxios.withMock(() => {
       store.dispatch<any>(removeDocument('1'));
       moxios.wait(() => {
@@ -38,7 +38,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should clear cart', async done => {
+  it('should clear cart', done => {
     moxios.withMock(() => {
       store.dispatch<any>(clearCart);
       moxios.wait(() => {

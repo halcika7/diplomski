@@ -16,7 +16,7 @@ describe('Testing Select component', () => {
       />
     );
 
-    expect(component.find('label').length).toBe(1);
+    expect(component.find('span').length).toBe(2);
 
     component.find(ReactSelect).simulate('change', {
       label: 'djisfojsidof',
@@ -46,7 +46,7 @@ describe('Testing Select component', () => {
       />
     );
 
-    expect(component.find('label').length).toBe(1);
+    expect(component.find('span').length).toBe(2);
 
     component.unmount();
   });
@@ -62,7 +62,7 @@ describe('Testing Select component', () => {
       />
     );
 
-    expect(component.find('label').length).toBe(1);
+    expect(component.find('span').length).toBe(2);
 
     component.unmount();
   });

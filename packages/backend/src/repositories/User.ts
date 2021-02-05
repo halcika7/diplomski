@@ -51,7 +51,7 @@ export class UserRepository extends BaseRepository {
   }
 
   async getEmails(role: UserRole, id?: string): Promise<{ email: string }[]> {
-    const match = { role, blocked: false } as BooleanStringDictionary;
+    const match = { role } as BooleanStringDictionary;
 
     if (id) {
       match._id = id;

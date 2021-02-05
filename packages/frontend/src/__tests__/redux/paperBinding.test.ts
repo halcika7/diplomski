@@ -90,7 +90,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should add paper', async done => {
+  it('should add paper', done => {
     moxios.withMock(() => {
       store.dispatch<any>(addPaper(paper));
       moxios.wait(() => {
@@ -105,7 +105,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should add paper --> fail', async done => {
+  it('should add paper --> fail', done => {
     moxios.withMock(() => {
       store.dispatch<any>(addPaper(paper));
       moxios.wait(() => {
@@ -120,7 +120,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should add binding', async done => {
+  it('should add binding', done => {
     moxios.withMock(() => {
       store.dispatch<any>(addBinding(binding));
       moxios.wait(() => {
@@ -135,7 +135,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should add binding --> fail', async done => {
+  it('should add binding --> fail', done => {
     moxios.withMock(() => {
       store.dispatch<any>(addBinding(binding));
       moxios.wait(() => {
@@ -150,7 +150,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should updatePaperBindingAvailability binding', async done => {
+  it('should updatePaperBindingAvailability binding', done => {
     store.dispatch(setPaperBindings({ papers, bindings }));
     moxios.withMock(() => {
       store.dispatch<any>(
@@ -168,7 +168,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should updatePaperBindingAvailability binding --> fail', async done => {
+  it('should updatePaperBindingAvailability binding --> fail', done => {
     store.dispatch(setPaperBindings({ papers, bindings }));
     moxios.withMock(() => {
       store.dispatch<any>(
@@ -186,7 +186,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should updatePaperBindingAvailability binding', async done => {
+  it('should updatePaperBindingAvailability binding', done => {
     store.dispatch(setPaperBindings({ papers, bindings }));
     moxios.withMock(() => {
       store.dispatch<any>(updatePaperBindingAvailability('paper', '1', false));
@@ -202,7 +202,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should updatePaperBindingAvailability paper --> fail', async done => {
+  it('should updatePaperBindingAvailability paper --> fail', done => {
     store.dispatch(setPaperBindings({ papers, bindings }));
     moxios.withMock(() => {
       store.dispatch<any>(updatePaperBindingAvailability('paper', '1', false));
@@ -218,7 +218,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should updatePaperBindingPrice', async done => {
+  it('should updatePaperBindingPrice', done => {
     store.dispatch(setPaperBindings({ papers, bindings }));
     moxios.withMock(() => {
       store.dispatch<any>(

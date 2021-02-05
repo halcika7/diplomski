@@ -19,7 +19,7 @@ const Professors = () => {
       <div className="row">
         <div className="col-12">
           <div className="card">
-            <h2 className="mt-2 mb-2 ml-3">Earnings & Debt</h2>
+            <h2 className="mt-2 mb-2 ml-3">Spending & Debt</h2>
           </div>
         </div>
         {earnings.map(row => (

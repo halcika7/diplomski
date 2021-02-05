@@ -30,7 +30,7 @@ describe('Testing Login index', () => {
     const file = mock.create('image/png');
     const comp = mount(
       <Provider store={store}>
-        <Router history={history}>
+        <Router history={history as any}>
           <Suspense fallback={null}>
             <Photo />
           </Suspense>
@@ -38,18 +38,17 @@ describe('Testing Login index', () => {
       </Provider>
     );
 
-    store.dispatch<any>(
-      setUserResponse('Profile image successfully updated', 200)
-    );
-    store.dispatch<any>(setUserResponse('Image is required', 200));
-    store.dispatch<any>(
-      setUserResponse(
-        'File is not supported. Only JPG, PNG and GIF files are supported',
-        400
-      )
-    );
-
     await act(async () => {
+      store.dispatch<any>(
+        setUserResponse('Profile image successfully updated', 200)
+      );
+      store.dispatch<any>(setUserResponse('Image is required', 200));
+      store.dispatch<any>(
+        setUserResponse(
+          'File is not supported. Only JPG, PNG and GIF files are supported',
+          400
+        )
+      );
       comp.update();
 
       await new Promise(resolve => {

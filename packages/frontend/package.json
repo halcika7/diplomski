@@ -1,5 +1,5 @@
 {
-  "name": "frontend2",
+  "name": "frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -10,7 +10,6 @@
     "axios": "^0.21.0",
     "classnames": "^2.2.6",
     "jwt-decode": "^3.1.2",
-    "lodash.isequal": "^4.5.0",
     "react": "^17.0.1",
     "react-bootstrap-table-next": "^4.0.3",
     "react-bootstrap-table2-editor": "^1.4.0",
@@ -21,14 +20,12 @@
     "react-helmet": "^6.1.0",
     "react-helmet-async": "^1.0.7",
     "react-icons": "^4.1.0",
-    "react-phone-number-input": "^3.1.8",
     "react-redux": "^7.2.2",
     "react-responsive-carousel": "^3.2.11",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "react-select": "^3.1.1",
-    "react-timeago": "^5.2.0",
     "react-visibility-sensor": "^5.1.1",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
@@ -44,15 +41,12 @@
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^12.6.0",
-    "@types/brainhubeu__react-carousel": "^2.0.2",
     "@types/classnames": "^2.2.11",
     "@types/enzyme": "^3.10.8",
-    "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/history": "^4.7.8",
     "@types/jest": "^26.0.19",
     "@types/jsdom": "^16.2.5",
     "@types/jwt-decode": "^3.1.0",
-    "@types/lodash.isequal": "^4.5.5",
     "@types/moxios": "^0.4.9",
     "@types/node": "^14.14.14",
     "@types/react": "^17.0.0",
@@ -62,13 +56,12 @@
     "@types/react-bootstrap-table2-toolkit": "^2.1.4",
     "@types/react-dom": "^17.0.0",
     "@types/react-helmet": "^6.1.0",
-    "@types/react-phone-number-input": "^3.0.6",
     "@types/react-redux": "^7.1.12",
     "@types/react-router": "^5.1.8",
     "@types/react-router-dom": "^5.1.6",
     "@types/react-select": "^3.0.28",
-    "@types/react-timeago": "^4.1.2",
     "@types/reselect": "^2.2.0",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.4.1",
     "babel-jest": "^26.6.3",
     "babel-loader": "^8.2.2",
     "babel-plugin-import": "^1.13.3",
@@ -76,7 +69,6 @@
     "babel-plugin-react-remove-properties": "^0.3.0",
     "babel-plugin-root-import": "^6.6.0",
     "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.5",
     "enzyme-to-json": "^3.6.1",
     "history": "^5.0.0",
     "jest": "^26.6.3",
@@ -121,45 +113,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "jest": {
-    "globals": {
-      "babel-jest": {
-        "tsConfig": "tsconfig.paths.json",
-        "diagnostics": true
-      },
-      "NODE_ENV": "test"
-    },
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ],
-    "transform": {
-      "^.+\\.tsx?$": "babel-jest"
-    },
-    "collectCoverageFrom": [
-      "!src/serviceWorker.ts",
-      "!src/index.tsx",
-      "!src/routes/**",
-      "!src/library/axios.ts",
-      "!src/redux/types/**",
-      "!src/redux/actions/index.ts",
-      "!src/redux/index.ts"
-    ],
-    "setupFilesAfterEnv": [
-      "<rootDir>src/setupTests.ts"
-    ],
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "__mocks__"
-    ],
-    "transformIgnorePatterns": [
-      "/node_modules/"
-    ],
-    "testMatch": [
-      "**/src/**/*.test.{ts,tsx}"
-    ],
-    "moduleNameMapper": {
-      "\\.(css|jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>src/__tests__/__mocks__/fileMock.ts"
-    }
   }
 }

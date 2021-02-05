@@ -49,6 +49,7 @@ const UploadFile: FC<Props> = ({ setFile, error, span, file }) => {
 
   useEffect(() => {
     if (span || !file) {
+      inputRef.current!.value = '';
       spanRef.current!.innerText = '';
     }
   }, [span, file]);

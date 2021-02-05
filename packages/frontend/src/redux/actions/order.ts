@@ -28,11 +28,15 @@ export const postOrder = (orderedFor: string) => async (
     errors?: PostOrderErrors;
     message: string;
   }>('/order/', { orderedFor });
+
+  if (data.message) {
+    dispatch(setOrderMessage(data.message, status));
+  }
+
   if (data.cart) {
     dispatch(setOrderErrors(InitialOrderErrors));
     dispatch(resetUploadErrors);
     dispatch(setCart(data.cart));
-    dispatch(setOrderMessage(data.message, status));
   }
 
   if (data.errors) {

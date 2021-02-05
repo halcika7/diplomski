@@ -25,7 +25,7 @@ describe('Testing Contact actions', () => {
     moxios.uninstall();
   });
 
-  it('should add user', async done => {
+  it('should add user', done => {
     moxios.withMock(() => {
       store.dispatch<any>(addUser({ email: 'sdsad', role: 'admin' }));
       moxios.wait(() => {
@@ -40,7 +40,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should add user --> fail', async done => {
+  it('should add user --> fail', done => {
     moxios.withMock(() => {
       store.dispatch<any>(addUser({ email: 'sdsad', role: 'admin' }));
       moxios.wait(() => {
@@ -58,7 +58,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should change user blocked status', async done => {
+  it('should change user blocked status', done => {
     moxios.withMock(() => {
       store.dispatch<any>(changeUserBlockStatus(false, '1'));
       moxios.wait(() => {
@@ -73,7 +73,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should change user blocked status', async done => {
+  it('should change user blocked status', done => {
     moxios.withMock(() => {
       store.dispatch<any>(
         setUsers([
@@ -103,7 +103,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should change user blocked status', async done => {
+  it('should change user blocked status', done => {
     store.dispatch<any>(
       setUserToEdit({
         _id: '1',
@@ -132,7 +132,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should change user blocked status --> fail', async done => {
+  it('should change user blocked status --> fail', done => {
     moxios.withMock(() => {
       store.dispatch<any>(changeUserBlockStatus(false, '1'));
       moxios.wait(() => {
@@ -147,7 +147,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should change user role', async done => {
+  it('should change user role', done => {
     moxios.withMock(() => {
       store.dispatch<any>(changeUserRole('admin', '1'));
       moxios.wait(() => {
@@ -162,7 +162,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should change user role --> fail', async done => {
+  it('should change user role --> fail', done => {
     moxios.withMock(() => {
       store.dispatch<any>(changeUserRole('admin', '1'));
       moxios.wait(() => {
@@ -177,7 +177,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should change user to edit', async done => {
+  it('should change user to edit', done => {
     moxios.withMock(() => {
       store.dispatch<any>(getUserToEdit('1'));
       moxios.wait(() => {
@@ -195,7 +195,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should change user to edit --> fail', async done => {
+  it('should change user to edit --> fail', done => {
     moxios.withMock(() => {
       store.dispatch<any>(getUserToEdit('1'));
       moxios.wait(() => {
@@ -213,7 +213,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should get Users', async done => {
+  it('should get Users', done => {
     moxios.withMock(() => {
       store.dispatch<any>(getUsers('all'));
       moxios.wait(() => {
@@ -231,7 +231,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should update user info', async done => {
+  it('should update user info', done => {
     moxios.withMock(() => {
       store.dispatch<any>(updateInfo({ facebookLink: 'link' }));
       moxios.wait(() => {
@@ -246,7 +246,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should update user info --> fail', async done => {
+  it('should update user info --> fail', done => {
     moxios.withMock(() => {
       store.dispatch<any>(updateInfo({ facebookLink: 'link' }));
       moxios.wait(() => {
@@ -264,7 +264,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should update user info --> fail', async done => {
+  it('should update user info --> fail', done => {
     moxios.withMock(() => {
       store.dispatch<any>(updateInfo({ facebookLink: 'link' }));
       moxios.wait(() => {
@@ -277,7 +277,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should update user photo', async done => {
+  it('should update user photo', done => {
     moxios.withMock(() => {
       store.dispatch<any>(updateProfilePicture(formData));
       moxios.wait(() => {
@@ -290,7 +290,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should update user photo --> fail', async done => {
+  it('should update user photo --> fail', done => {
     moxios.withMock(() => {
       store.dispatch<any>(updateProfilePicture(formData));
       moxios.wait(() => {
@@ -305,7 +305,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should get User data', async done => {
+  it('should get User data', done => {
     moxios.withMock(() => {
       store.dispatch<any>(getUserData);
       moxios.wait(() => {

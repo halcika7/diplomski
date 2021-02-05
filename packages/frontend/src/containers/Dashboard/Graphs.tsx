@@ -26,7 +26,7 @@ const redux = createSelector(
   })
 );
 
-const Graphs = () => {
+const Graphs = ({ role }: { role: string | null }) => {
   const {
     earningsByMonth,
     earningsForMonth,
@@ -64,7 +64,12 @@ const Graphs = () => {
       <div className="row">
         <div className="col-12">
           <div className="card">
-            <h2 className="mt-2 mb-2 ml-3">Earnings & Debt Graphs</h2>
+            <h2 className="mt-2 mb-2 ml-3">
+              {role === 'professor' || role === 'administration'
+                ? 'Spending'
+                : 'Earnings'}{' '}
+              & Debt Graphs
+            </h2>
           </div>
         </div>
         <GraphEarningByMonths

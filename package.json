@@ -8,8 +8,7 @@
   },
   "scripts": {
     "build": "lerna run build --scope={@job/backend,@job/frontend,@job/common}",
-    "test": "lerna run test --scope={@job/backend,@job/frontend}",
-    "test:coverage": "lerna run test --scope={@job/backend,@job/frontend}",
+    "test": "lerna run test --scope={@job/frontend}",
     "server": "yarn --cwd packages/backend watch",
     "server-prod": "yarn --cwd packages/backend start",
     "frontend": "yarn --cwd packages/frontend start",
@@ -33,12 +32,10 @@
       "pre-commit": "lint-staged"
     }
   },
-  "dependencies": {
-    "concurrently": "^5.2.0"
-  },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
+    "concurrently": "^5.2.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-config-prettier": "^6.11.0",

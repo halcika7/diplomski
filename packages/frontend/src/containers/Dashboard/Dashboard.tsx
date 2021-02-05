@@ -42,7 +42,7 @@ const Dashboard = () => {
         {role === 'administration' && <Administration />}
         {(role === 'admin' || role === 'worker') && <Admin />}
 
-        <Graphs />
+        <Graphs role={role} />
       </div>
     </>
   );

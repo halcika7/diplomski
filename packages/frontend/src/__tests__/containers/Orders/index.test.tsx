@@ -16,7 +16,7 @@ describe('Testing Login index', () => {
     const history = createBrowserHistory();
     const comp = mount(
       <Provider store={store}>
-        <Router history={history}>
+        <Router history={history as any}>
           <Suspense fallback={null}>
             <Orders role="worker" />
           </Suspense>
@@ -41,77 +41,10 @@ describe('Testing Login index', () => {
         },
       ])
     );
-    const comp = mount(
-      <Provider store={store}>
-        <Router history={history}>
-          <Suspense fallback={null}>
-            <Orders orderType="all" role="worker" />
-          </Suspense>
-        </Router>
-      </Provider>
-    );
-
-    act(() => {
-      comp.update();
-
-      comp.find('button').at(4).simulate('click');
-
-      comp.unmount();
-    });
-  });
-
-  it('should render Login container', async () => {
-    moxios.install(axios as any);
-    const history = createBrowserHistory();
-    store.dispatch(
-      setOrders([
-        {
-          _id: 'sdasdsa',
-          createdAt: 'new Date()',
-          orderedFor: 'sadjaspod',
-          status: 'approved',
-          totalCost: 1,
-        },
-      ])
-    );
-    store.dispatch<any>(setOrderMessage('sfds', 400));
-    store.dispatch(setIsOrderStatusChanging(true));
-    const comp = mount(
-      <Provider store={store}>
-        <Router history={history}>
-          <Suspense fallback={null}>
-            <Orders orderType="all" role="worker" />
-          </Suspense>
-        </Router>
-      </Provider>
-    );
-
-    act(() => {
-      comp.update();
-
-      comp.find('button').at(4).simulate('click');
-      comp.unmount();
-    });
-  });
-
-  it('should render Login container', async () => {
-    moxios.install(axios as any);
-    const history = createBrowserHistory();
-    store.dispatch(
-      setOrders([
-        {
-          _id: 'sdasdsa',
-          createdAt: 'new Date()',
-          orderedFor: 'sadjaspod',
-          status: 'approved',
-          totalCost: 1,
-        },
-      ])
-    );
     store.dispatch<any>(setOrderMessage('sfds', 200));
     const comp = mount(
       <Provider store={store}>
-        <Router history={history}>
+        <Router history={history as any}>
           <Suspense fallback={null}>
             <Orders orderType="all" role="worker" />
           </Suspense>

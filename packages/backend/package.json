@@ -36,11 +36,9 @@
     "@types/express": "^4.17.9",
     "@types/express-rate-limit": "^5.1.0",
     "@types/express-session": "^1.17.3",
-    "@types/fs-extra": "^9.0.5",
     "@types/helmet": "^4.0.0",
     "@types/hpp": "^0.2.1",
     "@types/jest": "^26.0.19",
-    "@types/js-string-escape": "^1.0.0",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/mongoose": "^5.10.3",
     "@types/multer": "^1.4.5",
@@ -48,17 +46,13 @@
     "@types/passport-google-oauth20": "^2.0.4",
     "@types/pdfjs-dist": "^2.1.7",
     "@types/pug": "^2.0.4",
-    "@types/rate-limit-redis": "^1.7.1",
     "@types/redis": "^2.8.28",
     "@types/shelljs": "^0.8.8",
-    "@types/socket.io": "^2.1.12",
-    "@types/web-push": "^3.3.0",
     "@types/yauzl": "^2.9.1",
     "babel-plugin-parameter-decorator": "^1.0.16",
     "babel-plugin-root-import": "^6.6.0",
     "babel-plugin-transform-typescript-metadata": "^0.3.1",
     "concurrently": "^5.3.0",
-    "jest": "^26.6.3",
     "nodemon": "^2.0.6",
     "shelljs": "0.8.4",
     "ts-node": "9.1.1"
@@ -79,15 +73,12 @@
     "csurf": "^1.11.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "express-rate-limit": "^5.2.3",
     "express-session": "^1.17.1",
     "fast-xml-parser": "^3.17.5",
-    "fs-extra": "^9.0.1",
     "helmet": "^4.2.0",
     "hpp": "^0.2.3",
     "inversify": "^5.0.5",
     "inversify-express-utils": "^6.3.2",
-    "js-string-escape": "^1.0.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.8",
     "multer": "^1.4.2",
@@ -95,34 +86,9 @@
     "passport-google-oauth20": "^2.0.0",
     "pdfjs-dist": "^2.5.207",
     "pug": "^3.0.0",
-    "rate-limit-redis": "^2.0.0",
     "redis": "^3.0.2",
     "reflect-metadata": "^0.1.13",
-    "socket-controllers": "^0.0.5",
-    "socket.io": "^3.0.4",
-    "web-push": "^3.4.4",
     "winston": "^3.3.3",
     "yauzl": "^2.10.0"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "verbose": true,
-    "moduleFileExtensions": [
-      "ts",
-      "js"
-    ],
-    "testPathIgnorePatterns": [
-      "/node_modules/"
-    ],
-    "collectCoverage": true,
-    "testMatch": [
-      "**/*.spec.ts"
-    ],
-    "collectCoverageFrom": [
-      "src/**/*.{ts,js}",
-      "!src/configs/db-connect.ts",
-      "!src/app.ts",
-      "!src/server.ts"
-    ]
   }
 }

@@ -12,7 +12,7 @@ describe('Testing Contact actions', () => {
     moxios.uninstall();
   });
 
-  it('should get papers and bindings', async done => {
+  it('should get papers and bindings', done => {
     moxios.withMock(() => {
       store.dispatch<any>(getPapersBindings);
       moxios.wait(() => {
@@ -27,7 +27,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should upload file', async done => {
+  it('should upload file', done => {
     moxios.withMock(() => {
       const data = new FormData();
       store.dispatch<any>(uploadFile(data));
@@ -41,7 +41,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should fail with errors --> upload file', async done => {
+  it('should fail with errors --> upload file', done => {
     moxios.withMock(() => {
       const data = new FormData();
       store.dispatch<any>(uploadFile(data));
@@ -68,7 +68,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should fail with err --> upload file', async done => {
+  it('should fail with err --> upload file', done => {
     moxios.withMock(() => {
       const data = new FormData();
       store.dispatch<any>(uploadFile(data));

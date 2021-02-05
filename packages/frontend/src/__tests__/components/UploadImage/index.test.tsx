@@ -12,7 +12,7 @@ describe('Testing Input component', () => {
       <UploadImage image={undefined} setImage={change} />
     );
     expect(component.find('img').length).toBe(1);
-    expect(component.find('label').length).toBe(1);
+    expect(component.find('span').length).toBe(1);
 
     component.unmount();
   });

@@ -54,6 +54,9 @@
       "plugins": [
         ["react-remove-properties", {"properties": ["data-test"]}]
       ]
+    },
+    "test": {
+      "plugins": ["@babel/plugin-transform-modules-commonjs"]
     }
   }
 }

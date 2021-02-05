@@ -44,48 +44,54 @@ export class OrderService extends BaseService {
   }
 
   async makeOrder(userId: string, orderedFor: OrderFor) {
-    const cart = await this.cartRepository.findById(userId);
-    const documents = cart!.documents.map(doc => doc);
-    const valid = ['Personal', 'University'];
+    try {
+      const role = orderedFor === 'Personal' ? 'worker' : 'administration';
+      const [cart, emails] = await Promise.all([
+        this.cartRepository.findById(userId),
+        this.getEmails(role),
+      ]);
+      const documents = cart!.documents.map(doc => doc);
+      const valid = ['Personal', 'University'];
 
-    if (!valid.includes(orderedFor)) {
-      this.returnResponse(HTTPCodes.BAD_REQUEST, {
-        errors: { useFor: 'Use for is not valid' },
-      });
-    }
+      if (!valid.includes(orderedFor)) {
+        return this.returnResponse(HTTPCodes.BAD_REQUEST, {
+          errors: { useFor: 'Use for is not valid' },
+        });
+      }
 
-    this.fileService.addFilesToDB(cart!.documents, userId);
+      this.fileService.addFilesToDB(cart!.documents, userId);
 
-    const total = cart!.totalCost;
+      const total = cart!.totalCost;
 
-    const order = await this.orderRepository
-      .createOrder({
+      const order = this.orderRepository.createOrder({
         documents,
         totalCost: total,
         orderedBy: userId,
         orderedFor,
         status: orderedFor === 'University' ? 'pending' : 'approved',
-      })
-      .save();
+      });
 
-    const role = orderedFor === 'Personal' ? 'worker' : 'administration';
+      cart!.documents = [];
+      cart!.totalCost = 0;
 
-    const emails = await this.getEmails(role);
+      await Promise.all([order.save(), cart?.save()]);
 
-    await this.emailService.sendEmail({
-      emails,
-      orderId: order._id,
-      type: orderedFor,
-    });
+      await this.emailService.sendEmail({
+        emails,
+        orderId: order._id,
+        type: orderedFor,
+      });
 
-    cart!.documents = [];
-    cart!.totalCost = 0;
-    await cart?.save();
-
-    return this.returnResponse(HTTPCodes.OK, {
-      cart: { documents: cart?.documents, totalCost: cart?.totalCost },
-      message: 'Order successful',
-    });
+      return this.returnResponse(HTTPCodes.OK, {
+        cart: { documents: cart?.documents, totalCost: cart?.totalCost },
+        message: 'Order successful',
+      });
+    } catch (error) {
+      return this.returnResponse(HTTPCodes.BAD_REQUEST, {
+        cart: { documents: [], totalCost: 0 },
+        message: 'Email not sent',
+      });
+    }
   }
 
   getOrders(user: Token, orderType: string): Aggregate<OrderAggregate[]> {

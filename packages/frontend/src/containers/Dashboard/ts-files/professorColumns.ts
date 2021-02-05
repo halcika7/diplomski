@@ -5,15 +5,15 @@ type Earnings = {
 
 export const earnings: Earnings[] = [
   {
-    heading: 'Total earnings',
+    heading: 'Total spending',
     name: 'total',
   },
   {
-    heading: 'Earnings from professors',
+    heading: 'Personal spending',
     name: 'user',
   },
   {
-    heading: 'Earnings from university',
+    heading: 'University spending',
     name: 'university',
   },
   {
@@ -42,11 +42,11 @@ export const orders: Orders[] = [
     name: 'orders',
   },
   {
-    heading: 'Total orders by professors',
+    heading: 'Total personal orders',
     name: 'usersOrders',
   },
   {
-    heading: 'Total orders by university',
+    heading: 'Total university orders',
     name: 'universityOrders',
   },
   {
@@ -54,11 +54,11 @@ export const orders: Orders[] = [
     name: 'completedOrders',
   },
   {
-    heading: 'Total completed orders for professors',
+    heading: 'Total completed personal orders',
     name: 'completedUser',
   },
   {
-    heading: 'Total completed orders for university',
+    heading: 'Total completed university orders',
     name: 'completedUniversity',
   },
   {
@@ -70,7 +70,7 @@ export const orders: Orders[] = [
     name: 'unpaid',
   },
   {
-    heading: 'Total unpaid orders by professors',
+    heading: 'Total unpaid personal orders',
     name: 'unpaidUser',
   },
 ];

@@ -31,7 +31,7 @@ describe('Testing Contact actions', () => {
     expect(store.getState().order.orders).toBeTruthy();
   });
 
-  it('should post order --- success', async done => {
+  it('should post order --- success', done => {
     moxios.withMock(() => {
       store.dispatch<any>(postOrder('Personal'));
       moxios.wait(() => {
@@ -44,7 +44,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should post order --- errors', async done => {
+  it('should post order --- errors', done => {
     moxios.withMock(() => {
       store.dispatch<any>(postOrder('Personal'));
       moxios.wait(() => {
@@ -62,7 +62,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should get orders --- success', async done => {
+  it('should get orders --- success', done => {
     moxios.withMock(() => {
       store.dispatch<any>(getOrders('completed'));
       moxios.wait(() => {
@@ -75,7 +75,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should get orders --- error', async done => {
+  it('should get orders --- error', done => {
     moxios.withMock(() => {
       store.dispatch<any>(getOrders('completed'));
       moxios.wait(() => {
@@ -88,7 +88,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should get order --- success', async done => {
+  it('should get order --- success', done => {
     moxios.withMock(() => {
       store.dispatch<any>(getOrder('id'));
       moxios.wait(() => {
@@ -116,7 +116,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should get order --- error', async done => {
+  it('should get order --- error', done => {
     moxios.withMock(() => {
       store.dispatch<any>(getOrder('id'));
       moxios.wait(() => {
@@ -131,7 +131,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should update order status --- success', async done => {
+  it('should update order status --- success', done => {
     store.dispatch<any>(
       setOrders([
         {
@@ -158,7 +158,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should update order status --- success', async done => {
+  it('should update order status --- success', done => {
     store.dispatch<any>(setOrders(null));
     store.dispatch<any>(
       setOrder({
@@ -186,7 +186,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should update order status --- error', async done => {
+  it('should update order status --- error', done => {
     store.dispatch<any>(
       setOrders([
         {

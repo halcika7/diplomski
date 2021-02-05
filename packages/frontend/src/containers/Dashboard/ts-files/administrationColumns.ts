@@ -5,7 +5,7 @@ type Earnings = {
 
 export const earnings: Earnings[] = [
   {
-    heading: 'Total earnings',
+    heading: 'Total spending',
     name: 'total',
   },
   {

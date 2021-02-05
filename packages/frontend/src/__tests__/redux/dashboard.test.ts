@@ -18,7 +18,7 @@ describe('Testing Contact actions', () => {
     moxios.uninstall();
   });
 
-  it('should get a dashboard', async done => {
+  it('should get a dashboard', done => {
     moxios.withMock(() => {
       store.dispatch<any>(getDashboard('admin'));
       moxios.wait(() => {
@@ -31,7 +31,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should fire updateChartEarningByMonths', async done => {
+  it('should fire updateChartEarningByMonths', done => {
     moxios.withMock(() => {
       store.dispatch<any>(
         updateChartEarningByMonths(2020, { orderedFor: null, status: null })
@@ -46,7 +46,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should fire updateChartEarningByMonth', async done => {
+  it('should fire updateChartEarningByMonth', done => {
     moxios.withMock(() => {
       store.dispatch<any>(
         updateChartEarningByMonth(2020, 1, { orderedFor: null, status: null })
@@ -61,7 +61,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should fire updateChartOrdersByMonths', async done => {
+  it('should fire updateChartOrdersByMonths', done => {
     moxios.withMock(() => {
       store.dispatch<any>(
         updateChartOrdersByMonths(2020, { orderedFor: null, status: null })
@@ -76,7 +76,7 @@ describe('Testing Contact actions', () => {
     });
   });
 
-  it('should fire updateChartOrdersByMonth', async done => {
+  it('should fire updateChartOrdersByMonth', done => {
     moxios.withMock(() => {
       store.dispatch<any>(
         updateChartOrdersByMonth(2020, 1, { orderedFor: null, status: null })
