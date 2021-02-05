@@ -5,9 +5,18 @@ import Table from '@components/DataTables';
 import { Provider } from 'react-redux';
 import { store } from '@store';
 import { act } from 'react-dom/test-utils';
+import { axios } from '@axios';
+import moxios from 'moxios';
 
 describe('Testing Paper component', () => {
-  it('should render Paper', () => {
+  beforeEach(() => {
+    moxios.install(axios as any);
+  });
+
+  afterEach(() => {
+    moxios.uninstall();
+  });
+  it('should render Paper', async () => {
     const component = mount(
       <Provider store={store}>
         <Paper
@@ -52,14 +61,25 @@ describe('Testing Paper component', () => {
       </Provider>
     );
 
-    act(() => {
+    await act(async () => {
       component.find('button').at(0).simulate('click');
       component.find(Table).find('tbody tr td').at(1).simulate('click');
+      await new Promise(resolve => setTimeout(() => resolve(true), 100));
+      component.update();
+
       component
         .find(Table)
         .find('tbody tr td')
         .at(1)
-        .simulate('change', { value: '21432' });
+        .simulate('change', { value: 49 });
+      component.find('.edit-text').simulate('keyDown', { keyCode: 13 });
+      await new Promise(resolve => setTimeout(() => resolve(true), 100));
+      component.update();
+
+      component.find(Table).find('tbody tr td').at(1).simulate('click');
+      component.find('.edit-text').simulate('keyDown', { keyCode: 48 });
+      component.find('.edit-text').simulate('keyDown', { keyCode: 13 });
+      await new Promise(resolve => setTimeout(() => resolve(true), 2100));
       component.update();
 
       component.find('button').at(0).simulate('click');

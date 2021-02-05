@@ -7,6 +7,8 @@ import {
   getPaperBindings,
   getPapers,
   getBindings,
+  resetBindingErrors,
+  resetPaperErrors,
 } from '@actions';
 import { axios } from '@axios';
 import { store } from '@store';
@@ -99,6 +101,8 @@ describe('Testing Contact actions', () => {
           .respondWith({ status: 200, response: { message: 'message' } })
           .then(() => {
             expect(req.url).toBe('/pricing/paper');
+            store.dispatch<any>(resetBindingErrors);
+            store.dispatch<any>(resetPaperErrors);
             done();
           });
       });

@@ -12,7 +12,6 @@ describe('Testing Input component', () => {
       <UploadImage image={undefined} setImage={change} />
     );
     expect(component.find('img').length).toBe(1);
-    expect(component.find('span').length).toBe(1);
 
     component.unmount();
   });
@@ -20,9 +19,9 @@ describe('Testing Input component', () => {
   it('should render disabled input', async () => {
     const mock = new MockFile();
     const file = mock.create('image/png');
-    const component = mount(<UploadImage image={file} setImage={change} />);
 
     await act(async () => {
+      const component = mount(<UploadImage image={file} setImage={change} />);
       component.update();
 
       await new Promise(resolve => {
@@ -41,14 +40,14 @@ describe('Testing Input component', () => {
     });
   });
 
-  it('should render disabled input', async () => {
+  it('should render disabled input', () => {
     const mock = new MockFile();
     const file = mock.create('fhudsihf');
     const component = mount(
       <UploadImage image={undefined} setImage={change} />
     );
 
-    await act(async () => {
+    act(() => {
       component.find('input').simulate('change', {
         target: { files: null, value: 'oidsfjods\\sdoifjo.pdf' },
       });

@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable no-param-reassign */
-// const { alias, configPaths } = require('react-app-rewire-alias');
 const path = require('path');
 
 module.exports = {
@@ -9,17 +8,25 @@ module.exports = {
       ...config.alias,
       '@axios': path.resolve(__dirname, 'src/library/axios'),
       '@decode': path.resolve(__dirname, 'src/library/decode'),
-      '@actions': path.resolve(__dirname, 'src/redux/actions/index'),
+      '@actions': path.resolve(__dirname, 'src/redux/actions/index.ts'),
       '@images/*': path.resolve(__dirname, 'src/assets/img/*'),
       '@components/*': path.resolve(__dirname, 'src/components/*'),
       '@containers/*': path.resolve(__dirname, 'src/containers/*'),
       '@reducers/*': path.resolve(__dirname, 'src/redux/reducers/*'),
       '@dispatch': path.resolve(__dirname, 'src/redux/AppThunkDispatch'),
-      '@store': path.resolve(__dirname, 'src/redux/index'),
+      '@store': path.resolve(__dirname, 'src/redux/index.ts'),
     };
     return config;
   },
   jest: config => {
+    config.coverageThreshold = {
+      global: {
+        branches: 85,
+        functions: 90,
+        lines: 90,
+        statements: 90,
+      },
+    };
     config.snapshotSerializers = ['enzyme-to-json/serializer'];
     config.collectCoverageFrom = [
       '!src/service-worker.ts',
@@ -27,6 +34,7 @@ module.exports = {
       '!src/reportWebVitals.ts',
       '!src/serviceWorkerRegistration.ts',
       '!src/index.tsx',
+      '!src/App.tsx',
       '!src/routes/**',
       '!src/library/axios.ts',
       '!src/redux/types/**',

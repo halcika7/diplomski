@@ -3,8 +3,7 @@ import { mount } from 'enzyme';
 import Order from '@containers/Order';
 import { Provider } from 'react-redux';
 import { store } from '@store';
-import { Router } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
+import { BrowserRouter } from 'react-router-dom';
 import { axios } from '@axios';
 import moxios from 'moxios';
 import { setOrder, setOrderMessage } from '@actions';
@@ -13,14 +12,14 @@ import { act } from 'react-dom/test-utils';
 describe('Testing Login index', () => {
   it('should render Login container', async () => {
     moxios.install(axios as any);
-    const history = createBrowserHistory();
+
     const comp = mount(
       <Provider store={store}>
-        <Router history={history as any}>
+        <BrowserRouter history={history as any}>
           <Suspense fallback={null}>
             <Order />
           </Suspense>
-        </Router>
+        </BrowserRouter>
       </Provider>
     );
 
@@ -31,14 +30,14 @@ describe('Testing Login index', () => {
 
   it('should render Login container', async () => {
     moxios.install(axios as any);
-    const history = createBrowserHistory();
+
     const comp = mount(
       <Provider store={store}>
-        <Router history={history as any}>
+        <BrowserRouter>
           <Suspense fallback={null}>
             <Order role="worker" />
           </Suspense>
-        </Router>
+        </BrowserRouter>
       </Provider>
     );
 
@@ -64,14 +63,14 @@ describe('Testing Login index', () => {
 
   it('should render Login container', async () => {
     moxios.install(axios as any);
-    const history = createBrowserHistory();
+
     const comp = mount(
       <Provider store={store}>
-        <Router history={history as any}>
+        <BrowserRouter>
           <Suspense fallback={null}>
             <Order role="worker" />
           </Suspense>
-        </Router>
+        </BrowserRouter>
       </Provider>
     );
 
@@ -97,14 +96,14 @@ describe('Testing Login index', () => {
 
   it('should render Login container', async () => {
     moxios.install(axios as any);
-    const history = createBrowserHistory();
+
     const comp = mount(
       <Provider store={store}>
-        <Router history={history as any}>
+        <BrowserRouter>
           <Suspense fallback={null}>
             <Order role="administration" />
           </Suspense>
-        </Router>
+        </BrowserRouter>
       </Provider>
     );
 
@@ -133,14 +132,14 @@ describe('Testing Login index', () => {
 
   it('should render Login container', async () => {
     moxios.install(axios as any);
-    const history = createBrowserHistory();
+
     const comp = mount(
       <Provider store={store}>
-        <Router history={history as any}>
+        <BrowserRouter>
           <Suspense fallback={null}>
             <Order role="administration" />
           </Suspense>
-        </Router>
+        </BrowserRouter>
       </Provider>
     );
 

@@ -46,6 +46,9 @@ export {
   resetBindingErrors,
   resetPaperErrors,
   setPaperBindings,
+  setPaperBindingResponse,
+  setBindingErrors,
+  setPaperErrors,
 } from './paperBinding';
 export { getFiles, setFiles } from './file';
 export {

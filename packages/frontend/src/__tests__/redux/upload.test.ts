@@ -1,4 +1,4 @@
-import { getPapersBindings, uploadFile } from '@actions';
+import { getPapersBindings, uploadFile, resetUploadStatus } from '@actions';
 import { axios } from '@axios';
 import { store } from '@store';
 import moxios from 'moxios';
@@ -34,6 +34,7 @@ describe('Testing Contact actions', () => {
       moxios.wait(() => {
         const req = moxios.requests.mostRecent();
         req.respondWith({ status: 200, response: { cart: [] } }).then(() => {
+          store.dispatch<any>(resetUploadStatus);
           expect(req.url).toBe('/upload/');
           done();
         });

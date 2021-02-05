@@ -3,8 +3,7 @@ import { mount } from 'enzyme';
 import Dashboard from '@containers/Dashboard/Dashboard';
 import { Provider } from 'react-redux';
 import { store } from '@store';
-import { Router } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
+import { BrowserRouter } from 'react-router-dom';
 import { axios } from '@axios';
 import moxios from 'moxios';
 import { authSuccess, getDashboard } from '@actions';
@@ -12,7 +11,7 @@ import { authSuccess, getDashboard } from '@actions';
 describe('Testing Login index', () => {
   it('should render Login container', async () => {
     moxios.install(axios as any);
-    const history = createBrowserHistory();
+
     store.dispatch(
       authSuccess(
         'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE2MDgzMDkzMzAsImV4cCI6MTYzOTg0NTMzMCwiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoiIiwicm9sZSI6ImFkbWluIn0.OlIaqIjlM-Dls2egQnpMqOiPHk0kov-5Oms7Rsi4bVM'
@@ -20,11 +19,11 @@ describe('Testing Login index', () => {
     );
     const comp = mount(
       <Provider store={store}>
-        <Router history={history}>
+        <BrowserRouter>
           <Suspense fallback={null}>
             <Dashboard />
           </Suspense>
-        </Router>
+        </BrowserRouter>
       </Provider>
     );
 
@@ -42,7 +41,7 @@ describe('Testing Login index', () => {
 
   it('should render Login container', async () => {
     moxios.install(axios as any);
-    const history = createBrowserHistory();
+
     store.dispatch(
       authSuccess(
         'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE2MDgzMDkzMzAsImV4cCI6MTYzOTg0NTMzMCwiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoiIiwicm9sZSI6IndvcmtlciJ9.DCcNBqavBBit7A8tuJCnKWFkxKShyaoyu5SQseWWy7o'
@@ -50,11 +49,11 @@ describe('Testing Login index', () => {
     );
     const comp = mount(
       <Provider store={store}>
-        <Router history={history}>
+        <BrowserRouter>
           <Suspense fallback={null}>
             <Dashboard />
           </Suspense>
-        </Router>
+        </BrowserRouter>
       </Provider>
     );
 
@@ -72,7 +71,6 @@ describe('Testing Login index', () => {
 
   it('should render Login container', async () => {
     moxios.install(axios as any);
-    const history = createBrowserHistory();
 
     store.dispatch(
       authSuccess(
@@ -81,11 +79,11 @@ describe('Testing Login index', () => {
     );
     const comp = mount(
       <Provider store={store}>
-        <Router history={history}>
+        <BrowserRouter>
           <Suspense fallback={null}>
             <Dashboard />
           </Suspense>
-        </Router>
+        </BrowserRouter>
       </Provider>
     );
 
@@ -103,7 +101,7 @@ describe('Testing Login index', () => {
 
   it('should render Login container', async () => {
     moxios.install(axios as any);
-    const history = createBrowserHistory();
+
     store.dispatch(
       authSuccess(
         'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE2MDgzMDkzMzAsImV4cCI6MTYzOTg0NTMzMCwiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoiIiwicm9sZSI6ImFkbWluaXN0cmF0aW9uIn0.NNHap6Y9oWv9OYuBOnKKVpVgSR2DEORfWnuY_EoSIH4'
@@ -111,11 +109,11 @@ describe('Testing Login index', () => {
     );
     const comp = mount(
       <Provider store={store}>
-        <Router history={history}>
+        <BrowserRouter>
           <Suspense fallback={null}>
             <Dashboard />
           </Suspense>
-        </Router>
+        </BrowserRouter>
       </Provider>
     );
 
@@ -133,15 +131,15 @@ describe('Testing Login index', () => {
 
   it('should render Login container', async () => {
     moxios.install(axios as any);
-    const history = createBrowserHistory();
+
     store.dispatch(authSuccess(''));
     const comp = mount(
       <Provider store={store}>
-        <Router history={history}>
+        <BrowserRouter>
           <Suspense fallback={null}>
             <Dashboard />
           </Suspense>
-        </Router>
+        </BrowserRouter>
       </Provider>
     );
 

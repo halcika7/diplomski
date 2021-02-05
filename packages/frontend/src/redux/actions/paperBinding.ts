@@ -62,7 +62,7 @@ export const getBindings = async (dispatch: AppThunkDispatch) => {
   dispatch(setBindings(data.bindings));
 };
 
-const setPaperBindingResponse = (
+export const setPaperBindingResponse = (
   message: string,
   status: number | null
 ): PaperBindingActionTypes => ({
@@ -102,7 +102,7 @@ export const updatePaperBindingAvailability = (
   dispatch(setPaperBindingResponse(data.message, status));
 };
 
-const setBindingErrors = (
+export const setBindingErrors = (
   payload: Partial<BindingErrors>
 ): PaperBindingActionTypes => ({
   type: PaperBindingActions.SET_BINDING_ERRORS,
@@ -127,7 +127,7 @@ export const addBinding = (postData: AddBindingBody) => async (
   }
 };
 
-const setPaperErrors = (
+export const setPaperErrors = (
   payload: Partial<PaperErrors>
 ): PaperBindingActionTypes => ({
   type: PaperBindingActions.SET_PAPER_ERRORS,
