@@ -2,7 +2,7 @@
 import { useState, memo } from 'react';
 
 // components
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 // hooks
 import { useThunkDispatch } from '../../redux/AppThunkDispatch';
@@ -25,11 +25,23 @@ const reduxProps = createSelector(
   (name, picture) => ({ name, picture })
 );
 
+const getName = (path: string) => {
+  const str = path.split('/')[1] as string;
+  return str
+    .split('-')
+    .map((v: string) => {
+      return v[0].toUpperCase() + v.slice(1);
+    })
+    .join(' ');
+};
+
 const Navbar = ({ role }: Props) => {
   const dispatch = useThunkDispatch();
   const { name, picture } = useSelector(reduxProps);
   const [unseenNotifications, setUn] = useState(0);
   const [, setShowNotifications] = useState(false);
+  const { pathname } = useLocation();
+  const locationName = getName(pathname);
 
   const toggleSidebar = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -69,8 +81,8 @@ const Navbar = ({ role }: Props) => {
               <span className="navbar-toggler-bar bar3" />
             </button>
           </div>
-          <Link to="/" className="navbar-brand">
-            Dashboard
+          <Link to={pathname} className="navbar-brand">
+            {locationName}
           </Link>
         </div>
         <button
