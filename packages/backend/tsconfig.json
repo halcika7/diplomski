@@ -4,7 +4,6 @@
     "outDir": "dist",
     "baseUrl": ".",
     "lib": ["es2019"],
-    "typeRoots": ["./src/*.types", "./node_modules/@types"],
     "paths": {
       "@env": ["src/configs/index"],
       "@config/*": ["src/configs/*"],

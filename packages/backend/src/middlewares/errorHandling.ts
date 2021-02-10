@@ -3,7 +3,7 @@ import { Logger, LoggerFactory } from '@logger';
 import { HTTPCodes, HttpException } from '@job/common';
 
 export const errorHandle = (
-  error: Error,
+  error: Error | HttpException,
   _: Request,
   res: Response,
   __: NextFunction

@@ -1,21 +1,14 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable no-param-reassign */
-const path = require('path');
+const { alias, configPaths } = require('react-app-rewire-alias');
 
 module.exports = {
-  resolve: config => {
-    config.alias = {
-      ...config.alias,
-      '@axios': path.resolve(__dirname, 'src/library/axios'),
-      '@decode': path.resolve(__dirname, 'src/library/decode'),
-      '@actions': path.resolve(__dirname, 'src/redux/actions/index.ts'),
-      '@images/*': path.resolve(__dirname, 'src/assets/img/*'),
-      '@components/*': path.resolve(__dirname, 'src/components/*'),
-      '@containers/*': path.resolve(__dirname, 'src/containers/*'),
-      '@reducers/*': path.resolve(__dirname, 'src/redux/reducers/*'),
-      '@dispatch': path.resolve(__dirname, 'src/redux/AppThunkDispatch'),
-      '@store': path.resolve(__dirname, 'src/redux/index.ts'),
-    };
+  webpack: (config, env) => {
+    alias({
+      ...configPaths('tsconfig.paths.json'),
+    })(config);
+
     return config;
   },
   jest: config => {
@@ -34,6 +27,8 @@ module.exports = {
       '!src/reportWebVitals.ts',
       '!src/serviceWorkerRegistration.ts',
       '!src/index.tsx',
+      '!src/containers/Profile/**',
+      '!src/containers/AddOrder/**',
       '!src/App.tsx',
       '!src/routes/**',
       '!src/library/axios.ts',

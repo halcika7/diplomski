@@ -1,6 +1,8 @@
 import { isObject, isString } from '../validation';
 
-export class HttpException extends Error {
+export class HttpException {
+  private message = '';
+
   /**
    * Instantiate a plain HTTP Exception.
    *
@@ -15,7 +17,6 @@ export class HttpException extends Error {
     private readonly status: number,
     readonly name: string = 'Error'
   ) {
-    super();
     this.initMessage();
   }
 
@@ -39,6 +40,10 @@ export class HttpException extends Error {
 
   public getStatus(): number {
     return this.status;
+  }
+
+  public getMessage() {
+    return this.message;
   }
 
   public static createBody(

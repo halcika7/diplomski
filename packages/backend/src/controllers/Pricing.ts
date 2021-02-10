@@ -60,7 +60,7 @@ export class PricingController extends BaseController {
     return this.sendResponse(res, status, { message });
   }
 
-  @Patch('/:type/:available/:id')
+  @Patch('/:type/:available/:id', authMiddleware(['admin', 'worker']))
   async changePaperBidingAvailability(
     @Res() res: Response,
     @Param('type') type: PaperBinding,

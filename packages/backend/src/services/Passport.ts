@@ -61,9 +61,9 @@ export class PassportService extends BaseService {
         return done(undefined, userAdded);
       }
 
-      return done(undefined, user);
+      return done(undefined, user as UserInterface);
     } catch (error) {
-      return done(error.message, null);
+      return done(error.message, undefined);
     }
   }
 
@@ -93,11 +93,11 @@ export class PassportService extends BaseService {
   }
 }
 
-passport.serializeUser((user: UserInterface, done) => done(null, user._id));
+passport.serializeUser((user: any, done) => done(null, user._id));
 
 passport.deserializeUser(async (id, done) => {
   const user = await User.findById(id);
-  return done(null, user);
+  return done(null, user as UserInterface);
 });
 
 passport.use(

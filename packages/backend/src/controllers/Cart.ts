@@ -15,7 +15,7 @@ export class CartController extends BaseController {
   }
 
   @Get('/', authMiddleware(['professor']))
-  async fetCart(@Res() res: Response, @Req() req: RequestUser) {
+  async fetchCart(@Res() res: Response, @Req() req: RequestUser) {
     const cart = await this.cartService.getOrCreateCart(req.user.id);
 
     return this.sendResponse(res, HTTPCodes.OK, { cart });

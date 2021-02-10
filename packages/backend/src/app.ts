@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { RedisService } from '@service/Redis';
 
 import express, {
@@ -57,9 +58,12 @@ class App {
     this.app = express();
 
     this.setAppMiddlewares();
-    this.setCsrf();
 
-    connect(db.MONGO_URI);
+    if (environment !== 'test') {
+      this.setCsrf();
+    }
+
+    connect(environment !== 'test' ? db.MONGO_URI : db.MONGO_URI_TEST);
   }
 
   private setAppMiddlewares(): void {
@@ -67,7 +71,7 @@ class App {
 
     const RedisStore = connectRedis(session);
 
-    this.app.use([
+    const middlewares = [
       session({
         store: new RedisStore({ client: RedisService.client }),
         secret: cookie.COOKIE_SECRET,
@@ -82,7 +86,6 @@ class App {
         name: 'ses',
         proxy: environment === 'production',
       }),
-      csrf({ cookie: false }),
       passport.initialize(),
       hpp(),
       helmet(),
@@ -91,7 +94,13 @@ class App {
       urlencoded({ extended: false, limit: '1kb', parameterLimit: 10 }),
       cors({ origin: url, credentials: true }),
       cookieparser(),
-    ]);
+    ];
+
+    if (environment !== 'test') {
+      middlewares.push(csrf({ cookie: false }));
+    }
+
+    this.app.use(middlewares);
 
     this.app.get(
       '/api/auth/google',
@@ -113,18 +122,20 @@ class App {
     });
   }
 
-  public start(): void {
-    // eslint-disable-next-line max-params
-    this.app.use(
-      (err: Error | any, __: Request, res: Response, next: NextFunction) => {
-        if (err.code !== 'EBADCSRFTOKEN') return next(err);
+  public start() {
+    if (environment !== 'test') {
+      // eslint-disable-next-line max-params
+      this.app.use(
+        (err: Error | any, __: Request, res: Response, next: NextFunction) => {
+          if (err.code !== 'EBADCSRFTOKEN') return next(err);
 
-        return res.status(403).json({
-          message:
-            'Someone tempered this request. CSRF token was not provided.',
-        });
-      }
-    );
+          return res.status(403).json({
+            message:
+              'Someone tempered this request. CSRF token was not provided.',
+          });
+        }
+      );
+    }
 
     this.server = new InversifyExpressServer(
       container,
@@ -137,7 +148,7 @@ class App {
 
     const appConfigured = this.server.build();
 
-    appConfigured.listen(this.port, () => {
+    return appConfigured.listen(this.port, () => {
       this.logger.info(
         `App is running at http://localhost:${this.port} in ${this.env} mode.`,
         'this.app.listen'

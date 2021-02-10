@@ -93,12 +93,6 @@ export class UserController extends BaseController {
     try {
       const user = await this.userService.getUserToEdit(id);
 
-      if (!user) {
-        return this.sendResponse(res, HTTPCodes.NOT_FOUND, {
-          message: 'User not found',
-        });
-      }
-
       return this.sendResponse(res, HTTPCodes.OK, { user });
     } catch (error) {
       return this.sendResponse(res, HTTPCodes.NOT_FOUND, {

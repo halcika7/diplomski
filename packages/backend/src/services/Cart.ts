@@ -41,7 +41,7 @@ export class CartService extends BaseService {
 
   async updateCart(updateData: Document, userId: string) {
     const cart = await this.cartRepository.findById(userId);
-    cart!.documents.push(updateData);
+    cart!.documents.push(updateData as any);
     cart!.totalCost = this.getTotal(cart!.documents);
 
     return cart?.save();

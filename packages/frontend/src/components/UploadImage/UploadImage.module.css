@@ -3,7 +3,6 @@
 }
 
 img.removed {
-  cursor: pointer;
   width: 100%;
 }
 
@@ -26,10 +25,9 @@ img.default {
   top: 5px;
   font-weight: 800;
   cursor: pointer;
-  background-color: transparent;
   border: none;
   outline: none;
-  color: #fff;
+  color: #111;
   font-size: 3rem;
 }
 
@@ -38,5 +36,7 @@ img.default {
 }
 
 .label img {
+  height: auto;
   max-width: 280px;
+  max-height: 300px;
 }

@@ -96,6 +96,10 @@ export class UploadService extends BaseService {
       ? await this.documentService.getPageCount(pdfPath)
       : 0;
 
+    if (typeof pages === 'string') {
+      return { err: pages };
+    }
+
     const {
       errors,
       binding,

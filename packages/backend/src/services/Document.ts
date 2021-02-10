@@ -56,23 +56,30 @@ export class DocumentService {
           return resolve(numPages);
         },
         () => {
-          reject(new Error('File rejected'));
+          reject(Error('File rejected'));
         }
       );
     });
   }
 
-  getPageCount(filePath: string) {
-    const extension = path.extname(filePath).toLowerCase();
+  async getPageCount(filePath: string) {
+    try {
+      const extension = path.extname(filePath).toLowerCase();
 
-    if (extension === '.pdf') {
-      return this.getPDFPageCount(filePath);
+      if (extension === '.pdf') {
+        const pages = await this.getPDFPageCount(filePath);
+        return pages;
+      }
+
+      if (extension === '.docx') {
+        const pages = await this.getDocxPageCount(filePath);
+        return pages;
+      }
+
+      throw new BadRequestException('Extension not supported');
+    } catch (err) {
+      if (err.message) return err.message as string;
+      return 'Invalid Document';
     }
-
-    if (extension === '.docx') {
-      return this.getDocxPageCount(filePath);
-    }
-
-    throw new BadRequestException('Extension not supported');
   }
 }

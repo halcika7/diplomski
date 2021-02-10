@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import { useRef, useState, ChangeEvent, FC, useEffect } from 'react';
 import * as React from 'react';
 import classes from './UploadImage.module.css';
@@ -18,7 +19,7 @@ interface Props {
   setImage: (val: File | undefined) => void;
 }
 
-const UploadImage: FC<Props> = ({ setImage, image }) => {
+const UploadImage: FC<Props> = ({ setImage, image }): JSX.Element => {
   const img = useRef<HTMLImageElement>(null);
   const input = useRef<HTMLInputElement>(null);
   const [Image, SetImage] = useState<string>(defaultImage);
@@ -58,13 +59,15 @@ const UploadImage: FC<Props> = ({ setImage, image }) => {
     <>
       <input
         type="file"
-        id="file1"
+        id="file"
+        name="file"
         ref={input}
         className={classes.file}
         onChange={uploadChange}
         accept="image/png,image/jpeg,image/gif,image/jpg"
+        disabled={!!image}
       />
-      <span className={classes.label}>
+      <label className={classes.label} htmlFor="file">
         <img
           ref={img}
           src={Image}
@@ -76,7 +79,7 @@ const UploadImage: FC<Props> = ({ setImage, image }) => {
         <button type="button" onClick={removePicture}>
           X
         </button>
-      </span>
+      </label>
     </>
   );
 };

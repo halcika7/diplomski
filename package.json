@@ -4,6 +4,10 @@
   "workspaces": {
     "packages": [
       "packages/*"
+    ],
+    "nohoist": [
+      "**/eslint-plugin-react",
+      "**/eslint-plugin-react/**"
     ]
   },
   "scripts": {
@@ -56,6 +60,6 @@
     "typescript": "^3.9.2"
   },
   "keywords": [],
-  "author": "",
+  "author": "Haris Beslic",
   "license": "ISC"
 }

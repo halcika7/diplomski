@@ -6,6 +6,7 @@ const GoogleLoginButton = () => (
   <a
     href={`${process.env.REACT_APP_BACKEND_URL}/auth/google`}
     className={classes.googleButton}
+    data-test-id="login"
   >
     <span className={classes.googleIcon}>
       <svg viewBox="0 0 366 372" xmlns="http://www.w3.org/2000/svg">

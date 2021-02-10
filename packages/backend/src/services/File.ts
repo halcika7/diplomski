@@ -59,34 +59,32 @@ export class FileService extends BaseService {
   }
 
   async getFilePrice({ body, paper, path, binding }: GetFilePrice) {
-    try {
-      const pages = await this.documentService.getPageCount(path);
-      const numberOfCopies = parseInt(body.copies, 10);
-      const printOption =
-        body.print === 'Black/White' ? 'blackWhitePrinting' : 'colorPrinting';
-      const paperPrice = this.paperService.getPaperPrice(
-        pages,
-        paper[printOption]
+    const pages = await this.documentService.getPageCount(path);
+
+    if (typeof pages === 'string') return { err: pages };
+
+    const numberOfCopies = parseInt(body.copies, 10);
+    const printOption =
+      body.print === 'Black/White' ? 'blackWhitePrinting' : 'colorPrinting';
+    const paperPrice = this.paperService.getPaperPrice(
+      pages,
+      paper[printOption]
+    );
+
+    let price = this.number.number(paperPrice * numberOfCopies);
+
+    if (body.binding) {
+      const additionalPrice = this.bindingService.getBindingPrice(
+        binding,
+        numberOfCopies,
+        pages
       );
-
-      let price = this.number.number(paperPrice * numberOfCopies);
-
-      if (body.binding) {
-        const additionalPrice = this.bindingService.getBindingPrice(
-          binding,
-          numberOfCopies,
-          pages
-        );
-        price += additionalPrice;
-      }
-      return {
-        pages,
-        price: parseFloat(this.number.getTwoDigitNumber(price)),
-      };
-    } catch (err) {
-      if (err.message) return { err: err.message };
-      return { err };
+      price += additionalPrice;
     }
+    return {
+      pages,
+      price: parseFloat(this.number.getTwoDigitNumber(price)),
+    };
   }
 
   async saveDocument(file: Express.Multer.File) {

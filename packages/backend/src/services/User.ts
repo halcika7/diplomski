@@ -46,16 +46,16 @@ export class UserService extends BaseService {
   }
 
   async changePhoto(file: Express.Multer.File, userId: string) {
-    const { buffer } = file;
     const error = this.validatePhoto(file);
-    if (error) {
-      return { error };
-    }
+
+    if (error) return { error };
+
     const user = await this.userRepository.findById(userId);
 
     let secure_url: string;
 
     try {
+      const { buffer } = file;
       secure_url = await this.cloudinaryService.uploadProfilePhoto(
         buffer,
         userId

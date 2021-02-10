@@ -51,7 +51,7 @@ export class UserRepository extends BaseRepository {
   }
 
   async getEmails(role: UserRole, id?: string): Promise<{ email: string }[]> {
-    const match = { role } as BooleanStringDictionary;
+    const match = { role, blocked: false } as BooleanStringDictionary;
 
     if (id) {
       match._id = id;
@@ -61,5 +61,10 @@ export class UserRepository extends BaseRepository {
       { $match: match },
       { $project: { _id: 0, email: 1 } },
     ]);
+  }
+
+  // only for testing purposes
+  async findByRole(role: UserRole) {
+    return User.findOne({ role });
   }
 }

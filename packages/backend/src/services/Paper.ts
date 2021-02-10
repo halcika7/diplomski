@@ -122,6 +122,9 @@ export class PaperService extends BaseService {
       black[`${key}`] = 1;
 
       if (!value || value <= 0) {
+        if (!errors.blackWhitePrinting) {
+          errors.blackWhitePrinting = {};
+        }
         errors.blackWhitePrinting[
           `${key}`
         ] = `Black/White print ${this.getResponse(key)}`;
@@ -132,12 +135,18 @@ export class PaperService extends BaseService {
       color[`${key}`] = 1;
 
       if (!value || value <= 0) {
+        if (!errors.colorPrinting) {
+          errors.colorPrinting = {};
+        }
         errors.colorPrinting[`${key}`] = `Color print ${this.getResponse(key)}`;
       }
     });
 
     Object.entries(black).forEach(([key, value]) => {
       if (!value) {
+        if (!errors.blackWhitePrinting) {
+          errors.blackWhitePrinting = {};
+        }
         errors.blackWhitePrinting[
           `${key}`
         ] = `Black/White print ${this.getResponse(key)}`;
@@ -146,6 +155,9 @@ export class PaperService extends BaseService {
 
     Object.entries(color).forEach(([key, value]) => {
       if (!value) {
+        if (!errors.colorPrinting) {
+          errors.colorPrinting = {};
+        }
         errors.colorPrinting[`${key}`] = `Color print ${this.getResponse(key)}`;
       }
     });

@@ -14,9 +14,13 @@ import {
   OrderType,
   UserRole,
   HTTPCodes,
+  BadRequestException,
 } from '@job/common';
+import { Configuration } from '@env';
 
 const { ObjectId } = Types;
+
+const { environment } = Configuration.appConfig;
 
 @Injectable()
 export class OrderService extends BaseService {
@@ -51,6 +55,14 @@ export class OrderService extends BaseService {
         this.getEmails(role),
       ]);
       const documents = cart!.documents.map(doc => doc);
+
+      if (!documents.length || cart!.totalCost <= 0) {
+        return this.returnResponse(HTTPCodes.BAD_REQUEST, {
+          cart: { documents: [], totalCost: 0 },
+          message: 'Cart is empty',
+        });
+      }
+
       const valid = ['Personal', 'University'];
 
       if (!valid.includes(orderedFor)) {
@@ -76,11 +88,13 @@ export class OrderService extends BaseService {
 
       await Promise.all([order.save(), cart?.save()]);
 
-      await this.emailService.sendEmail({
-        emails,
-        orderId: order._id,
-        type: orderedFor,
-      });
+      if (environment !== 'test') {
+        await this.emailService.sendEmail({
+          emails,
+          orderId: order._id,
+          type: orderedFor,
+        });
+      }
 
       return this.returnResponse(HTTPCodes.OK, {
         cart: { documents: cart?.documents, totalCost: cart?.totalCost },
@@ -116,33 +130,37 @@ export class OrderService extends BaseService {
   }
 
   async getOrder(user: Token, orderId: string) {
-    const order = await this.orderRepository.getOrder(orderId);
+    try {
+      const order = await this.orderRepository.getOrder(orderId);
 
-    if (!order) {
-      return this.returnResponseMessage(
-        HTTPCodes.BAD_REQUEST,
-        'Order was not found'
-      );
+      if (!order) {
+        return this.returnResponseMessage(
+          HTTPCodes.BAD_REQUEST,
+          'Order was not found'
+        );
+      }
+
+      const orderedById = this.getOrderedBy(order);
+      const { orderedFor } = order;
+
+      if (user.role === 'professor' && orderedById.toString() !== user.id) {
+        return this.returnResponseMessage(
+          HTTPCodes.BAD_REQUEST,
+          'This order is not ordered by you'
+        );
+      }
+
+      if (user.role === 'administration' && orderedFor !== 'University') {
+        return this.returnResponseMessage(
+          HTTPCodes.BAD_REQUEST,
+          'This order is not ordered for University purposes'
+        );
+      }
+
+      return this.returnResponse(HTTPCodes.OK, { order });
+    } catch (error) {
+      throw new BadRequestException('Order was not found');
     }
-
-    const orderedById = this.getOrderedBy(order);
-    const { orderedFor } = order;
-
-    if (user.role === 'professor' && orderedById.toString() !== user.id) {
-      return this.returnResponseMessage(
-        HTTPCodes.BAD_REQUEST,
-        'This order is not ordered by you'
-      );
-    }
-
-    if (user.role === 'administration' && orderedFor !== 'University') {
-      return this.returnResponseMessage(
-        HTTPCodes.BAD_REQUEST,
-        'This order is not ordered for University purposes'
-      );
-    }
-
-    return this.returnResponse(HTTPCodes.OK, { order });
   }
 
   private validateOrderStatus(order: OrderInterface, status: OrderType) {
@@ -168,46 +186,50 @@ export class OrderService extends BaseService {
     role: UserRole,
     rejectedBy?: string
   ) {
-    const order = await this.orderRepository.getOrder(id);
+    try {
+      const order = await this.orderRepository.getOrder(id);
 
-    if (!order) {
-      return this.returnResponseMessage(
-        HTTPCodes.BAD_REQUEST,
-        'Order was not found'
-      );
+      if (!order) {
+        return this.returnResponseMessage(
+          HTTPCodes.BAD_REQUEST,
+          'Order was not found'
+        );
+      }
+
+      const message = this.validateOrderStatus(order, status);
+
+      if (message) {
+        return this.returnResponseMessage(HTTPCodes.BAD_REQUEST, message);
+      }
+
+      order.status = status;
+
+      const orderedById = this.getOrderedBy(order);
+
+      const userId =
+        status === 'finished' || status === 'rejected' ? orderedById : '';
+
+      const rejected = status === 'rejected' ? rejectedBy : '';
+
+      const emails = await this.getEmails(role, userId);
+
+      if (status !== 'completed' && environment !== 'test') {
+        await Promise.all([
+          order.save(),
+          this.emailService.sendEmail({
+            emails,
+            orderId: order._id,
+            type: status,
+            rejected,
+          }),
+        ]);
+      } else {
+        await order.save();
+      }
+
+      return this.returnResponse(HTTPCodes.OK, { message: `Order ${status}` });
+    } catch (error) {
+      throw new BadRequestException('Order was not found');
     }
-
-    const message = this.validateOrderStatus(order, status);
-
-    if (message) {
-      return this.returnResponseMessage(HTTPCodes.BAD_REQUEST, message);
-    }
-
-    order.status = status;
-
-    const orderedById = this.getOrderedBy(order);
-
-    const userId =
-      status === 'finished' || status === 'rejected' ? orderedById : '';
-
-    const rejected = status === 'rejected' ? rejectedBy : '';
-
-    const emails = await this.getEmails(role, userId);
-
-    if (status !== 'completed') {
-      await Promise.all([
-        order.save(),
-        this.emailService.sendEmail({
-          emails,
-          orderId: order._id,
-          type: status,
-          rejected,
-        }),
-      ]);
-    } else {
-      await order.save();
-    }
-
-    return this.returnResponse(HTTPCodes.OK, { message: `Order ${status}` });
   }
 }

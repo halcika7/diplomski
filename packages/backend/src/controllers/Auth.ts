@@ -1,12 +1,14 @@
 import { Controller } from '@decorator/class';
 import { BaseController } from './Base';
 import { Get, Post } from '@decorator/method';
-import { Req, Res, Cookie } from '@decorator/param';
+import { Req, Res, Cookie, Body } from '@decorator/param';
 import { Request, Response } from 'express';
 import { CookieService } from '@service/Cookie';
 import { Configuration } from '@env';
 import { AuthService } from '@service/Auth';
-import { HTTPCodes } from '@job/common';
+import { HTTPCodes, NotFoundException, UserRole } from '@job/common';
+
+const { environment } = Configuration.appConfig;
 
 @Controller('/auth')
 export class AuthController extends BaseController {
@@ -14,6 +16,18 @@ export class AuthController extends BaseController {
 
   constructor(private readonly auth: AuthService) {
     super();
+  }
+
+  @Post('/test_login')
+  async loginTest(@Res() res: Response, @Body() body: { role: UserRole }) {
+    if (environment !== 'test') {
+      throw new NotFoundException();
+    }
+
+    const { status, refreshToken, ...rest } = await this.auth.login(body.role);
+
+    this.cookie.setRefreshToken(res, refreshToken || '');
+    return this.sendResponse(res, status, { ...rest });
   }
 
   @Post('/logout')
@@ -35,7 +49,7 @@ export class AuthController extends BaseController {
       );
 
       this.cookie.setRefreshToken(res, refreshToken || '');
-      return this.sendResponse(res, HTTPCodes.OK, { ...rest });
+      return this.sendResponse(res, status, { ...rest });
     } catch (error) {
       return this.sendResponse(res, HTTPCodes.UNAUTHORIZED, {});
     }
