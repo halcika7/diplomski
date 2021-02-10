@@ -52,7 +52,10 @@
   "env": {
     "production": {
       "plugins": [
-        ["react-remove-properties", {"properties": ["data-test", "data-test-id"]}]
+        [
+          "react-remove-properties",
+          { "properties": ["data-test", "data-test-id"] }
+        ]
       ]
     },
     "test": {
