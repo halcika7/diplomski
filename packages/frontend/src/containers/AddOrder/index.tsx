@@ -64,7 +64,6 @@ const AddOrder = () => {
       Number.isNaN(numberOfCopies) ||
       !validPrintOptions.includes(printOption) ||
       !upload.papers.includes(paperOption) ||
-      !upload.bindings.includes(bindingOption) ||
       !file ||
       uploading
     ) {

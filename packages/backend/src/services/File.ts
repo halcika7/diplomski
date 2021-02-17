@@ -24,7 +24,7 @@ const unLink = promisify(unlink);
 interface GetFilePrice {
   body: FileUploadBody;
   path: string;
-  binding: BindingInterface;
+  binding: BindingInterface | null;
   paper: PaperInterface;
 }
 
@@ -73,7 +73,7 @@ export class FileService extends BaseService {
 
     let price = this.number.number(paperPrice * numberOfCopies);
 
-    if (body.binding) {
+    if (body.binding && binding) {
       const additionalPrice = this.bindingService.getBindingPrice(
         binding,
         numberOfCopies,

@@ -23,7 +23,7 @@ export class JWTService {
   static verifyToken(token: string, refresh = false) {
     try {
       return jwt.verify(token, JWTService.getSecret(refresh));
-    } catch (error) {
+    } catch {
       throw new UnauthorizedException({ message: 'Invalid token...' });
     }
   }

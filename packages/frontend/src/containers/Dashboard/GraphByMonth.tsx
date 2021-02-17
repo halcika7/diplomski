@@ -48,7 +48,7 @@ const GraphByMonth: FC<Props> = ({ update, data }) => {
         <div className="row p-3">
           <div className="col-md-6 col-xl-3 mb-3">
             <Select
-              label="Select Year"
+              label="Year"
               value={selectedYear}
               change={setSelectedYear}
               values={years}
@@ -56,7 +56,7 @@ const GraphByMonth: FC<Props> = ({ update, data }) => {
           </div>
           <div className="col-md-6 col-xl-3 mb-3">
             <Select
-              label="Select Month"
+              label="Month"
               value={month}
               change={setMonth}
               valuesWithoutMap={months}
@@ -64,7 +64,7 @@ const GraphByMonth: FC<Props> = ({ update, data }) => {
           </div>
           <div className="col-md-6 col-xl-3 mb-3">
             <Select
-              label="Select Order Status"
+              label="Order Status"
               value={status}
               change={setStatus}
               values={statuses}
@@ -73,7 +73,7 @@ const GraphByMonth: FC<Props> = ({ update, data }) => {
           {role !== 'administration' && (
             <div className="col-md-6 col-xl-3 mb-3">
               <Select
-                label="Select Order Type"
+                label="Order Type"
                 value={orderFor}
                 change={setOrderFor}
                 valuesWithoutMap={orderedFor}

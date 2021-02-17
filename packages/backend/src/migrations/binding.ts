@@ -17,6 +17,14 @@ const bindings = [
     from100upTo150: 0.3,
     available: true,
   },
+  {
+    name: 'None',
+    upTo25: 0,
+    from25upTo50: 0,
+    from50upTo100: 0,
+    from100upTo150: 0,
+    available: true,
+  },
 ];
 
 export const binding = () => bindings.map(b => new Binding(b).save());

@@ -176,7 +176,7 @@ const setAddUserErrors = (payload: AddUserErrors): UserActionTypes => ({
 });
 
 export const resetAddUserErrors = (dispatch: AppThunkDispatch) =>
-  dispatch(setAddUserErrors({ email: '' }));
+  dispatch(setAddUserErrors({ email: '', role: '' }));
 
 export const addUser = (postData: { role: UserRole; email: string }) => async (
   dispatch: AppThunkDispatch

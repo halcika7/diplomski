@@ -27,8 +27,7 @@ const buttonFormatter = (role: UserRole, updateStatus: UpdateStatusAction) => (
       </Link>
     </button>
     {((role === 'administration' && row.status === 'pending') ||
-      ((role === 'worker' || role === 'admin') &&
-        row.status === 'approved')) && (
+      (role === 'worker' && row.status === 'approved')) && (
       <button
         className="btn btn-danger padding"
         data-toggle="tooltip"
@@ -41,8 +40,7 @@ const buttonFormatter = (role: UserRole, updateStatus: UpdateStatusAction) => (
       </button>
     )}
     {((role === 'administration' && row.status === 'pending') ||
-      ((role === 'worker' || role === 'admin') &&
-        row.status === 'approved')) && (
+      (role === 'worker' && row.status === 'approved')) && (
       <>
         <button
           className="btn btn-info padding"
@@ -59,7 +57,7 @@ const buttonFormatter = (role: UserRole, updateStatus: UpdateStatusAction) => (
         </button>
       </>
     )}
-    {(role === 'worker' || role === 'admin') && row.status === 'finished' && (
+    {role === 'worker' && row.status === 'finished' && (
       <button
         className="btn btn-success padding"
         data-toggle="tooltip"

@@ -104,6 +104,8 @@ export class UserController extends BaseController {
   @Post('/add', authMiddleware(['admin']))
   async addUser(@Res() res: Response, @Body() body: AddUserBody) {
     const { status, ...rest } = await this.userService.addUser(body);
+    console.log("🚀 ~ file: User.ts ~ line 107 ~ UserController ~ addUser ~ rest", rest)
+    console.log("🚀 ~ file: User.ts ~ line 107 ~ UserController ~ addUser ~ status", status)
 
     return this.sendResponse(res, status, { ...rest });
   }

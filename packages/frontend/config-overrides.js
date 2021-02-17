@@ -35,6 +35,7 @@ module.exports = {
       '!src/redux/types/**',
       '!src/redux/actions/index.ts',
       '!src/redux/index.ts',
+      '!src/components/Navbar/index.tsx',
     ];
     config.testPathIgnorePatterns = ['/node_modules/', '__mocks__'];
     config.transformIgnorePatterns = ['/node_modules/'];

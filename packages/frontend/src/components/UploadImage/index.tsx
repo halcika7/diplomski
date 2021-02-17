@@ -1,6 +1,13 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { useRef, useState, ChangeEvent, FC, useEffect } from 'react';
-import * as React from 'react';
+import {
+  useRef,
+  useState,
+  ChangeEvent,
+  FC,
+  useEffect,
+  MouseEvent as Event,
+  memo,
+} from 'react';
 import classes from './UploadImage.module.css';
 
 const defaultImage =
@@ -31,9 +38,7 @@ const UploadImage: FC<Props> = ({ setImage, image }): JSX.Element => {
     readFile(files[0], () => setImage(files[0]));
   };
 
-  const removePicture = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const removePicture = (e: Event<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     input.current!.value = '';
     img.current!.className = `${classes.default}`;
@@ -84,4 +89,4 @@ const UploadImage: FC<Props> = ({ setImage, image }): JSX.Element => {
   );
 };
 
-export default React.memo(UploadImage);
+export default memo(UploadImage);

@@ -19,7 +19,7 @@ const redux = createSelector(
 
 const AddUser = () => {
   const { errors, message, status } = useSelector(redux);
-  const [role, setRole] = useState<UserRole>('professor');
+  const [role, setRole] = useState<UserRole>('Professor' as UserRole);
   const [email, setEmail] = useState('');
   const [disabled, setDisabled] = useState<boolean>(false);
   const dispatch = useThunkDispatch();
@@ -36,7 +36,7 @@ const AddUser = () => {
     if (disabled) return;
     clearMessage();
     setDisabled(true);
-    dispatch(addUser({ role, email }));
+    dispatch(addUser({ role: role.toLowerCase() as UserRole, email }));
   };
 
   useEffect(() => {
@@ -81,7 +81,7 @@ const AddUser = () => {
         <div className="col-12">
           <div className="card min-height-75vh">
             <div className="card-header">
-              <h5 className="title">Add new Order</h5>
+              <h5 className="title">Add new User</h5>
             </div>
             <div className="card-body">
               <div className="row">
@@ -103,6 +103,7 @@ const AddUser = () => {
                     change={setRole}
                     label="Select User Role"
                     option="roles"
+                    error={errors.role}
                   />
                 </div>
                 <div className="col-12">

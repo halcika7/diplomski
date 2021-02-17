@@ -121,7 +121,7 @@ export class OrderService extends BaseService {
 
     const matchParam = {
       orderedBy: user.role === 'professor' ? new ObjectId(user.id) : null,
-      orderedFor: user.role === 'administration' ? user.role : null,
+      orderedFor: user.role === 'administration' ? 'University' : null,
       status,
       paid,
     };

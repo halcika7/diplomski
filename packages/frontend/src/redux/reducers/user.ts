@@ -14,6 +14,7 @@ export interface ProfileErrors {
 
 export interface AddUserErrors {
   email: string;
+  role: string;
 }
 
 export interface UserState {
@@ -41,7 +42,7 @@ export const INITIAL_STATE: UserState = {
   status: null,
   profileErrors: InitialProfileErrors,
   loading: true,
-  addUserErrors: { email: '' },
+  addUserErrors: { email: '', role: '' },
 };
 
 export function UserReducer(

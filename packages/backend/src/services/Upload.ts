@@ -66,10 +66,6 @@ export class UploadService extends BaseService {
       errors.paperOption = 'Paper Option is invalid';
     }
 
-    if (!bindingName) {
-      errors.bindingOption = 'Binding Option is invalid';
-    }
-
     if (!numberOfCopies) {
       errors.numberOfCopies = 'Number of copies is invalid';
     }
@@ -96,9 +92,7 @@ export class UploadService extends BaseService {
       ? await this.documentService.getPageCount(pdfPath)
       : 0;
 
-    if (typeof pages === 'string') {
-      return { err: pages };
-    }
+    if (typeof pages === 'string') return { err: pages };
 
     const {
       errors,
@@ -107,7 +101,7 @@ export class UploadService extends BaseService {
       foundFile,
     } = await this.fileUploadValidation(body, file, userId, pages);
 
-    if (errors || !binding || !paper) {
+    if (errors || !paper) {
       if (file) {
         this.fileService.removeFile(pdfPath);
       }
@@ -152,9 +146,7 @@ export class UploadService extends BaseService {
     );
 
     this.fileService.removeFile(pdfPath);
-    if (!foundFile) {
-      this.fileService.removeFile(zipPath);
-    }
+    if (!foundFile) this.fileService.removeFile(zipPath);
 
     return { cart };
   }

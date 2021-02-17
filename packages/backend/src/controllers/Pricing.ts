@@ -25,7 +25,7 @@ export class PricingController extends BaseController {
     super();
   }
 
-  @Get('/', authMiddleware(['professor']))
+  @Get('/', authMiddleware(['professor', 'administration']))
   async getPaperBindings(@Res() res: Response) {
     const [papers, bindings] = await this.pricingService.getPaperBindings();
 

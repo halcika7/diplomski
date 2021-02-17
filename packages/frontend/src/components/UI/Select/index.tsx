@@ -9,7 +9,7 @@ const options: { [key: string]: SelectType[] } = {
     { value: 'Worker', label: 'worker' },
     { value: 'Professor', label: 'professor' },
     { value: 'Administration', label: 'administration' },
-    { value: 'Super Admin', label: 'admin' },
+    { value: 'Admin', label: 'admin' },
   ],
   print: [
     { value: 'Color', label: 'Color' },

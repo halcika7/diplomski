@@ -38,19 +38,10 @@ export class PassportService extends BaseService {
         User.findOne({ email: profile._json.email, googleID: 'google' }),
       ]);
 
-      if (user?.blocked) {
-        return done(new Error('User blocked!'));
-      }
+      if (user?.blocked) return done(new Error('User blocked!'));
 
       if (!user && !userAdded) {
-        const newUser = await new User({
-          googleID: profile.id,
-          name: profile.displayName,
-          picture: profile._json.picture,
-          email: profile._json.email,
-          role: 'professor',
-        }).save();
-        return done(undefined, newUser);
+        return done('You ddo not have permission tto Sign In', undefined);
       }
 
       if (userAdded) {
@@ -62,8 +53,11 @@ export class PassportService extends BaseService {
       }
 
       return done(undefined, user as UserInterface);
-    } catch (error) {
-      return done(error.message, undefined);
+    } catch {
+      return done(
+        'Please enable sharing personal info such as "email, name an picture"',
+        undefined
+      );
     }
   }
 

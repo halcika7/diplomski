@@ -47,7 +47,7 @@ const EditUser: FC<Props> = ({ role }) => {
     e.preventDefault();
     if (isDisabled()) return;
 
-    dispatch(changeUserRole(newRole as UserRole, id));
+    dispatch(changeUserRole(newRole.toLowerCase() as UserRole, id));
   };
 
   const onChangeBlockStatus = (e: ChangeEvent<HTMLInputElement>) => {
@@ -96,6 +96,13 @@ const EditUser: FC<Props> = ({ role }) => {
           content="Edit User page in Print shop app"
         />
       </Helmet>
+      {message && (
+        <Alert
+          message={message}
+          clear={clearResponse}
+          className={status === 200 ? 'alert-success' : 'alert-danger'}
+        />
+      )}
       <div className="card min-height-75vh">
         <div className="card-header">
           <h5 className="title">{user.name} Profile</h5>
@@ -106,13 +113,6 @@ const EditUser: FC<Props> = ({ role }) => {
           </div>
         </div>
         <div className="card-body">
-          {message && (
-            <Alert
-              message={message}
-              clear={clearResponse}
-              className={status === 200 ? 'alert-success' : 'alert-danger'}
-            />
-          )}
           <div className="row mt-4">
             {inputs.map(({ className, label, name }) => (
               <div className={className} key={name}>
