@@ -42,6 +42,10 @@ import { promisify } from 'util';
 import { join } from 'path';
 
 const { cookie, environment, url, server, db } = Configuration.appConfig;
+console.log(
+  '🚀 ~ file: app.ts ~ line 45 ~ Configuration.appConfig',
+  Configuration.appConfig
+);
 
 const write = promisify(writeFile);
 const fileExists = promisify(access);
