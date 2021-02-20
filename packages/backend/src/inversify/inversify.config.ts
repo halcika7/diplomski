@@ -23,8 +23,6 @@ import { BindingService } from '@service/Binding';
 import { EmailService } from '@service/Email';
 import { DashboardService } from '@service/Dashboard';
 
-import { BindingInterface } from '@model/Binding/Binding';
-
 const container = new Container();
 
 container.bind<AuthService>(AuthService).toSelf().inSingletonScope();
