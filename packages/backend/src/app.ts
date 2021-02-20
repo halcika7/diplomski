@@ -37,8 +37,31 @@ import '@controller/Pricing';
 import '@controller/File';
 import '@controller/Dashboard';
 import { errorHandle } from './middlewares/errorHandling';
+import { writeFile, access } from 'fs';
+import { promisify } from 'util';
+import { join } from 'path';
 
 const { cookie, environment, url, server, db } = Configuration.appConfig;
+
+const write = promisify(writeFile);
+const fileExists = promisify(access);
+
+const keyFilename = join(__dirname, 'printshop-0684ed36281b.json');
+
+async function check() {
+  try {
+    await fileExists(keyFilename);
+  } catch (error) {
+    console.log('🚀 ~ file: app.ts ~ line 85 ~ check ~ error', error);
+    const buff = Buffer.from(process.env.GOOGLE_STORAGE as string, 'base64');
+    const text = buff.toString('utf-8');
+    await write(keyFilename, text);
+  }
+}
+
+if (environment === 'production') {
+  check();
+}
 
 class App {
   private readonly app: Application;

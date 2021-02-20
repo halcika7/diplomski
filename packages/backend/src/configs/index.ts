@@ -78,12 +78,9 @@ const {
   CLOUDINARY_CLOUD,
   CLOUDINARY_KEY,
   CLOUDINARY_SECRET,
+  SERVER_URL,
 } = process.env;
-
-const SERVER_URL =
-  NODE_ENV === 'production'
-    ? 'https://print-shop-api.herokuapp.com/api/auth/'
-    : 'http://localhost:5000/api/auth/';
+console.log('🚀 ~ file: index.ts ~ line 82 ~ NODE_ENV', NODE_ENV);
 
 export abstract class Configuration {
   static appConfig: AppConfig = {

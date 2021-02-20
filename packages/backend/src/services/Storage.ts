@@ -1,30 +1,7 @@
 import { BaseService } from './Base';
 import { Injectable } from '@decorator/class';
 import { Storage } from '@google-cloud/storage';
-import { basename, join } from 'path';
-import { Configuration } from '@env';
-import { writeFile, access } from 'fs';
-import { promisify } from 'util';
-
-const { environment } = Configuration.appConfig;
-const write = promisify(writeFile);
-const fileExists = promisify(access);
-
-const keyFilename = join(__dirname, '../../printshop-0684ed36281b.json');
-
-async function check() {
-  try {
-    await fileExists(keyFilename);
-  } catch (error) {
-    const buff = Buffer.from(process.env.GOOGLE_STORAGE as string, 'base64');
-    const text = buff.toString('utf-8');
-    await write(keyFilename, text);
-  }
-}
-
-if (environment === 'production') {
-  check();
-}
+import { join, basename } from 'path';
 
 @Injectable()
 export class StorageService extends BaseService {
@@ -36,7 +13,7 @@ export class StorageService extends BaseService {
     super();
     this.storage = new Storage({
       projectId: 'printshop',
-      keyFilename,
+      keyFilename: join(__dirname, 'printshop-0684ed36281b.json'),
     });
     this.filesBucket = this.storage.bucket('printshop-files');
   }
