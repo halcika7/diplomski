@@ -16,8 +16,9 @@ async function check() {
   try {
     await fileExists(keyFilename);
   } catch (error) {
-    console.log('🚀 ~ file: Storage.ts ~ line 35 ~ check ~ error', error);
-    await write(keyFilename, process.env.GOOGLE_STORAGE as string);
+    const buff = Buffer.from(process.env.GOOGLE_STORAGE as string, 'base64');
+    const text = buff.toString('utf-8');
+    await write(keyFilename, text);
   }
 }
 
