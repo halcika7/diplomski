@@ -82,7 +82,7 @@ const {
 
 const SERVER_URL =
   NODE_ENV === 'production'
-    ? 'https://polar-lake-39918.herokuapp.com/api/auth/'
+    ? 'https://print-shop-api.herokuapp.com/api/auth/'
     : 'http://localhost:5000/api/auth/';
 
 export abstract class Configuration {
