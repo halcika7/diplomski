@@ -42,7 +42,7 @@ export class EmailService {
 
     const msg = {
       to: emails,
-      from: 'test@example.com',
+      from: 'halcika_7@hotmail.com',
       subject,
       html: pug.renderFile(filePath, { orderId, URL, text }),
     };

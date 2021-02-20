@@ -1,13 +1,16 @@
 /* eslint-disable no-useless-constructor */
-import redis, { RedisClient } from 'redis';
+import redis, { RedisClient, ClientOpts } from 'redis';
+import { Configuration } from '@env';
+
+const { environment, server } = Configuration.appConfig;
 
 export class RedisService {
   private static readonly REDIS_PORT =
-    process.env.NODE_ENV === 'production'
-      ? parseInt(process.env.REDIS_PORT as string, 10)
-      : 6379;
+    environment === 'production' ? server.REDIS_URL : 6379;
 
-  private static readonly _client = redis.createClient(RedisService.REDIS_PORT);
+  private static readonly _client = redis.createClient(
+    RedisService.REDIS_PORT as ClientOpts
+  );
 
   private constructor() {}
 

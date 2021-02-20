@@ -4,7 +4,7 @@ config();
 
 interface ServerConfig {
   PORT: number;
-  REDIS_PORT: number;
+  REDIS_URL: string;
 }
 
 interface DbConfig {
@@ -65,7 +65,7 @@ const {
   LOGGING_ERROR_FILE_PATH,
   LOGGING_FILE_PATH,
   PORT,
-  REDIS_PORT,
+  REDIS_URL,
   COOKIE_KEY,
   COOKIE_SECRET,
   ACCESS_TOKEN_SECRET,
@@ -101,7 +101,7 @@ export abstract class Configuration {
     } as LoggingConfig,
     server: {
       PORT: parseInt(PORT as string, 10),
-      REDIS_PORT: parseInt(REDIS_PORT as string, 10),
+      REDIS_URL,
     } as ServerConfig,
     cookie: {
       COOKIE_KEY,
