@@ -80,7 +80,6 @@ const {
   CLOUDINARY_SECRET,
   SERVER_URL,
 } = process.env;
-console.log('🚀 ~ file: index.ts ~ line 82 ~ NODE_ENV', NODE_ENV);
 
 export abstract class Configuration {
   static appConfig: AppConfig = {

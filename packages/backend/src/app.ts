@@ -44,7 +44,7 @@ import { join } from 'path';
 const { cookie, environment, url, server, db } = Configuration.appConfig;
 console.log(
   '🚀 ~ file: app.ts ~ line 45 ~ Configuration.appConfig',
-  Configuration.appConfig
+  process.env
 );
 
 const write = promisify(writeFile);
@@ -59,6 +59,7 @@ async function check() {
     console.log('🚀 ~ file: app.ts ~ line 85 ~ check ~ error', error);
     const buff = Buffer.from(process.env.GOOGLE_STORAGE as string, 'base64');
     const text = buff.toString('utf-8');
+    console.log('🚀 ~ file: app.ts ~ line 62 ~ check ~ text', text);
     await write(keyFilename, text);
   }
 }
