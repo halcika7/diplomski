@@ -42,33 +42,20 @@ import { promisify } from 'util';
 import { join } from 'path';
 
 const { cookie, environment, url, server, db } = Configuration.appConfig;
-console.log(
-  '🚀 ~ file: app.ts ~ line 45 ~ Configuration.appConfig',
-  Configuration.appConfig
-);
-console.log(
-  '🚀 ~ file: app.ts ~ line 45 ~ Configuration.appConfig',
-  process.env
-);
 
 const write = promisify(writeFile);
 const fileExists = promisify(access);
 
-const keyFilename = join(__dirname, 'printshop-0684ed36281b.json');
+const keyFilename = join(__dirname, '../printshop-0684ed36281b.json');
+console.log('🚀 ~ file: app.ts ~ line 50 ~ keyFilename', keyFilename);
 
 async function check() {
   try {
     await fileExists(keyFilename);
   } catch (error) {
-    console.log('🚀 ~ file: app.ts ~ line 85 ~ check ~ error', error);
     const buff = Buffer.from(process.env.GOOGLE_STORAGE as string, 'base64');
     const text = buff.toString('utf-8');
-    console.log('🚀 ~ file: app.ts ~ line 62 ~ check ~ text', text);
-    try {
-      await write(keyFilename, text);
-    } catch (error) {
-      console.log('🚀 ~ file: app.ts ~ line 115 ~ check ~ error', error);
-    }
+    await write(keyFilename, text);
   }
 }
 

@@ -13,7 +13,7 @@ export class StorageService extends BaseService {
     super();
     this.storage = new Storage({
       projectId: 'printshop',
-      keyFilename: join(__dirname, 'printshop-0684ed36281b.json'),
+      keyFilename: join(__dirname, '../../printshop-0684ed36281b.json'),
     });
     this.filesBucket = this.storage.bucket('printshop-files');
   }
