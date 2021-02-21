@@ -124,6 +124,10 @@ class App {
     }
 
     this.app.use(middlewares);
+    this.app.use((_, res, next) => {
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      next();
+    });
 
     this.app.get(
       '/api/auth/google',
