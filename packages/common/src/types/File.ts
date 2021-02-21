@@ -3,6 +3,7 @@ export interface FileType {
   path: string;
   createdAt: Date;
   updatedAt: Date;
+  orderedFor: string;
 }
 
 export interface FileTypeFront extends FileType {

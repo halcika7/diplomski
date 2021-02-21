@@ -71,7 +71,7 @@ export class OrderService extends BaseService {
         });
       }
 
-      this.fileService.addFilesToDB(cart!.documents, userId);
+      this.fileService.addFilesToDB(cart!.documents, userId, orderedFor);
 
       const total = cart!.totalCost;
 

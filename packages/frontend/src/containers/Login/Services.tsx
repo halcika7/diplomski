@@ -1,4 +1,6 @@
 import { memo } from 'react';
+import img from '@images/graph.jpg';
+import classes from './index.module.css';
 
 const Services = () => (
   <div className="container-fluid whyus">
@@ -15,10 +17,7 @@ const Services = () => (
           <div className="card z-depth-4 h-100">
             <div className="card-body p-0 text-center">
               <div className="img">
-                <img
-                  src="https://www.itsnicethat.com/system/files/122018/5c1781db7fa44c5a800003ac/index_default/INT-ROTY-GraphicDesign-List.png?1545203083"
-                  alt=""
-                />
+                <img className={classes.img} src={img} alt="graph" />
               </div>
               <h4 className="h4 mt-3">Graphic Design</h4>
               <p className="font-size-12px mb-4">
@@ -32,6 +31,7 @@ const Services = () => (
             <div className="card-body p-0 text-center">
               <div className="img">
                 <img
+                  className={classes.img}
                   src="https://marketingdesdecero.com/wp-content/uploads/2018/11/Gestionar-emails-y-campa%C3%B1as-de-mailing-marketing-1024x820.jpg"
                   alt=""
                   height="171.84"
@@ -50,6 +50,7 @@ const Services = () => (
             <div className="card-body p-0 text-center">
               <div className="img">
                 <img
+                  className={classes.img}
                   src="https://www.alocalprinter.co.uk/media/wysiwyg/ALP/Non_Product_Page_Images/CMS_custom_print.jpg"
                   alt=""
                   height="171.84"
@@ -68,6 +69,7 @@ const Services = () => (
             <div className="card-body p-0 text-center">
               <div className="img">
                 <img
+                  className={classes.img}
                   src="https://static.printrunner.com/images/filecheckheader.jpg"
                   alt=""
                   height="171.84"

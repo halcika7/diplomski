@@ -1,4 +1,3 @@
-import { StorageService } from '@service/Storage';
 import { DocumentService } from '@service/Document';
 import { CartService } from '@service/Cart';
 import { FileService } from '@service/File';
@@ -17,8 +16,7 @@ export class UploadService extends BaseService {
     private readonly bindingRepository: BindingRepository,
     private readonly fileService: FileService,
     private readonly cartService: CartService,
-    private readonly documentService: DocumentService,
-    private readonly storageService: StorageService
+    private readonly documentService: DocumentService
   ) {
     super();
   }
@@ -130,9 +128,7 @@ export class UploadService extends BaseService {
         return { err };
       }
 
-      const path = !foundFile
-        ? await this.storageService.upload(zipPath)
-        : foundFile.path;
+      const path = zipPath.split('dist/')[1];
 
       const cart = await this.cartService.updateCart(
         {
@@ -147,11 +143,9 @@ export class UploadService extends BaseService {
       );
 
       this.fileService.removeFile(pdfPath);
-      if (!foundFile) this.fileService.removeFile(zipPath);
 
       return { cart };
     } catch (err) {
-      console.log('🚀 ~ file: Upload.ts ~ line 154 ~ UploadService ~ err', err);
       return { err };
     }
   }

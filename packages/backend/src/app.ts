@@ -37,6 +37,8 @@ import '@controller/Pricing';
 import '@controller/File';
 import '@controller/Dashboard';
 import { errorHandle } from './middlewares/errorHandling';
+import { authMiddleware } from '@middleware/auth';
+import { fileMiddleware } from '@middleware/fileDownload';
 
 const { cookie, environment, url, server, db } = Configuration.appConfig;
 
@@ -112,6 +114,19 @@ class App {
 
     this.app.get('/api/auth/google/callback', (req, res) =>
       this.passportService.socialCallback(req, res)
+    );
+
+    this.app.get(
+      '/api/file/file',
+      authMiddleware(),
+      fileMiddleware() as any,
+      (req, res) => {
+        try {
+          return res.download(`${__dirname}/${req!.query!.path as string}`);
+        } catch (error) {
+          return res.status(500).send('File does not exist');
+        }
+      }
     );
   }
 

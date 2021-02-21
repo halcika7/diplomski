@@ -1,4 +1,5 @@
 import { memo } from 'react';
+import img from '@images/shop.jpg';
 
 const AboutUs = () => (
   <div className="whyus aboutus container-fluid mb-5 z-depth-4">
@@ -85,11 +86,7 @@ const AboutUs = () => (
           </div>
         </div>
         <div className="col-md-7 ml-md-5 d-none d-md-block">
-          <img
-            className="z-depth-4"
-            src="https://www.johnewright.com/wp-content/uploads/2015/05/Print_Cafe_03-1170x528.jpg"
-            alt="print Shop"
-          />
+          <img className="z-depth-4" src={img} alt="print Shop" />
         </div>
       </div>
     </div>

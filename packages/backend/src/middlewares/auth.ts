@@ -22,8 +22,9 @@ export const authMiddleware = (permission: string[] | null = null) => (
       return returnUnAuthorizedRequest(res);
     }
     req.user = { ...decoded };
-    return next();
   } catch {
     return returnUnAuthorizedRequest(res);
   }
+
+  return next();
 };

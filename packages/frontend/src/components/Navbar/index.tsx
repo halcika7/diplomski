@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import { useState, memo } from 'react';
+import { memo } from 'react';
 
 // components
 import { Link, useLocation } from 'react-router-dom';
@@ -14,10 +14,6 @@ import { logoutUser as logoutAction } from '../../redux/actions';
 
 // types
 import { AppState } from '../../redux/reducers/index';
-
-interface Props {
-  role: string;
-}
 
 const reduxProps = createSelector(
   (state: AppState) => state.user.userData.name,
@@ -35,11 +31,9 @@ const getName = (path: string) => {
     .join(' ');
 };
 
-const Navbar = ({ role }: Props) => {
+const Navbar = () => {
   const dispatch = useThunkDispatch();
   const { name, picture } = useSelector(reduxProps);
-  const [unseenNotifications, setUn] = useState(0);
-  const [, setShowNotifications] = useState(false);
   const { pathname } = useLocation();
   const locationName = getName(pathname);
 
@@ -49,18 +43,9 @@ const Navbar = ({ role }: Props) => {
     // eslint-disable-next-line no-unused-expressions
     document.querySelector('html')?.classList.toggle('nav-open');
     e.currentTarget.classList.toggle('toggled');
-    setUn(1);
   };
 
   const onLogout = () => dispatch(logoutAction);
-
-  const toggleNotifications = (
-    e: React.MouseEvent<HTMLAnchorElement | HTMLParagraphElement, MouseEvent>
-  ) => {
-    e.preventDefault();
-    e.currentTarget.parentElement!.classList.toggle('show');
-    setShowNotifications(prev => !prev);
-  };
 
   return (
     <div
@@ -99,24 +84,6 @@ const Navbar = ({ role }: Props) => {
         </button>
         <div className="collapse navbar-collapse" id="navigation">
           <ul className="ml-auto navbar-nav">
-            {role !== 'admin' && (
-              <li className="dropdown nav-item">
-                <a
-                  aria-label="Show Notifications"
-                  href="/"
-                  className="dropdown-toggle nav-link notification"
-                  onClick={toggleNotifications}
-                >
-                  {unseenNotifications > 0 && (
-                    <span className="number">{unseenNotifications}</span>
-                  )}
-                  <i className="far fa-bell" />
-                  <p onClick={toggleNotifications} className="d-lg-none">
-                    Notifications
-                  </p>
-                </a>
-              </li>
-            )}
             <li className="dropdown nav-item">
               <a
                 role="button"

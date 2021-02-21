@@ -3,15 +3,6 @@
     "maxAgeSeconds": 3600,
     "method": ["*"],
     "origin": ["*"],
-    "responseHeader": [
-      "Origin",
-      "Content-Type",
-      "Content-MD5",
-      "Content-Disposition",
-      "Authorization",
-      "Access-Control-Allow-Origin",
-      "X-Requested-With",
-      "x-goog-resumable"
-    ]
+    "responseHeader": ["*"]
   }
 ]

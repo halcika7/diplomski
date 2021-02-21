@@ -1,10 +1,10 @@
-import { StorageService } from '@service/Storage';
 import { BaseService } from './Base';
 import { Injectable } from '@decorator/class';
 import { CartRepository } from '@repository/Cart';
 import { Types } from 'mongoose';
 import { CartData } from '@model/Cart/Cart';
 import { Document, NumberHelper } from '@job/common';
+import { FileService } from './File';
 
 @Injectable()
 export class CartService extends BaseService {
@@ -12,7 +12,7 @@ export class CartService extends BaseService {
 
   constructor(
     private readonly cartRepository: CartRepository,
-    private readonly storageService: StorageService
+    private readonly fileService: FileService
   ) {
     super();
     this.number = new NumberHelper();
@@ -57,7 +57,7 @@ export class CartService extends BaseService {
     const paths = currentDocuments.filter(doc => doc.path === document?.path);
 
     if (paths.length <= 1) {
-      this.storageService.delete(document!.path);
+      this.fileService.removeFile(document!.path);
     }
 
     cart!.documents = currentDocuments.filter(
@@ -71,7 +71,7 @@ export class CartService extends BaseService {
   async clearCart(userId: string) {
     const cart = await this.cartRepository.findById(userId);
     const paths = [...new Set(cart!.documents.map(doc => doc.path))];
-    paths.forEach(path => this.storageService.delete(path));
+    paths.forEach(path => this.fileService.removeFile(path));
     cart!.documents = [];
     cart!.totalCost = 0;
     return cart?.save();

@@ -32,6 +32,14 @@ interface GetFilePrice {
 export class FileService extends BaseService {
   private readonly directory = join(cwd, 'dist', 'public', 'files', 'temp');
 
+  private readonly directoryFinal = join(
+    cwd,
+    'dist',
+    'public',
+    'files',
+    'final'
+  );
+
   private readonly number: NumberHelper;
 
   constructor(
@@ -97,12 +105,16 @@ export class FileService extends BaseService {
   async uploadZip(file: Express.Multer.File) {
     const { buffer } = file;
     const response = await zip(buffer);
-    const path = this.getPath(file, this.directory, '.gz');
+    const path = this.getPath(file, this.directoryFinal, '.gz');
     await write(path, response as Buffer);
     return path;
   }
 
-  async addFilesToDB(documents: CartDocument[], userId: string) {
+  async addFilesToDB(
+    documents: CartDocument[],
+    userId: string,
+    orderedFor: string
+  ) {
     const map = new Map<string, string>();
     documents.forEach(doc => {
       map.set(doc.path, doc.name);
@@ -111,7 +123,7 @@ export class FileService extends BaseService {
     const files: Partial<FileInterface>[] = [];
 
     map.forEach((name, path) => {
-      files.push({ name, path, orderedBy: userId });
+      files.push({ name, path, orderedBy: userId, orderedFor });
     });
 
     return this.fileRepository.addFiles(files);

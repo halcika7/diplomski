@@ -49,7 +49,7 @@ const Routes = () => {
             <>
               <Sidebar role={role as string} />
               <div className="main-panel">
-                <Navbar role={role as string} />
+                <Navbar />
                 <div className="content">
                   <Switch>
                     {authenticatedRoutes.map(route => (
