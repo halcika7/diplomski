@@ -87,68 +87,73 @@ export class UploadService extends BaseService {
     body: FileUploadBody,
     userId: string
   ) {
-    const pdfPath = file ? await this.fileService.saveDocument(file) : '';
-    const pages = pdfPath
-      ? await this.documentService.getPageCount(pdfPath)
-      : 0;
+    try {
+      const pdfPath = file ? await this.fileService.saveDocument(file) : '';
+      const pages = pdfPath
+        ? await this.documentService.getPageCount(pdfPath)
+        : 0;
 
-    if (typeof pages === 'string') return { err: pages };
+      if (typeof pages === 'string') return { err: pages };
 
-    const {
-      errors,
-      binding,
-      paper,
-      foundFile,
-    } = await this.fileUploadValidation(body, file, userId, pages);
+      const {
+        errors,
+        binding,
+        paper,
+        foundFile,
+      } = await this.fileUploadValidation(body, file, userId, pages);
 
-    if (errors || !paper) {
-      if (file) {
-        this.fileService.removeFile(pdfPath);
+      if (errors || !paper) {
+        if (file) {
+          this.fileService.removeFile(pdfPath);
+        }
+        return { errors };
       }
-      return { errors };
-    }
 
-    const zipPath = !foundFile
-      ? await this.fileService.uploadZip(file)
-      : foundFile.path;
+      const zipPath = !foundFile
+        ? await this.fileService.uploadZip(file)
+        : foundFile.path;
 
-    const { price, err } = await this.fileService.getFilePrice({
-      body,
-      binding,
-      paper,
-      path: pdfPath,
-    });
+      const { price, err } = await this.fileService.getFilePrice({
+        body,
+        binding,
+        paper,
+        path: pdfPath,
+      });
 
-    if (err || !pages || !price) {
-      if (file) {
-        this.fileService.removeFile(pdfPath);
+      if (err || !pages || !price) {
+        if (file) {
+          this.fileService.removeFile(pdfPath);
+        }
+        if (!foundFile && file) {
+          this.fileService.removeFile(zipPath);
+        }
+        return { err };
       }
-      if (!foundFile && file) {
-        this.fileService.removeFile(zipPath);
-      }
+
+      const path = !foundFile
+        ? await this.storageService.upload(zipPath)
+        : foundFile.path;
+
+      const cart = await this.cartService.updateCart(
+        {
+          pages,
+          ...body,
+          copies: parseInt(body.copies, 10),
+          price,
+          path,
+          name: file.originalname,
+        },
+        userId
+      );
+
+      this.fileService.removeFile(pdfPath);
+      if (!foundFile) this.fileService.removeFile(zipPath);
+
+      return { cart };
+    } catch (err) {
+      console.log('🚀 ~ file: Upload.ts ~ line 154 ~ UploadService ~ err', err);
       return { err };
     }
-
-    const path = !foundFile
-      ? await this.storageService.upload(zipPath)
-      : foundFile.path;
-
-    const cart = await this.cartService.updateCart(
-      {
-        pages,
-        ...body,
-        copies: parseInt(body.copies, 10),
-        price,
-        path,
-        name: file.originalname,
-      },
-      userId
-    );
-
-    this.fileService.removeFile(pdfPath);
-    if (!foundFile) this.fileService.removeFile(zipPath);
-
-    return { cart };
   }
 
   async getBindingPapers() {

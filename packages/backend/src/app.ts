@@ -113,7 +113,7 @@ class App {
       hpp(),
       helmet(),
       compression(),
-      json({ limit: '1kb' }),
+      json({ limit: '50mb' }),
       urlencoded({ extended: false, limit: '1kb', parameterLimit: 10 }),
       cors({ origin: url, credentials: true }),
       cookieparser(),

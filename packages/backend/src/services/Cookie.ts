@@ -10,7 +10,7 @@ export class CookieService {
   private static readonly refreshOptions: CookieOptions = {
     httpOnly: true,
     path: Configuration.appConfig.webToken.REFRESH_TOKEN_PATH,
-    sameSite: true,
+    sameSite: 'none',
     secure: Configuration.appConfig.environment === 'production',
   };
 
