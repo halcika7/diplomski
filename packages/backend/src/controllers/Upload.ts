@@ -1,6 +1,6 @@
 import { Controller } from '@decorator/class';
 import { BaseController } from './Base';
-import { Get, Post } from '@decorator/method';
+import { Get, Put } from '@decorator/method';
 import { Body, Req, Res } from '@decorator/param';
 import { Response } from 'express';
 import { HTTPCodes } from '@job/common';
@@ -15,7 +15,7 @@ export class UploadController extends BaseController {
     super();
   }
 
-  @Post('/', authMiddleware(['professor']), multerFile)
+  @Put('/', authMiddleware(['professor']), multerFile)
   async uploadFile(
     @Res() res: Response,
     @Req() req: RequestUser,

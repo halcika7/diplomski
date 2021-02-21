@@ -52,7 +52,7 @@ export const uploadFile = (formData: FormData) => async (
   const {
     data: { cart, err, errors },
     status,
-  } = await axios.post<{
+  } = await axios.put<{
     cart: Cart;
     errors?: Partial<UploadFileErrors>;
     err?: string;
