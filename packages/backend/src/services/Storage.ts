@@ -42,6 +42,7 @@ export class StorageService extends BaseService {
         '🚀 ~ file: Storage.ts ~ line 41 ~ StorageService ~ upload ~ error',
         error
       );
+      return '';
     }
   }
 
