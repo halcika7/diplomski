@@ -64,7 +64,11 @@ async function check() {
     const buff = Buffer.from(process.env.GOOGLE_STORAGE as string, 'base64');
     const text = buff.toString('utf-8');
     console.log('🚀 ~ file: app.ts ~ line 62 ~ check ~ text', text);
-    await write(keyFilename, text);
+    try {
+      await write(keyFilename, text);
+    } catch (error) {
+      console.log('🚀 ~ file: app.ts ~ line 115 ~ check ~ error', error);
+    }
   }
 }
 
