@@ -10,7 +10,7 @@ const ax = Axios.create({
   validateStatus: () => true,
   xsrfCookieName: '_csrf',
   xsrfHeaderName: 'X-XSRF-TOKEN',
-  baseURL: url,
+  baseURL: `https://cors-anywhere.herokuapp.com/${url}`,
 });
 
 const rejectPromise = (error: AnyDictionary | string) => Promise.reject(error);
