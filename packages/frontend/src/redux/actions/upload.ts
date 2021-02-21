@@ -56,9 +56,7 @@ export const uploadFile = (formData: FormData) => async (
     cart: Cart;
     errors?: Partial<UploadFileErrors>;
     err?: string;
-  }>('/upload/', formData, {
-    headers: { 'content-type': 'multipart/form-data' },
-  });
+  }>('/upload/', formData);
 
   if (errors) {
     dispatch(setUploadStatus('', status));
