@@ -21,21 +21,29 @@ export class UploadController extends BaseController {
     @Req() req: RequestUser,
     @Body() body: FileUploadBody
   ) {
-    const { cart, errors, err } = await this.uploadService.uploadFile(
-      req.file,
-      body,
-      req.user.id
-    );
+    try {
+      const { cart, errors, err } = await this.uploadService.uploadFile(
+        req.file,
+        body,
+        req.user.id
+      );
 
-    if (errors) {
-      return this.sendResponse(res, HTTPCodes.BAD_REQUEST, { errors });
-    }
+      if (errors) {
+        return this.sendResponse(res, HTTPCodes.BAD_REQUEST, { errors });
+      }
 
-    if (err) {
+      if (err) {
+        return this.sendResponse(res, HTTPCodes.BAD_REQUEST, { err });
+      }
+
+      return this.sendResponse(res, HTTPCodes.OK, { cart });
+    } catch (err) {
+      console.log(
+        '🚀 ~ file: Upload.ts ~ line 41 ~ UploadController ~ err',
+        err
+      );
       return this.sendResponse(res, HTTPCodes.BAD_REQUEST, { err });
     }
-
-    return this.sendResponse(res, HTTPCodes.OK, { cart });
   }
 
   @Get('/binding-papers', authMiddleware(['professor']))
