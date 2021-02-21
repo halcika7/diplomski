@@ -37,7 +37,6 @@ import '@controller/Pricing';
 import '@controller/File';
 import '@controller/Dashboard';
 import { errorHandle } from './middlewares/errorHandling';
-import { resolve } from 'path';
 
 const { cookie, environment, url, server, db } = Configuration.appConfig;
 
@@ -136,14 +135,6 @@ class App {
           });
         }
       );
-    }
-
-    if (environment === 'production') {
-      this.app.use(express.static(resolve(__dirname, '../build')));
-
-      this.app.get('*', (_, res) => {
-        return res.sendFile(resolve(__dirname, '../build', 'index.html'));
-      });
     }
 
     this.server = new InversifyExpressServer(
