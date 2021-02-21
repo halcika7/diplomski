@@ -74,6 +74,8 @@ class App {
       cookieparser(),
     ];
 
+    this.app.set('proxy', 1);
+
     this.app.options(
       '*',
       cors({ origin: [url, '*'], credentials: true }) as any
