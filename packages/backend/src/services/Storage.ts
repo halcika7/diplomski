@@ -23,18 +23,26 @@ export class StorageService extends BaseService {
   }
 
   async upload(path: string) {
-    const fileName = basename(path);
-    const file = this.filesBucket.file(fileName);
+    try {
+      const fileName = basename(path);
+      const file = this.filesBucket.file(fileName);
 
-    await this.filesBucket.upload(path, {
-      resumable: false,
-      gzip: true,
-      validation: false,
-    });
+      await this.filesBucket.upload(path, {
+        resumable: false,
+        gzip: true,
+        validation: false,
+        origin: '*',
+      });
 
-    await file.makePublic();
+      await file.makePublic();
 
-    return this.getPublicUrl(fileName);
+      return this.getPublicUrl(fileName);
+    } catch (error) {
+      console.log(
+        '🚀 ~ file: Storage.ts ~ line 41 ~ StorageService ~ upload ~ error',
+        error
+      );
+    }
   }
 
   async delete(path: string) {
