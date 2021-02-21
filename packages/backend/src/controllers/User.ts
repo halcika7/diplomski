@@ -1,6 +1,6 @@
 import { Controller } from '@decorator/class';
 import { BaseController } from './Base';
-import { Get, Patch, Post } from '@decorator/method';
+import { Get, Patch, Post, Put } from '@decorator/method';
 import { Body, Param, Req, Res } from '@decorator/param';
 import { Response } from 'express';
 import { authMiddleware } from '@middleware/auth';
@@ -27,7 +27,7 @@ export class UserController extends BaseController {
     return this.sendResponse(res, HTTPCodes.OK, { userData });
   }
 
-  @Post('/picture', authMiddleware(), multerImage)
+  @Put('/picture', authMiddleware(), multerImage)
   async updatePicture(@Res() res: Response, @Req() req: RequestUser) {
     const { error, secure_url } = await this.userService.changePhoto(
       req.file,
@@ -104,8 +104,6 @@ export class UserController extends BaseController {
   @Post('/add', authMiddleware(['admin']))
   async addUser(@Res() res: Response, @Body() body: AddUserBody) {
     const { status, ...rest } = await this.userService.addUser(body);
-    console.log("🚀 ~ file: User.ts ~ line 107 ~ UserController ~ addUser ~ rest", rest)
-    console.log("🚀 ~ file: User.ts ~ line 107 ~ UserController ~ addUser ~ status", status)
 
     return this.sendResponse(res, status, { ...rest });
   }

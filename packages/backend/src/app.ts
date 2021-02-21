@@ -1,5 +1,4 @@
 import 'reflect-metadata';
-import { RedisService } from '@service/Redis';
 
 import express, {
   Response,
@@ -13,9 +12,6 @@ import express, {
 import compression from 'compression';
 import cookieparser from 'cookie-parser';
 import cors from 'cors';
-import csrf from 'csurf';
-import session from 'express-session';
-import connectRedis from 'connect-redis';
 import helmet from 'helmet';
 import hpp from 'hpp';
 
@@ -40,7 +36,7 @@ import { errorHandle } from './middlewares/errorHandling';
 import { authMiddleware } from '@middleware/auth';
 import { fileMiddleware } from '@middleware/fileDownload';
 
-const { cookie, environment, url, server, db } = Configuration.appConfig;
+const { environment, url, server, db } = Configuration.appConfig;
 
 class App {
   private readonly app: Application;
@@ -61,46 +57,27 @@ class App {
 
     this.setAppMiddlewares();
 
-    if (environment !== 'test') {
-      this.setCsrf();
-    }
-
     connect(environment !== 'test' ? db.MONGO_URI : db.MONGO_URI_TEST);
   }
 
   private setAppMiddlewares(): void {
     this.app.disable('x-powered-by');
 
-    const RedisStore = connectRedis(session);
-
     const middlewares = [
-      session({
-        store: new RedisStore({ client: RedisService.client }),
-        secret: cookie.COOKIE_SECRET,
-        cookie: {
-          httpOnly: true,
-          path: '/',
-          secure: environment === 'production',
-        },
-        resave: false,
-        saveUninitialized: false,
-        rolling: true,
-        name: 'ses',
-        proxy: environment === 'production',
-      }),
+      cors({ origin: [url, '*'], credentials: true }),
       passport.initialize(),
       hpp(),
       helmet(),
       compression(),
       json({ limit: '50mb' }),
       urlencoded({ extended: false, limit: '1kb', parameterLimit: 10 }),
-      cors({ origin: url, credentials: true }),
       cookieparser(),
     ];
 
-    if (environment !== 'test') {
-      middlewares.push(csrf({ cookie: false }));
-    }
+    this.app.options(
+      '*',
+      cors({ origin: [url, '*'], credentials: true }) as any
+    );
 
     this.app.use(middlewares);
 
@@ -128,13 +105,6 @@ class App {
         }
       }
     );
-  }
-
-  private setCsrf() {
-    this.app.all('*', (req: Request, res: Response, next) => {
-      res.cookie('_csrf', req.csrfToken(), { sameSite: true });
-      return next();
-    });
   }
 
   public start() {

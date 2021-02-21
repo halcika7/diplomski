@@ -43,11 +43,14 @@ export const getUserData = async (dispatch: AppThunkDispatch) => {
 export const updateProfilePicture = (formData: FormData) => async (
   dispatch: AppThunkDispatch
 ) => {
-  const { data } = await axios.post<{
+  const { data } = await axios.put<{
     url?: string;
     error?: string;
   }>('/user/picture', formData, {
-    headers: { 'content-type': 'multipart/form-data' },
+    headers: {
+      'content-type': 'multipart/form-data',
+      'Access-Control-Allow-Origin': '*',
+    },
   });
 
   if (data.error) {

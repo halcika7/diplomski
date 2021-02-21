@@ -175,7 +175,6 @@ export class UserService extends BaseService {
   }
 
   async addUser(data: AddUserBody) {
-    console.log("🚀 ~ file: User.ts ~ line 178 ~ UserService ~ addUser ~ data", data)
     const found = await this.userRepository.getByEmail(data.email);
 
     const { isValid, errors } = this.validateUser(data, found);

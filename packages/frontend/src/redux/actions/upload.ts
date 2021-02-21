@@ -57,7 +57,10 @@ export const uploadFile = (formData: FormData) => async (
     errors?: Partial<UploadFileErrors>;
     err?: string;
   }>('/upload/', formData, {
-    headers: { 'Content-Type': 'application/gzip' },
+    headers: {
+      'content-type': 'multipart/form-data',
+      'Access-Control-Allow-Origin': '*',
+    },
   });
 
   if (errors) {
