@@ -56,7 +56,9 @@ export const uploadFile = (formData: FormData) => async (
     cart: Cart;
     errors?: Partial<UploadFileErrors>;
     err?: string;
-  }>('/upload/', formData);
+  }>('/upload/', formData, {
+    headers: { 'Content-Type': 'application/gzip' },
+  });
 
   if (errors) {
     dispatch(setUploadStatus('', status));

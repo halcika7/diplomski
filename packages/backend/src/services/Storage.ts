@@ -31,6 +31,7 @@ export class StorageService extends BaseService {
       gzip: true,
       validation: false,
       contentType: file.type,
+      origin: '*',
     });
 
     await file.makePublic();

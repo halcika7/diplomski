@@ -1,53 +1,8 @@
 [
   {
     "maxAgeSeconds": 3600,
-    "method": ["GET", "POST", "HEAD", "DELETE", "PUT", "OPTIONS"],
+    "method": ["*"],
     "origin": ["*"],
-    "responseHeader": [
-      "Origin",
-      "Content-Type",
-      "Content-MD5",
-      "Content-Disposition",
-      "Authorization",
-      "Access-Control-Allow-Origin",
-      "X-Requested-With",
-      "x-goog-resumable"
-    ]
-  },
-  {
-    "maxAgeSeconds": 3600,
-    "method": ["GET", "POST", "HEAD", "DELETE", "PUT", "OPTIONS"],
-    "origin": ["https://tender-noether-780a11.netlify.app"],
-    "responseHeader": [
-      "Origin",
-      "Content-Type",
-      "Content-MD5",
-      "Content-Disposition",
-      "Authorization",
-      "Access-Control-Allow-Origin",
-      "X-Requested-With",
-      "x-goog-resumable"
-    ]
-  },
-  {
-    "maxAgeSeconds": 3600,
-    "method": ["GET", "POST", "HEAD", "DELETE", "PUT", "OPTIONS"],
-    "origin": ["https://print-shop-api.herokuapp.com"],
-    "responseHeader": [
-      "Origin",
-      "Content-Type",
-      "Content-MD5",
-      "Content-Disposition",
-      "Authorization",
-      "Access-Control-Allow-Origin",
-      "X-Requested-With",
-      "x-goog-resumable"
-    ]
-  },
-  {
-    "maxAgeSeconds": 3600,
-    "method": ["GET", "POST", "HEAD", "DELETE", "PUT", "OPTIONS"],
-    "origin": ["http://print-shop-api.herokuapp.com"],
     "responseHeader": [
       "Origin",
       "Content-Type",
