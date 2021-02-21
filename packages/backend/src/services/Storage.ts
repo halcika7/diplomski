@@ -1,7 +1,7 @@
 import { BaseService } from './Base';
 import { Injectable } from '@decorator/class';
 import { Storage } from '@google-cloud/storage';
-import { basename } from 'path';
+import { join, basename } from 'path';
 
 @Injectable()
 export class StorageService extends BaseService {
@@ -11,7 +11,10 @@ export class StorageService extends BaseService {
 
   constructor() {
     super();
-    this.storage = new Storage();
+    this.storage = new Storage({
+      projectId: 'printshop',
+      keyFilename: join(__dirname, '../../printshop-0684ed36281b.json'),
+    });
     this.filesBucket = this.storage.bucket('printshop-files');
   }
 
@@ -27,7 +30,6 @@ export class StorageService extends BaseService {
       resumable: false,
       gzip: true,
       validation: false,
-      origin: '*',
     });
 
     await file.makePublic();
