@@ -115,10 +115,7 @@ class App {
       compression(),
       json({ limit: '50mb' }),
       urlencoded({ extended: false, limit: '1kb', parameterLimit: 10 }),
-      cors({
-        origin: environment === 'production' ? '*' : url,
-        credentials: true,
-      }),
+      cors({ origin: url, credentials: true }),
       cookieparser(),
     ];
 

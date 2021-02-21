@@ -19,7 +19,7 @@ export class StorageService extends BaseService {
   }
 
   private getPublicUrl(filename: string) {
-    return `https://storage.googleapis.com/printshop-files/${filename}`;
+    return `https://printshop-files.storage.googleapis.com/${filename}`;
   }
 
   async upload(path: string) {

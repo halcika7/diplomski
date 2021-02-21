@@ -1,12 +1,7 @@
 [
   {
-    "origin": [
-      "https://print-shop-api.herokuapp.com",
-      "print-shop-api.herokuapp.com",
-      "http://print-shop-api.herokuapp.com",
-      "https://tender-noether-780a11.netlify.app"
-    ],
-    "responseHeader": ["*"],
+    "origin": ["*"],
+    "responseHeader": ["Content-Type"],
     "method": ["GET", "POST", "HEAD", "DELETE", "PUT"],
     "maxAgeSeconds": 3600
   }

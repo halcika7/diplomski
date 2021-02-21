@@ -101,6 +101,10 @@ export class OrderService extends BaseService {
         message: 'Order successful',
       });
     } catch (error) {
+      console.log(
+        '🚀 ~ file: Order.ts ~ line 105 ~ OrderService ~ makeOrder ~ error',
+        error.response.body.errors
+      );
       return this.returnResponse(HTTPCodes.BAD_REQUEST, {
         cart: { documents: [], totalCost: 0 },
         message: 'Email not sent',
