@@ -21,25 +21,49 @@ export class StorageService extends BaseService {
         maxAgeSeconds: 3600,
         method: ['GET', 'POST', 'HEAD', 'DELETE', 'PUT', 'OPTIONS'],
         origin: ['*'],
-        responseHeader: ['Content-Type', 'Authorization', 'Origin'],
+        responseHeader: [
+          'Origin',
+          'Content-Type',
+          'Content-MD5',
+          'Content-Disposition',
+          'Authorization',
+        ],
       },
       {
         maxAgeSeconds: 3600,
         method: ['GET', 'POST', 'HEAD', 'DELETE', 'PUT', 'OPTIONS'],
         origin: ['https://tender-noether-780a11.netlify.app'],
-        responseHeader: ['Content-Type', 'Authorization', 'Origin'],
+        responseHeader: [
+          'Origin',
+          'Content-Type',
+          'Content-MD5',
+          'Content-Disposition',
+          'Authorization',
+        ],
       },
       {
         maxAgeSeconds: 3600,
         method: ['GET', 'POST', 'HEAD', 'DELETE', 'PUT', 'OPTIONS'],
         origin: ['https://print-shop-api.herokuapp.com'],
-        responseHeader: ['Content-Type', 'Authorization', 'Origin'],
+        responseHeader: [
+          'Origin',
+          'Content-Type',
+          'Content-MD5',
+          'Content-Disposition',
+          'Authorization',
+        ],
       },
       {
         maxAgeSeconds: 3600,
         method: ['GET', 'POST', 'HEAD', 'DELETE', 'PUT', 'OPTIONS'],
         origin: ['http://print-shop-api.herokuapp.com'],
-        responseHeader: ['Content-Type', 'Authorization', 'Origin'],
+        responseHeader: [
+          'Origin',
+          'Content-Type',
+          'Content-MD5',
+          'Content-Disposition',
+          'Authorization',
+        ],
       },
     ]);
   }
