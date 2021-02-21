@@ -10,7 +10,7 @@ const ax = Axios.create({
   validateStatus: () => true,
   xsrfCookieName: '_csrf',
   xsrfHeaderName: 'X-XSRF-TOKEN',
-  baseURL: `https://cors-anywhere.herokuapp.com/${url}`,
+  baseURL: `${url}`,
 });
 
 const rejectPromise = (error: AnyDictionary | string) => Promise.reject(error);
@@ -20,8 +20,6 @@ ax.interceptors.request.use(config => {
   const token = `Bearer ${store.getState().auth.token}`;
   newConfig.headers = {
     ...newConfig.headers,
-    'Access-Control-Allow-Credentials': true,
-    'Access-Control-Allow-Origin': '*',
     common: {
       ...newConfig.headers.common,
       Authorization: token,

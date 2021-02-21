@@ -11,10 +11,7 @@ export class StorageService extends BaseService {
 
   constructor() {
     super();
-    this.storage = new Storage({
-      projectId: 'printshop',
-      keyFilename: join(__dirname, '../../printshop-0684ed36281b.json'),
-    });
+    this.storage = new Storage();
     this.filesBucket = this.storage.bucket('printshop-files');
   }
 
@@ -39,7 +36,9 @@ export class StorageService extends BaseService {
   }
 
   async delete(path: string) {
-    const name = path.split('/printshop-files/')[1];
+    const name = path.split(
+      'https://printshop-files.storage.googleapis.com/'
+    )[1];
 
     return this.storage.bucket('printshop-files').file(name).delete();
   }
