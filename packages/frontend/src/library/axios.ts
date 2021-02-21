@@ -20,9 +20,11 @@ ax.interceptors.request.use(config => {
   const token = `Bearer ${store.getState().auth.token}`;
   newConfig.headers = {
     ...newConfig.headers,
+    'Access-Control-Allow-Origin': '*',
     common: {
       ...newConfig.headers.common,
       Authorization: token,
+      'Access-Control-Allow-Origin': '*',
     },
   };
 
