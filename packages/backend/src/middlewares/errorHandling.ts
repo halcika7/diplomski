@@ -8,6 +8,7 @@ export const errorHandle = (
   res: Response,
   __: NextFunction
 ) => {
+  console.log("🚀 ~ file: errorHandling.ts ~ line 12 ~ error", error)
   if (error instanceof HttpException) {
     return res.status(error.getStatus()).json(error.getResponse());
   }

@@ -38,6 +38,7 @@ export class UploadController extends BaseController {
 
       return this.sendResponse(res, HTTPCodes.OK, { cart });
     } catch (err) {
+      console.log("🚀 ~ file: Upload.ts ~ line 41 ~ UploadController ~ err", err)
       return this.sendResponse(res, HTTPCodes.BAD_REQUEST, { err });
     }
   }
