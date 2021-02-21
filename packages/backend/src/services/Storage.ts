@@ -16,6 +16,32 @@ export class StorageService extends BaseService {
       keyFilename: join(__dirname, '../../printshop-0684ed36281b.json'),
     });
     this.filesBucket = this.storage.bucket('printshop-files');
+    this.filesBucket.setCorsConfiguration([
+      {
+        maxAgeSeconds: 3600,
+        method: ['GET', 'POST', 'HEAD', 'DELETE', 'PUT', 'OPTIONS'],
+        origin: ['*'],
+        responseHeader: ['Content-Type', 'Authorization', 'Origin'],
+      },
+      {
+        maxAgeSeconds: 3600,
+        method: ['GET', 'POST', 'HEAD', 'DELETE', 'PUT', 'OPTIONS'],
+        origin: ['https://tender-noether-780a11.netlify.app'],
+        responseHeader: ['Content-Type', 'Authorization', 'Origin'],
+      },
+      {
+        maxAgeSeconds: 3600,
+        method: ['GET', 'POST', 'HEAD', 'DELETE', 'PUT', 'OPTIONS'],
+        origin: ['https://print-shop-api.herokuapp.com'],
+        responseHeader: ['Content-Type', 'Authorization', 'Origin'],
+      },
+      {
+        maxAgeSeconds: 3600,
+        method: ['GET', 'POST', 'HEAD', 'DELETE', 'PUT', 'OPTIONS'],
+        origin: ['http://print-shop-api.herokuapp.com'],
+        responseHeader: ['Content-Type', 'Authorization', 'Origin'],
+      },
+    ]);
   }
 
   private getPublicUrl(filename: string) {
