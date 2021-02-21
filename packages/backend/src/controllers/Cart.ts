@@ -1,6 +1,6 @@
 import { Controller } from '@decorator/class';
 import { BaseController } from './Base';
-import { Delete, Get } from '@decorator/method';
+import { Get, Put } from '@decorator/method';
 import { Res, Req, Param } from '@decorator/param';
 import { Response } from 'express';
 import { HTTPCodes } from '@job/common';
@@ -21,7 +21,7 @@ export class CartController extends BaseController {
     return this.sendResponse(res, HTTPCodes.OK, { cart });
   }
 
-  @Delete('/:id', authMiddleware(['professor']))
+  @Put('/:id', authMiddleware(['professor']))
   async removeDocumentFromCart(
     @Res() res: Response,
     @Req() req: RequestUser,
@@ -32,7 +32,7 @@ export class CartController extends BaseController {
     return this.sendResponse(res, HTTPCodes.OK, { cart });
   }
 
-  @Delete('/', authMiddleware(['professor']))
+  @Put('/', authMiddleware(['professor']))
   async clearCart(@Res() res: Response, @Req() req: RequestUser) {
     const cart = await this.cartService.clearCart(req.user.id);
 

@@ -24,12 +24,13 @@ export class StorageService extends BaseService {
 
   async upload(path: string) {
     const fileName = basename(path);
-    const file = this.filesBucket.file(fileName);
+    const file = this.filesBucket.file(fileName) as any;
 
     await this.filesBucket.upload(path, {
       resumable: false,
       gzip: true,
       validation: false,
+      contentType: file.type,
     });
 
     await file.makePublic();
