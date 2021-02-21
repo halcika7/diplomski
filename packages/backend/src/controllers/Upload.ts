@@ -22,6 +22,10 @@ export class UploadController extends BaseController {
     @Body() body: FileUploadBody
   ) {
     try {
+      console.log(
+        '🚀 ~ file: Upload.ts ~ line 24 ~ UploadController ~ req',
+        req.headers
+      );
       const { cart, errors, err } = await this.uploadService.uploadFile(
         req.file,
         body,
