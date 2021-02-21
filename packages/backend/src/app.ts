@@ -139,10 +139,10 @@ class App {
     }
 
     if (environment === 'production') {
-      this.app.use(express.static('../build'));
+      this.app.use(express.static(resolve(__dirname, '../build')));
 
       this.app.get('*', (_, res) => {
-        res.sendFile(resolve(__dirname, '../build', 'index.html'));
+        return res.sendFile(resolve(__dirname, '../build', 'index.html'));
       });
     }
 
