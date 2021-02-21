@@ -1,7 +1,7 @@
 import { BaseService } from './Base';
 import { Injectable } from '@decorator/class';
 import { Storage } from '@google-cloud/storage';
-import { join, basename } from 'path';
+import { basename } from 'path';
 
 @Injectable()
 export class StorageService extends BaseService {
