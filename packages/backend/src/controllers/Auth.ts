@@ -1,7 +1,7 @@
 import { Controller } from '@decorator/class';
 import { BaseController } from './Base';
 import { Get, Post } from '@decorator/method';
-import { Req, Res, Cookie, Body } from '@decorator/param';
+import { Req, Res, Body } from '@decorator/param';
 import { Request, Response } from 'express';
 import { CookieService } from '@service/Cookie';
 import { Configuration } from '@env';
