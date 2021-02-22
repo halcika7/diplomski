@@ -16,17 +16,11 @@ export class AuthService extends BaseService {
     super();
   }
 
-  async refreshToken(token: string): Promise<ResponseTokens> {
-    const { id, role, year } = (await this.jwt.verifyToken(
-      token,
-      true
-    )) as Token;
-
+  async refreshToken({ id, role, year }: Token): Promise<ResponseTokens> {
     return this.returnResponseTokens({
       status: HTTPCodes.OK,
       message: '',
       accessToken: this.jwt.signToken({ id, role, year }),
-      refreshToken: this.jwt.signToken({ id, role, year }, true),
     });
   }
 
@@ -48,16 +42,10 @@ export class AuthService extends BaseService {
       year: new Date(user.createdAt).getFullYear(),
     });
 
-    const refreshToken = this.jwt.signToken(
-      { id: user._id, role, year: new Date(user.createdAt).getFullYear() },
-      true
-    );
-
     return this.returnResponseTokens({
       status: HTTPCodes.OK,
       message: '',
       accessToken,
-      refreshToken,
     });
   }
 }

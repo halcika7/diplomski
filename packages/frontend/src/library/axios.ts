@@ -8,8 +8,6 @@ const url = process.env.REACT_APP_BACKEND_URL;
 const ax = Axios.create({
   withCredentials: true,
   validateStatus: () => true,
-  xsrfCookieName: '_csrf',
-  xsrfHeaderName: 'X-XSRF-TOKEN',
   baseURL: `${url}`,
 });
 
@@ -17,7 +15,8 @@ const rejectPromise = (error: AnyDictionary | string) => Promise.reject(error);
 
 ax.interceptors.request.use(config => {
   const newConfig = { ...config };
-  const token = `Bearer ${store.getState().auth.token}`;
+  const tok = localStorage.getItem('isaujuis');
+  const token = `Bearer ${tok}`;
   newConfig.headers = {
     ...newConfig.headers,
     common: {

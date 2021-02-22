@@ -9,14 +9,12 @@ import { Configuration } from '@env';
 import { Response, Request } from 'express';
 import User from '@model/User';
 import { UserInterface } from '@model/User/User';
-import { CookieService } from './Cookie';
 import { JWTService } from './JWT';
 import { Injectable } from '@decorator/class';
+import { Token } from '@job/common';
 
 @Injectable()
 export class PassportService extends BaseService {
-  private readonly cookie = CookieService;
-
   private readonly jwt = JWTService;
 
   constructor() {
@@ -74,14 +72,7 @@ export class PassportService extends BaseService {
       id: _id,
       role,
       year: new Date(createdAt).getFullYear(),
-    });
-    this.cookie.setRefreshToken(
-      res,
-      this.jwt.signToken(
-        { id: _id, role, year: new Date(createdAt).getFullYear() },
-        true
-      )
-    );
+    } as Token);
 
     return res.redirect(`${url}/?token=${accessToken}`);
   }

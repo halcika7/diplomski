@@ -32,6 +32,7 @@ export const refreshToken = async (dispatch: AppThunkDispatch) => {
   }>('/auth/refresh');
 
   if (data.accessToken) {
+    localStorage.setItem('isaujuis', data.accessToken);
     dispatch(getUserData);
     return dispatch(authSuccess(data.accessToken));
   }

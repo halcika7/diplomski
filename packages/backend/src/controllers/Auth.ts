@@ -7,6 +7,8 @@ import { CookieService } from '@service/Cookie';
 import { Configuration } from '@env';
 import { AuthService } from '@service/Auth';
 import { HTTPCodes, NotFoundException, UserRole } from '@job/common';
+import { RequestUser } from '@ctypes';
+import { authMiddleware } from '@middleware/auth';
 
 const { environment } = Configuration.appConfig;
 
@@ -24,9 +26,8 @@ export class AuthController extends BaseController {
       throw new NotFoundException();
     }
 
-    const { status, refreshToken, ...rest } = await this.auth.login(body.role);
+    const { status, ...rest } = await this.auth.login(body.role);
 
-    this.cookie.setRefreshToken(res, refreshToken || '');
     return this.sendResponse(res, status, { ...rest });
   }
 
@@ -38,19 +39,13 @@ export class AuthController extends BaseController {
     return this.sendResponse(res, HTTPCodes.OK, {});
   }
 
-  @Get('/refresh')
-  async refreshToken(
-    @Cookie(Configuration.appConfig.webToken.REFRESH_TOKEN_NAME) token: string,
-    @Res() res: Response
-  ) {
+  @Get('/refresh', authMiddleware())
+  async refreshToken(@Res() res: Response, @Req() req: RequestUser) {
     try {
-      const { status, refreshToken, ...rest } = await this.auth.refreshToken(
-        token
-      );
+      const { status, ...rest } = await this.auth.refreshToken(req.user);
 
-      this.cookie.setRefreshToken(res, refreshToken || '');
       return this.sendResponse(res, status, { ...rest });
-    } catch (error) {
+    } catch {
       return this.sendResponse(res, HTTPCodes.UNAUTHORIZED, {});
     }
   }

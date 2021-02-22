@@ -1,19 +1,11 @@
 import 'reflect-metadata';
 import { RedisService } from '@service/Redis';
 
-import express, {
-  Response,
-  Request,
-  NextFunction,
-  urlencoded,
-  json,
-  Application,
-} from 'express';
+import express, { urlencoded, json, Application } from 'express';
 
 import compression from 'compression';
 import cookieparser from 'cookie-parser';
 import cors from 'cors';
-import csrf from 'csurf';
 import session from 'express-session';
 import connectRedis from 'connect-redis';
 import helmet from 'helmet';
@@ -37,7 +29,6 @@ import '@controller/Pricing';
 import '@controller/File';
 import '@controller/Dashboard';
 import { errorHandle } from './middlewares/errorHandling';
-import { resolve } from 'path';
 
 const { cookie, environment, url, server, db } = Configuration.appConfig;
 
@@ -60,19 +51,17 @@ class App {
 
     this.setAppMiddlewares();
 
-    if (environment !== 'test') {
-      this.setCsrf();
-    }
-
     connect(environment !== 'test' ? db.MONGO_URI : db.MONGO_URI_TEST);
   }
 
   private setAppMiddlewares(): void {
     this.app.disable('x-powered-by');
+    this.app.set('trust proxy', 1);
 
     const RedisStore = connectRedis(session);
 
     const middlewares = [
+      cors({ origin: url, credentials: true }),
       session({
         store: new RedisStore({ client: RedisService.client }),
         secret: cookie.COOKIE_SECRET,
@@ -80,6 +69,8 @@ class App {
           httpOnly: true,
           path: '/',
           secure: environment === 'production',
+          domain:
+            environment === 'production' ? '.print-shop-burch.com' : undefined,
         },
         resave: false,
         saveUninitialized: false,
@@ -93,15 +84,13 @@ class App {
       compression(),
       json({ limit: '50mb' }),
       urlencoded({ extended: false, limit: '1kb', parameterLimit: 10 }),
-      cors({ origin: url, credentials: true }),
       cookieparser(),
     ];
 
-    if (environment !== 'test') {
-      middlewares.push(csrf({ cookie: false }));
-    }
-
-    this.app.set('trust proxy', 1);
+    this.app.options(
+      '*',
+      cors({ origin: [url, '*'], credentials: true }) as any
+    );
 
     this.app.use(middlewares);
 
@@ -118,36 +107,7 @@ class App {
     );
   }
 
-  private setCsrf() {
-    this.app.all('*', (req: Request, res: Response, next) => {
-      res.cookie('_csrf', req.csrfToken(), { sameSite: true });
-      return next();
-    });
-  }
-
   public start() {
-    if (environment !== 'test') {
-      // eslint-disable-next-line max-params
-      this.app.use(
-        (err: Error | any, __: Request, res: Response, next: NextFunction) => {
-          if (err.code !== 'EBADCSRFTOKEN') return next(err);
-
-          return res.status(403).json({
-            message:
-              'Someone tempered this request. CSRF token was not provided.',
-          });
-        }
-      );
-    }
-
-    if (environment === 'production') {
-      this.app.use(express.static(resolve(__dirname, '../build')));
-
-      this.app.get('*', (_, res) => {
-        return res.sendFile(resolve(__dirname, '../build', 'index.html'));
-      });
-    }
-
     this.server = new InversifyExpressServer(
       container,
       null,

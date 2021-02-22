@@ -19,14 +19,14 @@ export const getCart = async (dispatch: AppThunkDispatch) => {
 export const removeDocument = (id: string) => async (
   dispatch: AppThunkDispatch
 ) => {
-  const { data } = await axios.put<{
+  const { data } = await axios.delete<{
     cart: Cart;
   }>(`/cart/${id}`);
   dispatch(setCart(data.cart));
 };
 
 export const clearCart = async (dispatch: AppThunkDispatch) => {
-  const { data } = await axios.put<{
+  const { data } = await axios.delete<{
     cart: Cart;
   }>(`/cart/`);
   dispatch(setCart(data.cart));
