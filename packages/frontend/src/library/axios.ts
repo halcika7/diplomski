@@ -36,6 +36,7 @@ ax.interceptors.response.use(
     const refreshUrl = `${url}/auth/refresh`;
 
     if (errorStatus === 401 && originalRequest.url === refreshUrl) {
+      localStorage.removeItem('isaujuis');
       store.dispatch(authReset());
       return rejectPromise(error);
     }
@@ -46,11 +47,13 @@ ax.interceptors.response.use(
         if (res.data.accessToken) {
           const { accessToken } = res.data;
           // dispatch refresh success
+          localStorage.setItem('isaujuis', accessToken);
           store.dispatch(authSuccess(accessToken));
           // return originalRequest object with Axios.
           return axios(originalRequest);
         }
 
+        localStorage.removeItem('isaujuis');
         store.dispatch(authReset());
 
         return rejectPromise(error);

@@ -12,10 +12,13 @@ import { UserInterface } from '@model/User/User';
 import { JWTService } from './JWT';
 import { Injectable } from '@decorator/class';
 import { Token } from '@job/common';
+import { RedisService } from './Redis';
 
 @Injectable()
 export class PassportService extends BaseService {
   private readonly jwt = JWTService;
+
+  private readonly redis = RedisService;
 
   constructor() {
     super();
@@ -68,11 +71,21 @@ export class PassportService extends BaseService {
 
     if (err) return res.redirect(`${url}/?err=${err}`);
 
-    const accessToken = this.jwt.signToken({
+    const tokenObj = {
       id: _id,
       role,
       year: new Date(createdAt).getFullYear(),
-    } as Token);
+    } as Token;
+
+    const accessToken = this.jwt.signToken(tokenObj);
+
+    const refresh = this.jwt.signToken(tokenObj, true);
+
+    const valid = this.redis.setValue(_id.toString(), refresh);
+
+    if (!valid) {
+      return res.redirect(`${url}/?err="Login failed"`);
+    }
 
     return res.redirect(`${url}/?token=${accessToken}`);
   }

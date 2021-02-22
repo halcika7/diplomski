@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { getCSRF, refreshToken } from '@actions';
+import { getCSRF, refreshToken, authReset } from '@actions';
 
 import './App.css';
 import Routes from './routes/index';
@@ -20,7 +20,11 @@ function App() {
 
   useEffect(() => {
     dispatch(getCSRF);
-    dispatch(refreshToken);
+    if (localStorage.getItem('isaujuis')) {
+      dispatch(refreshToken);
+    } else {
+      dispatch(authReset());
+    }
   }, [dispatch]);
 
   if (loading) return <Spinner />;

@@ -16,13 +16,17 @@ export const authReset = (): AuthActionTypes => ({
   payload: {},
 });
 
-export const logoutUser = async (
-  dispatch: AppThunkDispatch
-): Promise<AuthActionTypes> => {
-  await axios.post<{ message?: string }>('/auth/logout');
+export const logoutUser = async (dispatch: AppThunkDispatch) => {
+  const { status } = await axios.post<{ message?: string }>('/auth/logout');
 
-  localStorage.removeItem('isaujuis');
-  return dispatch(authReset());
+  if (status === 200) {
+    localStorage.removeItem('isaujuis');
+    return dispatch(authReset());
+  }
+
+  console.log('not logged out');
+
+  return undefined;
 };
 
 export const refreshToken = async (dispatch: AppThunkDispatch) => {
@@ -38,5 +42,6 @@ export const refreshToken = async (dispatch: AppThunkDispatch) => {
     return dispatch(authSuccess(data.accessToken));
   }
 
+  localStorage.removeItem('isaujuis');
   return dispatch(authReset());
 };

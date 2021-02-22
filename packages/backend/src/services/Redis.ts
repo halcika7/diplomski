@@ -24,6 +24,10 @@ export class RedisService {
     return this._client.setex(key, duration, value);
   }
 
+  static setValue(key: string, value: string) {
+    return this._client.set(key, value);
+  }
+
   static get client(): RedisClient {
     return this._client;
   }

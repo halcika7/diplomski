@@ -1,11 +1,12 @@
 import { HTTPCodes, Token } from '@job/common';
 import { JWTService } from '@service/JWT';
+import { RedisService } from '@service/Redis';
 import { NextFunction, Request, Response } from 'express';
 
 const returnUnAuthorizedRequest = (res: Response) =>
   res.status(HTTPCodes.UNAUTHORIZED).json({ message: 'Unauthorized request.' });
 
-export const authMiddleware = (permission: string[] | null = null) => (
+export const authMiddleware = (permission: string[] | null = null) => async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -13,15 +14,20 @@ export const authMiddleware = (permission: string[] | null = null) => (
   const token = req.headers.authorization
     ? req.headers.authorization.split(' ')[1]
     : '';
+
   if (!token) {
     return returnUnAuthorizedRequest(res);
   }
+
   try {
-    const decoded = JWTService.verifyToken(token) as Token;
-    if (permission && !permission.includes(decoded.role)) {
+    const dec = JWTService.verifyToken(token) as Token;
+    const refresh = await RedisService.getAsync(dec.id);
+    JWTService.verifyToken(refresh, true);
+
+    if (permission && !permission.includes(dec.role)) {
       return returnUnAuthorizedRequest(res);
     }
-    req.user = { ...decoded };
+    req.user = { ...dec };
   } catch (err) {
     return returnUnAuthorizedRequest(res);
   }

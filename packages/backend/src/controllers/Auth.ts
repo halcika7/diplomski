@@ -2,17 +2,20 @@ import { Controller } from '@decorator/class';
 import { BaseController } from './Base';
 import { Get, Post } from '@decorator/method';
 import { Req, Res, Body } from '@decorator/param';
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { Configuration } from '@env';
 import { AuthService } from '@service/Auth';
 import { HTTPCodes, NotFoundException, UserRole } from '@job/common';
 import { RequestUser } from '@ctypes';
-import { authMiddleware } from '@middleware/auth';
+import { RedisService } from '@service/Redis';
+import { appendToken } from '@middleware/appendToken';
 
 const { environment } = Configuration.appConfig;
 
 @Controller('/auth')
 export class AuthController extends BaseController {
+  private readonly redis = RedisService;
+
   constructor(private readonly auth: AuthService) {
     super();
   }
@@ -28,14 +31,15 @@ export class AuthController extends BaseController {
     return this.sendResponse(res, status, { ...rest });
   }
 
-  @Post('/logout')
-  logout(@Res() res: Response, @Req() req: Request) {
+  @Post('/logout', appendToken())
+  logout(@Res() res: Response, @Req() req: RequestUser) {
+    this.redis.setValue(req.user.id, '');
     req.logout();
     req.logOut();
     return this.sendResponse(res, HTTPCodes.OK, {});
   }
 
-  @Get('/refresh', authMiddleware())
+  @Get('/refresh', appendToken())
   async refreshToken(@Res() res: Response, @Req() req: RequestUser) {
     try {
       const { status, ...rest } = await this.auth.refreshToken(req.user);
