@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import { RedisService } from '@service/Redis';
 
 import express, {
   Response,
@@ -12,6 +13,9 @@ import express, {
 import compression from 'compression';
 import cookieparser from 'cookie-parser';
 import cors from 'cors';
+import csrf from 'csurf';
+import session from 'express-session';
+import connectRedis from 'connect-redis';
 import helmet from 'helmet';
 import hpp from 'hpp';
 
@@ -33,10 +37,9 @@ import '@controller/Pricing';
 import '@controller/File';
 import '@controller/Dashboard';
 import { errorHandle } from './middlewares/errorHandling';
-import { authMiddleware } from '@middleware/auth';
-import { fileMiddleware } from '@middleware/fileDownload';
+import { resolve } from 'path';
 
-const { environment, url, server, db } = Configuration.appConfig;
+const { cookie, environment, url, server, db } = Configuration.appConfig;
 
 class App {
   private readonly app: Application;
@@ -57,29 +60,48 @@ class App {
 
     this.setAppMiddlewares();
 
+    if (environment !== 'test') {
+      this.setCsrf();
+    }
+
     connect(environment !== 'test' ? db.MONGO_URI : db.MONGO_URI_TEST);
   }
 
   private setAppMiddlewares(): void {
     this.app.disable('x-powered-by');
 
+    const RedisStore = connectRedis(session);
+
     const middlewares = [
-      cors({ origin: [url, '*'], credentials: true }),
+      session({
+        store: new RedisStore({ client: RedisService.client }),
+        secret: cookie.COOKIE_SECRET,
+        cookie: {
+          httpOnly: true,
+          path: '/',
+          secure: environment === 'production',
+        },
+        resave: false,
+        saveUninitialized: false,
+        rolling: true,
+        name: 'ses',
+        proxy: environment === 'production',
+      }),
       passport.initialize(),
       hpp(),
       helmet(),
       compression(),
       json({ limit: '50mb' }),
       urlencoded({ extended: false, limit: '1kb', parameterLimit: 10 }),
+      cors({ origin: url, credentials: true }),
       cookieparser(),
     ];
 
-    this.app.set('proxy', 1);
+    if (environment !== 'test') {
+      middlewares.push(csrf({ cookie: false }));
+    }
 
-    this.app.options(
-      '*',
-      cors({ origin: [url, '*'], credentials: true }) as any
-    );
+    this.app.set('trust proxy', 1);
 
     this.app.use(middlewares);
 
@@ -94,19 +116,13 @@ class App {
     this.app.get('/api/auth/google/callback', (req, res) =>
       this.passportService.socialCallback(req, res)
     );
+  }
 
-    this.app.get(
-      '/api/file/file',
-      authMiddleware(),
-      fileMiddleware() as any,
-      (req, res) => {
-        try {
-          return res.download(`${__dirname}/${req!.query!.path as string}`);
-        } catch (error) {
-          return res.status(500).send('File does not exist');
-        }
-      }
-    );
+  private setCsrf() {
+    this.app.all('*', (req: Request, res: Response, next) => {
+      res.cookie('_csrf', req.csrfToken(), { sameSite: true });
+      return next();
+    });
   }
 
   public start() {
@@ -124,6 +140,14 @@ class App {
       );
     }
 
+    if (environment === 'production') {
+      this.app.use(express.static(resolve(__dirname, '../build')));
+
+      this.app.get('*', (_, res) => {
+        return res.sendFile(resolve(__dirname, '../build', 'index.html'));
+      });
+    }
+
     this.server = new InversifyExpressServer(
       container,
       null,
@@ -136,6 +160,9 @@ class App {
     const appConfigured = this.server.build();
 
     return appConfigured.listen(this.port, () => {
+      console.log(
+        `App is running at http://localhost:${this.port} in ${this.env} mode.`
+      );
       this.logger.info(
         `App is running at http://localhost:${this.port} in ${this.env} mode.`,
         'this.app.listen'

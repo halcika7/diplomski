@@ -16,7 +16,6 @@ const fileSchema = new Schema(
       ref: 'User',
       required: true,
     },
-    orderedFor: String,
   },
   {
     timestamps: true,

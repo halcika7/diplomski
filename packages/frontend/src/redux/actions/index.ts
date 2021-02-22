@@ -50,7 +50,7 @@ export {
   setBindingErrors,
   setPaperErrors,
 } from './paperBinding';
-export { getFiles, setFiles, downloadFile, setFileErrorMessage } from './file';
+export { getFiles, setFiles } from './file';
 export {
   getDashboard,
   updateChartEarningByMonths,
