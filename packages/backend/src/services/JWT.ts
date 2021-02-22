@@ -21,7 +21,7 @@ export class JWTService {
 
   static signToken<T extends Token>(payload: T): string {
     return jwt.sign(payload, JWTService.access_secret, {
-      expiresIn: '1m',
+      expiresIn: '15m',
     });
   }
 }

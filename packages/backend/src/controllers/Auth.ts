@@ -3,7 +3,6 @@ import { BaseController } from './Base';
 import { Get, Post } from '@decorator/method';
 import { Req, Res, Body } from '@decorator/param';
 import { Request, Response } from 'express';
-import { CookieService } from '@service/Cookie';
 import { Configuration } from '@env';
 import { AuthService } from '@service/Auth';
 import { HTTPCodes, NotFoundException, UserRole } from '@job/common';
@@ -14,8 +13,6 @@ const { environment } = Configuration.appConfig;
 
 @Controller('/auth')
 export class AuthController extends BaseController {
-  private readonly cookie = CookieService;
-
   constructor(private readonly auth: AuthService) {
     super();
   }
@@ -35,7 +32,6 @@ export class AuthController extends BaseController {
   logout(@Res() res: Response, @Req() req: Request) {
     req.logout();
     req.logOut();
-    this.cookie.removeRefreshToken(res);
     return this.sendResponse(res, HTTPCodes.OK, {});
   }
 

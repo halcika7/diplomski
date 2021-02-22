@@ -21,6 +21,7 @@ export const logoutUser = async (
 ): Promise<AuthActionTypes> => {
   await axios.post<{ message?: string }>('/auth/logout');
 
+  localStorage.removeItem('isaujuis');
   return dispatch(authReset());
 };
 
