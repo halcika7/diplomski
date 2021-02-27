@@ -5,6 +5,7 @@ config();
 interface ServerConfig {
   PORT: number;
   REDIS_URL: string;
+  URL: string;
 }
 
 interface DbConfig {
@@ -98,6 +99,7 @@ export abstract class Configuration {
     server: {
       PORT: parseInt(PORT as string, 10),
       REDIS_URL,
+      URL: SERVER_URL,
     } as ServerConfig,
     cookie: {
       COOKIE_KEY,
@@ -113,7 +115,7 @@ export abstract class Configuration {
     social: {
       googleID: GOOGLE_CLIENT_ID as string,
       googleSecretID: GOOGLE_CLIENT_SECRET as string,
-      googleCallBack: `${SERVER_URL}google/callback`,
+      googleCallBack: `${SERVER_URL}/api/auth/google/callback`,
     },
     cloudinary: {
       CLOUDINARY_CLOUD,

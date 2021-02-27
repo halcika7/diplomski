@@ -59,6 +59,7 @@ describe('Testing Contact actions', () => {
                 bindingOption: '',
                 file: '',
               },
+              err: null,
             },
           })
           .then(() => {
@@ -76,7 +77,10 @@ describe('Testing Contact actions', () => {
       moxios.wait(() => {
         const req = moxios.requests.mostRecent();
         req
-          .respondWith({ status: 400, response: { err: 'sajoid' } })
+          .respondWith({
+            status: 400,
+            response: { err: 'sajoid', errors: null },
+          })
           .then(() => {
             expect(req.url).toBe('/upload/');
             done();

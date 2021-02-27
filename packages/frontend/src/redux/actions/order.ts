@@ -33,13 +33,13 @@ export const postOrder = (orderedFor: string) => async (
     dispatch(setOrderMessage(data.message, status));
   }
 
-  if (data.cart) {
+  if (data?.cart) {
     dispatch(setOrderErrors(InitialOrderErrors));
     dispatch(resetUploadErrors);
     dispatch(setCart(data.cart));
   }
 
-  if (data.errors) {
+  if (data?.errors) {
     dispatch(setOrderErrors(data.errors));
   }
 };

@@ -12,13 +12,13 @@ import { UserInterface } from '@model/User/User';
 import { JWTService } from './JWT';
 import { Injectable } from '@decorator/class';
 import { Token } from '@job/common';
-import { RedisService } from './Redis';
+import { CookieService } from './Cookie';
 
 @Injectable()
 export class PassportService extends BaseService {
   private readonly jwt = JWTService;
 
-  private readonly redis = RedisService;
+  private readonly cookie = CookieService;
 
   constructor() {
     super();
@@ -42,7 +42,7 @@ export class PassportService extends BaseService {
       if (user?.blocked) return done(new Error('User blocked!'));
 
       if (!user && !userAdded) {
-        return done('You ddo not have permission tto Sign In', undefined);
+        return done(new Error('You do not have permission to Sign In'));
       }
 
       if (userAdded) {
@@ -64,12 +64,14 @@ export class PassportService extends BaseService {
 
   private async passportCallback(
     err: Error | undefined,
-    { _id, role, createdAt }: UserInterface,
+    data: UserInterface,
     res: Response
   ) {
     const { url } = Configuration.appConfig;
 
     if (err) return res.redirect(`${url}/?err=${err}`);
+
+    const { _id, role, createdAt } = data;
 
     const tokenObj = {
       id: _id,
@@ -79,23 +81,19 @@ export class PassportService extends BaseService {
 
     const accessToken = this.jwt.signToken(tokenObj);
 
-    const refresh = this.jwt.signToken(tokenObj, true);
-
-    const valid = this.redis.setValue(_id.toString(), refresh);
-
-    if (!valid) {
-      return res.redirect(`${url}/?err="Login failed"`);
-    }
+    this.cookie.setRefreshToken(res, this.jwt.signToken(tokenObj, true));
 
     return res.redirect(`${url}/?token=${accessToken}`);
   }
 }
 
-passport.serializeUser((user: any, done) => done(null, user._id));
+passport.serializeUser((user: Partial<UserInterface>, done) =>
+  done(null, user._id)
+);
 
 passport.deserializeUser(async (id, done) => {
   const user = await User.findById(id);
-  return done(null, user as UserInterface);
+  return done(null, user);
 });
 
 passport.use(

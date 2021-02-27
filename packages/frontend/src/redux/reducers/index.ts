@@ -1,11 +1,10 @@
 import { combineReducers, Reducer } from 'redux';
-import { CartFront } from '@job/common';
 
 // reducers
 import { AuthReducer as auth, AuthState } from './auth';
 import { UserReducer as user, UserState } from './user';
 import { UploadReducer as upload, UploadState } from './upload';
-import { CartReducer as cart } from './cart';
+import { CartReducer as cart, Cart } from './cart';
 import {
   PaperBindingReducer as paperBinding,
   PaperBindingState,
@@ -18,7 +17,7 @@ export interface AppState {
   auth: AuthState;
   user: UserState;
   upload: UploadState;
-  cart: CartFront;
+  cart: Cart;
   paperBinding: PaperBindingState;
   file: FileState;
   order: OrderState;

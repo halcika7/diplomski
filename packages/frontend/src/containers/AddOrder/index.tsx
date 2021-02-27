@@ -13,6 +13,7 @@ import {
   postOrder,
   resetUploadStatus,
   setOrderMessage,
+  setCartResponse,
 } from '@actions';
 import { createSelector } from 'reselect';
 import { AppState } from '@reducers/index';
@@ -24,8 +25,7 @@ import Alert from '@components/UI/Alert';
 
 const reduxProps = createSelector(
   (state: AppState) => state.upload,
-  (state: AppState) => state.cart.documents,
-  (state: AppState) => state.cart.totalCost,
+  (state: AppState) => state.cart,
   (state: AppState) => state.order.message,
   (state: AppState) => state.order.status,
   (state: AppState) => state.order.errors,
@@ -37,14 +37,7 @@ const validUseFor = ['Personal', 'University'];
 
 const AddOrder = () => {
   const dispatch = useThunkDispatch();
-  const [
-    upload,
-    documents,
-    totalCost,
-    message,
-    status,
-    orderErrors,
-  ] = useSelector(reduxProps);
+  const [upload, cart, message, status, orderErrors] = useSelector(reduxProps);
   const [file, setFile] = useState<File>();
   const [numberOfCopies, setNumberOfCopies] = useState<number>(1);
   const [printOption, setPrintOption] = useState<string>('');
@@ -74,7 +67,7 @@ const AddOrder = () => {
   };
 
   const isSubmitDisabled = () =>
-    documents.length < 1 || !validUseFor.includes(useFor) || sending;
+    cart.documents.length < 1 || !validUseFor.includes(useFor) || sending;
 
   const uploadFile = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
@@ -107,6 +100,8 @@ const AddOrder = () => {
   const clearUploadStatus = () => dispatch(resetUploadStatus);
 
   const clearOrderStatus = () => dispatch(setOrderMessage('', null));
+
+  const clearCartStatus = () => dispatch(setCartResponse('', null));
 
   const addOrder = () => {
     if (isSubmitDisabled()) return;
@@ -157,6 +152,7 @@ const AddOrder = () => {
 
   useEffect(() => {
     return () => {
+      dispatch(setCartResponse('', null));
       dispatch(setOrderMessage('', null));
       dispatch(resetUploadStatus);
     };
@@ -175,6 +171,13 @@ const AddOrder = () => {
           content="Add Order page in Print Shop Web App"
         />
       </Helmet>
+      {cart.message && (
+        <Alert
+          message={cart.message}
+          clear={clearCartStatus}
+          className={cart.status === 200 ? 'alert-success' : 'alert-danger'}
+        />
+      )}
       {upload.message && (
         <Alert
           message={upload.message}
@@ -258,11 +261,11 @@ const AddOrder = () => {
             </div>
           </div>
         </div>
-        {documents.length > 0 && (
+        {cart.documents.length > 0 && (
           <>
             <FilesTable
-              documents={documents}
-              totalPrice={totalCost}
+              documents={cart.documents}
+              totalPrice={cart.totalCost}
               deleteFile={deleteFile}
               deleteFiles={deleteFiles}
             />

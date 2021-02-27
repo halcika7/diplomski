@@ -49,10 +49,7 @@ export const uploadFile = (formData: FormData) => async (
 ) => {
   dispatch(setUploadStatus('', null));
 
-  const {
-    data: { cart, err, errors },
-    status,
-  } = await axios.put<{
+  const { data, status } = await axios.put<{
     cart: Cart;
     errors?: Partial<UploadFileErrors>;
     err?: string;
@@ -63,14 +60,14 @@ export const uploadFile = (formData: FormData) => async (
     },
   });
 
-  if (errors) {
+  if (data.errors) {
     dispatch(setUploadStatus('', status));
-    dispatch(setUploadErrors(errors));
-  } else if (err) {
-    dispatch(setUploadStatus(err, status));
+    dispatch(setUploadErrors(data.errors));
+  } else if (data.err) {
+    dispatch(setUploadStatus(data.err, status));
   } else {
     dispatch(setUploadStatus('File uploaded', status));
     dispatch(resetUploadErrors);
-    dispatch(setCart(cart));
+    dispatch(setCart(data.cart));
   }
 };

@@ -1,22 +1,22 @@
 import Axios from 'axios';
 import { store } from '../redux/index';
-import { authSuccess, authReset } from '@actions';
+import { authSuccess, authReset, logoutUser } from '@actions';
 import { AnyDictionary } from '@job/common';
 
 const url = process.env.REACT_APP_BACKEND_URL;
 
 const ax = Axios.create({
   withCredentials: true,
-  validateStatus: () => true,
-  baseURL: `${url}`,
+  xsrfCookieName: '_csrf',
+  xsrfHeaderName: 'X-XSRF-TOKEN',
+  baseURL: url,
 });
 
-const rejectPromise = (error: AnyDictionary | string) => Promise.reject(error);
+const rejectPromise = (error: AnyDictionary | string) => Promise.resolve(error);
 
 ax.interceptors.request.use(config => {
   const newConfig = { ...config };
-  const tok = localStorage.getItem('isaujuis');
-  const token = `Bearer ${tok}`;
+  const token = `Bearer ${store.getState().auth.token}`;
   newConfig.headers = {
     ...newConfig.headers,
     common: {
@@ -36,31 +36,32 @@ ax.interceptors.response.use(
     const refreshUrl = `${url}/auth/refresh`;
 
     if (errorStatus === 401 && originalRequest.url === refreshUrl) {
-      localStorage.removeItem('isaujuis');
+      store.dispatch<any>(logoutUser);
       store.dispatch(authReset());
-      return rejectPromise(error);
+      return rejectPromise(error.response);
     }
 
     if (errorStatus === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      return axios.get('/auth/refresh').then(res => {
-        if (res.data.accessToken) {
-          const { accessToken } = res.data;
-          // dispatch refresh success
-          localStorage.setItem('isaujuis', accessToken);
-          store.dispatch(authSuccess(accessToken));
-          // return originalRequest object with Axios.
-          return axios(originalRequest);
-        }
+      return axios
+        .get('/auth/refresh', { params: { firstCheck: false } })
+        .then(res => {
+          if (res.data.accessToken) {
+            const { accessToken } = res.data;
+            // dispatch refresh success
+            store.dispatch(authSuccess(accessToken));
+            // return originalRequest object with Axios.
+            return axios(originalRequest);
+          }
 
-        localStorage.removeItem('isaujuis');
-        store.dispatch(authReset());
+          store.dispatch<any>(logoutUser);
+          store.dispatch(authReset());
 
-        return rejectPromise(error);
-      });
+          return rejectPromise(error.response);
+        });
     }
 
-    return rejectPromise(error);
+    return rejectPromise(error.response);
   }
 );
 

@@ -41,6 +41,7 @@ const setBindings = (bindings: Binding[]): PaperBindingActionTypes => ({
 });
 
 export const getPaperBindings = async (dispatch: AppThunkDispatch) => {
+  dispatch(setPaperBindings({ papers: [], bindings: [] }));
   const { data } = await axios.get<{
     papers: Paper[];
     bindings: Binding[];

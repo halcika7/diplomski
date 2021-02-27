@@ -32,7 +32,6 @@ const Login = () => {
       dispatch(getUserData);
       dispatch(authSuccess(token));
       history.replace('/dashboard');
-      localStorage.setItem('isaujuis', token);
     }
     if (error) {
       history.replace('/');

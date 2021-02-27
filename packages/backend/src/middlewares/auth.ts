@@ -1,6 +1,5 @@
 import { HTTPCodes, Token } from '@job/common';
 import { JWTService } from '@service/JWT';
-import { RedisService } from '@service/Redis';
 import { NextFunction, Request, Response } from 'express';
 
 const returnUnAuthorizedRequest = (res: Response) =>
@@ -20,14 +19,14 @@ export const authMiddleware = (permission: string[] | null = null) => async (
   }
 
   try {
-    const dec = JWTService.verifyToken(token) as Token;
-    const refresh = await RedisService.getAsync(dec.id);
-    JWTService.verifyToken(refresh, true);
+    const decoded = JWTService.verifyToken(token) as Token;
 
-    if (permission && !permission.includes(dec.role)) {
-      return returnUnAuthorizedRequest(res);
+    if (permission && !permission.includes(decoded.role)) {
+      return res
+        .status(HTTPCodes.FORBIDDEN)
+        .json({ message: "You don't have permission to make request." });
     }
-    req.user = { ...dec };
+    req.user = { ...decoded };
   } catch (err) {
     return returnUnAuthorizedRequest(res);
   }

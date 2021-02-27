@@ -1,11 +1,19 @@
 import 'reflect-metadata';
 import { RedisService } from '@service/Redis';
 
-import express, { urlencoded, json, Application } from 'express';
+import express, {
+  urlencoded,
+  json,
+  Application,
+  Request,
+  Response,
+  NextFunction,
+} from 'express';
 
 import compression from 'compression';
 import cookieparser from 'cookie-parser';
 import cors from 'cors';
+import csrf from 'csurf';
 import session from 'express-session';
 import connectRedis from 'connect-redis';
 import helmet from 'helmet';
@@ -37,6 +45,8 @@ class App {
 
   private readonly port = server.PORT;
 
+  private readonly URL = server.URL;
+
   private readonly env = environment;
 
   private readonly logger = LoggerFactory.getLogger(App.name) as Logger;
@@ -50,6 +60,10 @@ class App {
     this.app = express();
 
     this.setAppMiddlewares();
+
+    if (environment !== 'test') {
+      this.setCsrf();
+    }
 
     connect(environment !== 'test' ? db.MONGO_URI : db.MONGO_URI_TEST);
   }
@@ -92,6 +106,10 @@ class App {
       cors({ origin: [url, '*'], credentials: true }) as any
     );
 
+    if (environment !== 'test') {
+      middlewares.push(csrf({ cookie: false }));
+    }
+
     this.app.use(middlewares);
 
     this.app.get(
@@ -107,7 +125,26 @@ class App {
     );
   }
 
+  private setCsrf() {
+    this.app.all('*', (req, res, next) => {
+      res.cookie('_csrf', req.csrfToken(), { sameSite: true });
+      return next();
+    });
+  }
+
   public start() {
+    // eslint-disable-next-line max-params
+    this.app.use(
+      (err: Error | any, __: Request, res: Response, next: NextFunction) => {
+        if (err.code !== 'EBADCSRFTOKEN') return next(err);
+
+        return res.status(403).json({
+          message:
+            'Someone tempered this request. CSRF token was not provided.',
+        });
+      }
+    );
+
     this.server = new InversifyExpressServer(
       container,
       null,
@@ -120,11 +157,9 @@ class App {
     const appConfigured = this.server.build();
 
     return appConfigured.listen(this.port, () => {
-      console.log(
-        `App is running at http://localhost:${this.port} in ${this.env} mode.`
-      );
+      console.log(`App is running at ${this.URL} in ${this.env} mode.`);
       this.logger.info(
-        `App is running at http://localhost:${this.port} in ${this.env} mode.`,
+        `App is running at ${this.URL} in ${this.env} mode.`,
         'this.app.listen'
       );
     });

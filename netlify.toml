@@ -12,7 +12,7 @@
 [context.production.environment]
     SKIP_PREFLIGHT_CHECK = "true"
     GENERATE_SOURCEMAP = "false"
-    REACT_APP_BACKEND_URL = "https://api.print-shop-api.com/api"
+    REACT_APP_BACKEND_URL = "https://api.print-shop-burch.com/api"
 
 [[redirects]]
   from = "/*"

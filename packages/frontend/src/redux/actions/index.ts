@@ -23,7 +23,13 @@ export {
   setUserResponse,
   setUserData,
 } from './user';
-export { getCart, setCart, clearCart, removeDocument } from './cart';
+export {
+  getCart,
+  setCart,
+  clearCart,
+  removeDocument,
+  setCartResponse,
+} from './cart';
 export {
   postOrder,
   getOrders,

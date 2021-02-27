@@ -11,7 +11,7 @@ export class CookieService {
   private static readonly refreshOptions: CookieOptions = {
     httpOnly: true,
     path: webToken.REFRESH_TOKEN_PATH,
-    sameSite: 'lax',
+    sameSite: 'strict',
     secure: environment === 'production',
     domain: environment === 'production' ? '.print-shop-burch.com' : undefined,
   };

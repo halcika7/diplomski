@@ -16,7 +16,7 @@ describe('Testing Contact actions', () => {
 
   it('should succeed', done => {
     moxios.withMock(() => {
-      store.dispatch<any>(refreshToken);
+      store.dispatch<any>(refreshToken());
       moxios.wait(() => {
         const req = moxios.requests.mostRecent();
         req
@@ -28,7 +28,7 @@ describe('Testing Contact actions', () => {
             },
           })
           .then(() => {
-            expect(req.url).toBe('/auth/refresh');
+            expect(req.url).toBe('/auth/refresh?firstCheck=false');
             done();
           });
       });
@@ -37,18 +37,18 @@ describe('Testing Contact actions', () => {
 
   it('should fail refresh token', done => {
     moxios.withMock(() => {
-      store.dispatch<any>(refreshToken);
+      store.dispatch<any>(refreshToken(true));
       moxios.wait(() => {
         const req = moxios.requests.mostRecent();
         req
           .respondWith({
-            status: 401,
+            status: 400,
             response: {
               message: 'kdfpokdspfo',
             },
           })
           .then(() => {
-            expect(req.url).toBe('/auth/refresh');
+            expect(req.url).toBe('/auth/refresh?firstCheck=true');
             done();
           });
       });
@@ -61,6 +61,19 @@ describe('Testing Contact actions', () => {
       moxios.wait(() => {
         const req = moxios.requests.mostRecent();
         req.respondWith({ status: 200 }).then(() => {
+          expect(req.url).toBe('/auth/logout');
+          done();
+        });
+      });
+    });
+  });
+
+  it('should not logout user', done => {
+    moxios.withMock(() => {
+      store.dispatch<any>(logoutUser);
+      moxios.wait(() => {
+        const req = moxios.requests.mostRecent();
+        req.respondWith({ status: 400 }).then(() => {
           expect(req.url).toBe('/auth/logout');
           done();
         });

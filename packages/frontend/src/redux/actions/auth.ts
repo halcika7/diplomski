@@ -19,29 +19,25 @@ export const authReset = (): AuthActionTypes => ({
 export const logoutUser = async (dispatch: AppThunkDispatch) => {
   const { status } = await axios.post<{ message?: string }>('/auth/logout');
 
-  if (status === 200) {
-    localStorage.removeItem('isaujuis');
-    return dispatch(authReset());
-  }
-
-  console.log('not logged out');
+  if (status === 200) return dispatch(authReset());
 
   return undefined;
 };
 
-export const refreshToken = async (dispatch: AppThunkDispatch) => {
+export const refreshToken = (firstCheck = false) => async (
+  dispatch: AppThunkDispatch
+) => {
   dispatch({ type: AuthActions.AUTH_SET_LOADING, payload: { loading: true } });
   const { data } = await axios.get<{
     message: string;
     accessToken: string;
-  }>('/auth/refresh');
+  }>(`/auth/refresh`, { params: { firstCheck } });
 
-  if (data.accessToken) {
-    localStorage.setItem('isaujuis', data.accessToken);
+  if (data?.accessToken) {
     dispatch(getUserData);
     return dispatch(authSuccess(data.accessToken));
   }
 
-  localStorage.removeItem('isaujuis');
+  dispatch(logoutUser);
   return dispatch(authReset());
 };

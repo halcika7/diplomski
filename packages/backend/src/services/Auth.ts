@@ -7,40 +7,26 @@ import { HTTPCodes, Token, UserRole } from '@job/common';
 
 import { Injectable } from '@decorator/class';
 import { UserRepository } from '@repository/User';
-import { RedisService } from './Redis';
 
 @Injectable()
 export class AuthService extends BaseService {
   private readonly jwt = JWTService;
 
-  private readonly redis = RedisService;
-
   constructor(private readonly userRepository: UserRepository) {
     super();
   }
 
-  async refreshToken({ id }: Token): Promise<ResponseTokens> {
-    const refreshToken = await this.redis.getAsync(id);
-    const { role, year } = JWTService.verifyToken(refreshToken, true) as Token;
-
-    const tokenObj = { role, year, id };
-
-    const refresh = this.jwt.signToken(tokenObj, true);
-
-    const valid = this.redis.setValue(id, refresh);
-
-    if (!valid) {
-      return this.returnResponseTokens({
-        status: HTTPCodes.OK,
-        message: '',
-        accessToken: '',
-      });
-    }
+  async refreshToken(token: string): Promise<ResponseTokens> {
+    const { id, role, year } = (await this.jwt.verifyToken(
+      token,
+      true
+    )) as Token;
 
     return this.returnResponseTokens({
       status: HTTPCodes.OK,
       message: '',
-      accessToken: this.jwt.signToken(tokenObj),
+      accessToken: this.jwt.signToken({ id, role, year }),
+      refreshToken: this.jwt.signToken({ id, role, year }, true),
     });
   }
 
@@ -56,31 +42,22 @@ export class AuthService extends BaseService {
         refreshToken: '',
       });
     }
-
-    const tokenObj = {
+    const accessToken = this.jwt.signToken({
       id: user._id,
       role,
       year: new Date(user.createdAt).getFullYear(),
-    };
+    });
 
-    const accessToken = this.jwt.signToken(tokenObj);
-
-    const refresh = this.jwt.signToken(tokenObj, true);
-
-    const valid = this.redis.setValue(user!._id, refresh);
-
-    if (!valid) {
-      return this.returnResponseTokens({
-        status: HTTPCodes.OK,
-        message: '',
-        accessToken: '',
-      });
-    }
+    const refreshToken = this.jwt.signToken(
+      { id: user._id, role, year: new Date(user.createdAt).getFullYear() },
+      true
+    );
 
     return this.returnResponseTokens({
       status: HTTPCodes.OK,
       message: '',
       accessToken,
+      refreshToken,
     });
   }
 }

@@ -9,11 +9,24 @@ export const setCart = (cart: Cart): CartActionTypes => ({
   payload: { cart },
 });
 
+export const setCartResponse = (
+  message: string,
+  status: number | null
+): CartActionTypes => ({
+  type: CartActions.SET_CART_RESPONSE,
+  payload: { message, status },
+});
+
 export const getCart = async (dispatch: AppThunkDispatch) => {
   const { data } = await axios.get<{
     cart: Cart;
   }>('/cart/');
-  dispatch(setCart(data.cart));
+
+  dispatch(setCart(data?.cart));
+
+  if (!data?.cart) {
+    dispatch(setCartResponse('Could not fetch cart', 400));
+  }
 };
 
 export const removeDocument = (id: string) => async (
@@ -22,12 +35,20 @@ export const removeDocument = (id: string) => async (
   const { data } = await axios.delete<{
     cart: Cart;
   }>(`/cart/${id}`);
-  dispatch(setCart(data.cart));
+  dispatch(setCart(data?.cart));
+
+  if (!data?.cart) {
+    dispatch(setCartResponse('Document was not removed.', 400));
+  }
 };
 
 export const clearCart = async (dispatch: AppThunkDispatch) => {
   const { data } = await axios.delete<{
     cart: Cart;
   }>(`/cart/`);
-  dispatch(setCart(data.cart));
+  dispatch(setCart(data?.cart));
+
+  if (!data?.cart) {
+    dispatch(setCartResponse('Unable to clear cart.', 400));
+  }
 };

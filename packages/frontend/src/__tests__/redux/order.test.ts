@@ -36,10 +36,15 @@ describe('Testing Contact actions', () => {
       store.dispatch<any>(postOrder('Personal'));
       moxios.wait(() => {
         const req = moxios.requests.mostRecent();
-        req.respondWith({ status: 200, response: { cart: [] } }).then(() => {
-          expect(req.url).toBe('/order/');
-          done();
-        });
+        req
+          .respondWith({
+            status: 200,
+            response: { cart: [], message: 'Order sent' },
+          })
+          .then(() => {
+            expect(req.url).toBe('/order/');
+            done();
+          });
       });
     });
   });
