@@ -2,6 +2,7 @@ import { request, cleanupWithDB } from '../__mocks__/index';
 import CartModel from '@model/Cart';
 
 let token = '';
+
 describe('Testing Cart controller', () => {
   beforeAll(async () => {
     const res = await request

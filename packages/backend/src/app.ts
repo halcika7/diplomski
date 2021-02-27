@@ -85,6 +85,7 @@ class App {
           secure: environment === 'production',
           domain:
             environment === 'production' ? '.print-shop-burch.com' : undefined,
+          sameSite: true,
         },
         resave: false,
         saveUninitialized: false,
@@ -127,7 +128,13 @@ class App {
 
   private setCsrf() {
     this.app.all('*', (req, res, next) => {
-      res.cookie('_csrf', req.csrfToken(), { sameSite: true });
+      res.cookie('_csrf', req.csrfToken(), {
+        path: '/',
+        secure: environment === 'production',
+        domain:
+          environment === 'production' ? '.print-shop-burch.com' : undefined,
+        sameSite: true,
+      });
       return next();
     });
   }
@@ -136,6 +143,7 @@ class App {
     // eslint-disable-next-line max-params
     this.app.use(
       (err: Error | any, __: Request, res: Response, next: NextFunction) => {
+        console.log('🚀 ~ file: app.ts ~ line 147 ~ App ~ start ~ err', err);
         if (err.code !== 'EBADCSRFTOKEN') return next(err);
 
         return res.status(403).json({

@@ -5,9 +5,9 @@ import { readFile } from 'fs';
 
 const read = promisify(readFile);
 
-describe('Testing User controller', () => {
-  let token = '';
+let token = '';
 
+describe('Testing User controller', () => {
   beforeAll(async () => {
     const res = await request
       .post({ url: 'auth/test_login' })
@@ -124,7 +124,7 @@ describe('Testing User controller', () => {
   });
 
   it('should fail to update photo', async done => {
-    const res = await request.post({ url: `user/picture`, token });
+    const res = await request.put({ url: `user/picture`, token });
 
     expect(res.status).toEqual(400);
     done();
@@ -134,7 +134,7 @@ describe('Testing User controller', () => {
     const data = Buffer.from('/Users/harisbeslic/Desktop/halc.jpg');
 
     const res = await request
-      .post({ url: `user/picture`, token })
+      .put({ url: `user/picture`, token })
       .attach('image', data, 'custom_file_name.jpeg');
 
     expect(res.status).toEqual(400);
@@ -145,7 +145,7 @@ describe('Testing User controller', () => {
     const data = await read('/Users/harisbeslic/Desktop/halc.jpg');
 
     const res = await request
-      .post({ url: `user/picture`, token })
+      .put({ url: `user/picture`, token })
       .attach('image', data, 'custom_file_name.jpeg');
 
     expect(res.status).toEqual(200);

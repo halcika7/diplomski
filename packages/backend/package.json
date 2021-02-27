@@ -17,7 +17,7 @@
     "test": "NODE_ENV=test jest --runInBand",
     "test:migrate": "NODE_ENV=test yarn migrate && jest --runInBand",
     "test:coverage": "yarn test --coverage --detectOpenHandles",
-    "test:coverage:migrate": "yarn test:migrate --coverage --detectOpenHandles",
+    "test:coverage:migrate": "NODE_ENV=test yarn migrate && jest --runInBand --coverage --detectOpenHandles",
     "copy-static-assets": "ts-node copyStatic.ts",
     "lint:ts:fix": "eslint . --ext .ts --fix",
     "format:write": "prettier --write . --ignore-path ../../.prettierignore",

@@ -4,9 +4,9 @@ import { readFile } from 'fs';
 
 const read = promisify(readFile);
 
-describe('Testing Upload controller', () => {
-  let token = '';
+let token = '';
 
+describe('Testing Upload controller', () => {
   beforeAll(async () => {
     const res = await request
       .post({ url: 'auth/test_login' })
@@ -31,7 +31,7 @@ describe('Testing Upload controller', () => {
     const data = await read('/Users/harisbeslic/Desktop/halc.pdf');
 
     const res = await request
-      .post({ url: `upload/`, token })
+      .put({ url: `upload/`, token })
       .attach('file', data, 'custom_file_name.pdf')
       .field('print', 'Color')
       .field('paper', 'A0')
@@ -57,7 +57,7 @@ describe('Testing Upload controller', () => {
     const data = await read('/Users/harisbeslic/Desktop/halc.pdf');
 
     const res = await request
-      .post({ url: `upload/`, token })
+      .put({ url: `upload/`, token })
       .attach('file', data, 'custom_file_name.pdf')
       .field('print', 'Color')
       .field('paper', '')
@@ -72,7 +72,7 @@ describe('Testing Upload controller', () => {
     const data = Buffer.from('../__mocks__/halc.pdf');
 
     const res = await request
-      .post({ url: `upload/`, token })
+      .put({ url: `upload/`, token })
       .attach('file', data, 'custom_file_name.pdf')
       .field('print', 'Color')
       .field('paper', 'A0')

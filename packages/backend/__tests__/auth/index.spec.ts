@@ -15,7 +15,7 @@ describe('Testing Auth controller', () => {
   });
 
   it('should refresh success', async done => {
-    const res = await request.get({ url: 'auth/refresh' });
+    const res = await request.get({ url: 'auth/refresh?firstCheck=true' });
     expect(res.status).toEqual(200);
     done();
   });
@@ -28,7 +28,7 @@ describe('Testing Auth controller', () => {
 
   it('should refresh failed', async done => {
     const res = await request.get({ url: 'auth/refresh' });
-    expect(res.status).toEqual(401);
+    expect(res.status).toEqual(400);
     done();
   });
 
@@ -55,7 +55,7 @@ describe('Testing Auth controller', () => {
       token: `Bearer ${tok.body.accessToken}`,
     });
     await request.post({ url: 'auth/logout' });
-    expect(res.status).toEqual(401);
+    expect(res.status).toEqual(403);
     done();
   });
 

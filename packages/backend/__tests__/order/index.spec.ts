@@ -24,7 +24,7 @@ describe('Testing Order controller', () => {
     const data = await read('/Users/harisbeslic/Desktop/halc.pdf');
 
     await request
-      .post({ url: `upload/`, token })
+      .put({ url: `upload/`, token })
       .attach('file', data, 'custom_file_name.pdf')
       .field('print', 'Color')
       .field('paper', 'A0')
@@ -46,7 +46,7 @@ describe('Testing Order controller', () => {
     const data = await read('/Users/harisbeslic/Desktop/halc.pdf');
 
     await request
-      .post({ url: `upload/`, token })
+      .put({ url: `upload/`, token })
       .attach('file', data, 'custom_file_name.pdf')
       .field('print', 'Color')
       .field('paper', 'A0')
@@ -141,7 +141,7 @@ describe('Testing Order controller', () => {
     let i = 0;
     for await (const t of orderTypes) {
       await request
-        .post({ url: `upload/`, token })
+        .put({ url: `upload/`, token })
         .attach('file', data, `custom_file_name-${i}.pdf`)
         .field('print', 'Color')
         .field('paper', 'A0')
