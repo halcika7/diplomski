@@ -4,9 +4,6 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-RUN rm -rf ./packages/frontend
-RUN rm -rf ./packages/backend/__tests__
-
 RUN yarn
 
 RUN yarn build
@@ -20,15 +17,20 @@ COPY . .
 
 RUN rm -rf ./packages/frontend
 RUN rm -rf ./packages/backend/__tests__
+RUN rm -rf ./packages/backend/coverage
 
 RUN yarn install --prod
+
+ENV NODE_ENV production
 
 COPY --from=0 /usr/src/app/packages/backend/dist ./packages/backend/dist
 COPY --from=0 /usr/src/app/packages/common/dist ./packages/common/dist
 
 COPY .env.production ./packages/backend/.env
 
-ENV NODE_ENV production
+RUN yarn migrate
+
+RUN yarn seed
 
 EXPOSE 8080
 

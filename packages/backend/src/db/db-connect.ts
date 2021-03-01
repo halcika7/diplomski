@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
 
-import { LoggerFactory, Logger } from '@logger';
+import { LoggerFactory } from '@logger';
 
-const logger = LoggerFactory.getLogger('db-connection') as Logger;
+const logger = LoggerFactory.getLogger('db-connection');
 
-export const connect = async (MONGO_URI: string) => {
+export const connect = async (MONGO_URL: string) => {
   try {
-    await mongoose.connect(MONGO_URI, {
+    await mongoose.connect(MONGO_URL, {
       useNewUrlParser: true,
       useCreateIndex: true,
       useUnifiedTopology: true,

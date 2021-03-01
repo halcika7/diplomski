@@ -2,7 +2,7 @@ import UserModel from '@model/User';
 
 const users = [
   {
-    googleID: '1',
+    googleID: 'google',
     name: 'Haris Beslic',
     picture:
       'https://lh6.googleusercontent.com/-FwUSIsv5swQ/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucmsGlmTqN214GHnnbCne1n9WtWuSA/s96-c/photo.jpg',
@@ -14,7 +14,7 @@ const users = [
     role: 'admin',
   },
   {
-    googleID: '2',
+    googleID: 'google',
     name: 'Haris Beslic',
     picture:
       'https://lh6.googleusercontent.com/-FwUSIsv5swQ/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucmsGlmTqN214GHnnbCne1n9WtWuSA/s96-c/photo.jpg',
@@ -22,11 +22,11 @@ const users = [
     twitterLink: '',
     phone: '',
     blocked: false,
-    email: 'harisbeslic@gmail.com',
+    email: 'worker.haris.beslic@gmail.com',
     role: 'worker',
   },
   {
-    googleID: '3',
+    googleID: 'google',
     name: 'Haris Beslic',
     picture:
       'https://lh6.googleusercontent.com/-FwUSIsv5swQ/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucmsGlmTqN214GHnnbCne1n9WtWuSA/s96-c/photo.jpg',
@@ -34,11 +34,11 @@ const users = [
     twitterLink: '',
     phone: '',
     blocked: false,
-    email: 'haris2@gmail.com',
+    email: 'elvedinabeslic@gmail.com',
     role: 'administration',
   },
   {
-    googleID: '4',
+    googleID: 'google',
     name: 'Haris Beslic',
     picture:
       'https://lh6.googleusercontent.com/-FwUSIsv5swQ/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucmsGlmTqN214GHnnbCne1n9WtWuSA/s96-c/photo.jpg',
@@ -46,7 +46,7 @@ const users = [
     twitterLink: '',
     phone: '',
     blocked: false,
-    email: 'beslic32@gmail.com',
+    email: 'haris.beslic@stu.ibu.edu.ba',
     role: 'professor',
   },
 ];

@@ -10,6 +10,7 @@ import {
   UserRole,
   HTTPCodes,
 } from '@job/common';
+import { LoggerFactory } from '@logger';
 
 const facebookRegex = new RegExp('http(?:s)://(?:www.)facebook.com/');
 const twitterRegex = new RegExp('http(?:s)://twitter.com/');
@@ -17,6 +18,8 @@ const phoneRegex = new RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\\./0-9]*$/);
 
 @Injectable()
 export class UserService extends BaseService {
+  private readonly logger = LoggerFactory.getLogger('UserService');
+
   constructor(
     private readonly cloudinaryService: CloudinaryService,
     private readonly userRepository: UserRepository
@@ -40,7 +43,8 @@ export class UserService extends BaseService {
           'File is not supported. Only JPG, PNG and GIF files are supported';
       }
       return error;
-    } catch {
+    } catch (error) {
+      this.logger.error(error, 'validatePhoto');
       return 'Image is required';
     }
   }
@@ -61,6 +65,7 @@ export class UserService extends BaseService {
         userId
       );
     } catch (err) {
+      this.logger.error(err, 'changePhoto');
       return { error: err };
     }
 

@@ -75,15 +75,9 @@ export class PaperService extends BaseService {
   }
 
   private getOption(key: string) {
-    if (key === 'upTo250') {
-      return '250';
-    }
-    if (key === 'from250upTo500') {
-      return '250 - 500';
-    }
-    if (key === 'from500upTo1000') {
-      return '500 - 1000';
-    }
+    if (key === 'upTo250') return '250';
+    if (key === 'from250upTo500') return '250 - 500';
+    if (key === 'from500upTo1000') return '500 - 1000';
 
     return '1000+';
   }

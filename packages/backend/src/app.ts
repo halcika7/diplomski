@@ -19,10 +19,10 @@ import connectRedis from 'connect-redis';
 import helmet from 'helmet';
 import hpp from 'hpp';
 
-import { LoggerFactory, Logger } from '@logger';
+import { LoggerFactory } from '@logger';
 import passport, { PassportService } from '@service/Passport';
 import { Configuration } from '@env';
-import { connect } from './configs/db-connect';
+import { connect } from './db/db-connect';
 
 import container from './inversify/inversify.config';
 import { InversifyExpressServer } from 'inversify-express-utils';
@@ -49,7 +49,7 @@ class App {
 
   private readonly env = environment;
 
-  private readonly logger = LoggerFactory.getLogger(App.name) as Logger;
+  private readonly logger = LoggerFactory.getLogger(App.name);
 
   private server: InversifyExpressServer | null = null;
 
@@ -65,7 +65,7 @@ class App {
       this.setCsrf();
     }
 
-    connect(environment !== 'test' ? db.MONGO_URI : db.MONGO_URI_TEST);
+    connect(environment !== 'test' ? db.MONGO_URL : db.MONGO_URL_TEST);
   }
 
   private setAppMiddlewares(): void {
@@ -143,7 +143,6 @@ class App {
     // eslint-disable-next-line max-params
     this.app.use(
       (err: Error | any, __: Request, res: Response, next: NextFunction) => {
-        console.log('🚀 ~ file: app.ts ~ line 147 ~ App ~ start ~ err', err);
         if (err.code !== 'EBADCSRFTOKEN') return next(err);
 
         return res.status(403).json({

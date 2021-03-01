@@ -44,10 +44,12 @@ const orderSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'User',
       required: true,
+      index: true,
     },
     orderedFor: {
       type: String,
       required: true,
+      index: true,
     },
     status: {
       type: String,

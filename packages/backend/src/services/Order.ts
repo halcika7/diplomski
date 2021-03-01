@@ -17,6 +17,7 @@ import {
   BadRequestException,
 } from '@job/common';
 import { Configuration } from '@env';
+import { LoggerFactory } from '@logger';
 
 const { ObjectId } = Types;
 
@@ -24,6 +25,8 @@ const { environment } = Configuration.appConfig;
 
 @Injectable()
 export class OrderService extends BaseService {
+  private readonly logger = LoggerFactory.getLogger('OrderService');
+
   // eslint-disable-next-line max-params
   constructor(
     private readonly cartRepository: CartRepository,
@@ -100,7 +103,8 @@ export class OrderService extends BaseService {
         cart: { documents: cart?.documents, totalCost: cart?.totalCost },
         message: 'Order successful',
       });
-    } catch {
+    } catch (error) {
+      this.logger.error(error, 'makeOrder');
       return this.returnResponse(HTTPCodes.BAD_REQUEST, {
         cart: { documents: [], totalCost: 0 },
         message: 'Email not sent',
@@ -159,6 +163,7 @@ export class OrderService extends BaseService {
 
       return this.returnResponse(HTTPCodes.OK, { order });
     } catch (error) {
+      this.logger.error(error, 'getOrder');
       throw new BadRequestException('Order was not found');
     }
   }
@@ -229,6 +234,7 @@ export class OrderService extends BaseService {
 
       return this.returnResponse(HTTPCodes.OK, { message: `Order ${status}` });
     } catch (error) {
+      this.logger.error(error, 'updateOrderStatus');
       throw new BadRequestException('Order was not found');
     }
   }

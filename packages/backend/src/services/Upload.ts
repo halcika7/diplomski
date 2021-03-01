@@ -8,9 +8,12 @@ import { FileUploadBody } from '@ctypes';
 import { BindingRepository } from '@repository/Binding';
 import { PaperRepository } from '@repository/Paper';
 import { isEmpty, StringDictionary } from '@job/common';
+import { LoggerFactory } from '@logger';
 
 @Injectable()
 export class UploadService extends BaseService {
+  private readonly logger = LoggerFactory.getLogger('UploadService');
+
   // eslint-disable-next-line max-params
   constructor(
     private readonly paperRepository: PaperRepository,
@@ -151,6 +154,7 @@ export class UploadService extends BaseService {
 
       return { cart };
     } catch (err) {
+      this.logger.error(err, 'uploadFile');
       return { err };
     }
   }

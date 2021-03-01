@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { Logger, LoggerFactory } from '@logger';
+import { LoggerFactory } from '@logger';
 import { HTTPCodes, HttpException } from '@job/common';
 
 export const errorHandle = (
@@ -9,10 +9,13 @@ export const errorHandle = (
   __: NextFunction
 ) => {
   if (error instanceof HttpException) {
+    const logger = LoggerFactory.getLogger('HttpException');
+
+    logger.error((error as unknown) as Error, 'HttpException error');
     return res.status(error.getStatus()).json(error.getResponse());
   }
 
-  const logger = LoggerFactory.getLogger('Unhandled error') as Logger;
+  const logger = LoggerFactory.getLogger('Unhandled error');
 
   logger.error(error, 'Unhandled error');
 

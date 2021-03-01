@@ -13,6 +13,7 @@ import { JWTService } from './JWT';
 import { Injectable } from '@decorator/class';
 import { Token } from '@job/common';
 import { CookieService } from './Cookie';
+import { LoggerFactory } from '@logger';
 
 @Injectable()
 export class PassportService extends BaseService {
@@ -54,7 +55,12 @@ export class PassportService extends BaseService {
       }
 
       return done(undefined, user as UserInterface);
-    } catch {
+    } catch (error) {
+      LoggerFactory.getLogger('PassportService').error(
+        error,
+        'passportStrategy'
+      );
+
       return done(
         'Please enable sharing personal info such as "email, name an picture"',
         undefined

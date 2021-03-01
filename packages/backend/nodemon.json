@@ -1,0 +1,7 @@
+{
+  "verbose": true,
+  "watch": ["src", "yarn.lock"],
+  "exec": "babel-node --extensions \".ts\" src/server.ts",
+  "ext": "ts",
+  "ignore": ["node_modules"]
+}

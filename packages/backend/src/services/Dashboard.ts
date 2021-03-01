@@ -45,13 +45,11 @@ export class DashboardService extends BaseService {
   }
 
   private getSum(orders: OrderAggregate[], cb: CB = EmptyFn) {
-    let total: number | string = orders
+    const total: number | string = orders
       .filter(cb)
       .reduce((a, b) => a + b.totalCost, 0);
 
-    total = this.numberHelper.getTwoDigitNumber(total);
-
-    return parseFloat(total);
+    return this.numberHelper.getTwoDigitNumber(total);
   }
 
   private getOrderCount(orders: OrderAggregate[], cb: CB = EmptyFn) {
@@ -202,22 +200,19 @@ export class DashboardService extends BaseService {
   async getEarningsAdmin() {
     const date = this.dateObj;
     const [
+      firstResponse,
       earningsByMonth,
       earningsForMonth,
       ordersByMonths,
       ordersByMonth,
     ] = await Promise.all([
+      this.getOrdersCommon(),
       this.chartHelper({ year: this.dateHelper.getCurrentYear }),
       this.chartHelper({ Data: { type: '$totalCost', date } }),
       this.getNumberOfOrdersByMonths(this.dateHelper.getCurrentYear),
       this.chartHelper({ Data: { type: 1, date } }),
     ]);
-    const {
-      Orders,
-      completed,
-      notPaid,
-      ...common
-    } = await this.getOrdersCommon();
+    const { Orders, completed, notPaid, ...common } = firstResponse;
     const rest = this.getOrdersAdminProfessor(Orders, completed, notPaid);
 
     return {
@@ -233,23 +228,20 @@ export class DashboardService extends BaseService {
 
   async getEarningsProfessor(user: Token) {
     const date = this.dateObj;
-    const {
-      Orders,
-      completed,
-      notPaid,
-      ...common
-    } = await this.getOrdersCommon({ orderedBy: new ObjectId(user.id) });
     const [
+      firstResponse,
       earningsByMonth,
       earningsForMonth,
       ordersByMonths,
       ordersByMonth,
     ] = await Promise.all([
+      this.getOrdersCommon({ orderedBy: new ObjectId(user.id) }),
       this.chartHelper({ user, year: this.dateHelper.getCurrentYear }),
       this.chartHelper({ user, Data: { type: '$totalCost', date } }),
       this.getNumberOfOrdersByMonths(this.dateHelper.getCurrentYear, {}, user),
       this.chartHelper({ user, Data: { type: 1, date } }),
     ]);
+    const { Orders, completed, notPaid, ...common } = firstResponse;
     const rest = this.getOrdersAdminProfessor(Orders, completed, notPaid);
 
     return {

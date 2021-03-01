@@ -9,7 +9,7 @@
       "@config/*": ["src/configs/*"],
       "@controller/*": ["src/controllers/*"],
       "@middleware/*": ["src/middlewares/*"],
-      "@model/*": ["src/models/*"],
+      "@model/*": ["src/db/models/*"],
       "@service/*": ["src/services/*"],
       "@logger": ["src/utils/logger/index"],
       "@ctypes": ["src/utils/types/index"],

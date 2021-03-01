@@ -8,9 +8,12 @@ import { authMiddleware } from '@middleware/auth';
 import { multerFile } from '@middleware/multer';
 import { UploadService } from '@service/Upload';
 import { FileUploadBody, RequestUser } from '@ctypes';
+import { LoggerFactory } from '@logger';
 
 @Controller('/upload')
 export class UploadController extends BaseController {
+  private readonly logger = LoggerFactory.getLogger('UploadController');
+
   constructor(private readonly uploadService: UploadService) {
     super();
   }
@@ -38,6 +41,7 @@ export class UploadController extends BaseController {
 
       return this.sendResponse(res, HTTPCodes.OK, { cart });
     } catch (err) {
+      this.logger.error(err, 'uploadFile');
       return this.sendResponse(res, HTTPCodes.BAD_REQUEST, { err });
     }
   }

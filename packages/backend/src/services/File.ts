@@ -15,11 +15,14 @@ import { join } from 'path';
 import { writeFile, unlink } from 'fs';
 import { PaperService } from './Paper';
 import { BindingService } from './Binding';
+import { Configuration } from '@env';
 
 const cwd = process.cwd();
 const zip = promisify(gzip);
 const write = promisify(writeFile);
 const unLink = promisify(unlink);
+
+const { environment } = Configuration.appConfig;
 
 interface GetFilePrice {
   body: FileUploadBody;
@@ -30,7 +33,13 @@ interface GetFilePrice {
 
 @Injectable()
 export class FileService extends BaseService {
-  private readonly directory = join(cwd, 'dist', 'public', 'files', 'temp');
+  private readonly directory = join(
+    cwd,
+    environment === 'production' ? 'dist' : 'src',
+    'public',
+    'files',
+    'temp'
+  );
 
   private readonly number: NumberHelper;
 

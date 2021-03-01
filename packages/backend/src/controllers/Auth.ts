@@ -7,12 +7,15 @@ import { CookieService } from '@service/Cookie';
 import { Configuration } from '@env';
 import { AuthService } from '@service/Auth';
 import { HTTPCodes, NotFoundException, UserRole } from '@job/common';
+import { LoggerFactory } from '@logger';
 
 const { environment } = Configuration.appConfig;
 
 @Controller('/auth')
 export class AuthController extends BaseController {
   private readonly cookie = CookieService;
+
+  private readonly logger = LoggerFactory.getLogger('AuthController');
 
   constructor(private readonly auth: AuthService) {
     super();
@@ -52,6 +55,7 @@ export class AuthController extends BaseController {
       this.cookie.setRefreshToken(res, refreshToken || '');
       return this.sendResponse(res, status, { ...rest });
     } catch (error) {
+      this.logger.error(error, 'refreshToken');
       const status =
         check === 'false' ? HTTPCodes.UNAUTHORIZED : HTTPCodes.BAD_REQUEST;
       return this.sendResponse(res, status, {});

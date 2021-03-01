@@ -13,6 +13,6 @@ export class LoggerFactory {
       LoggerFactory.loggerMap.set(Class, new Logger(Class));
     }
 
-    return LoggerFactory.loggerMap.get(Class);
+    return LoggerFactory.loggerMap.get(Class) as Logger;
   }
 }

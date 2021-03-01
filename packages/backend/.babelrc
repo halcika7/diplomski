@@ -31,7 +31,7 @@
             "rootPathPrefix": "@middleware/"
           },
           {
-            "rootPathSuffix": "./src/models",
+            "rootPathSuffix": "./src/db/models",
             "rootPathPrefix": "@model/"
           },
           {

@@ -9,8 +9,8 @@ interface ServerConfig {
 }
 
 interface DbConfig {
-  MONGO_URI: string;
-  MONGO_URI_TEST: string;
+  MONGO_URL: string;
+  MONGO_URL_TEST: string;
 }
 
 interface LoggingConfig {
@@ -60,8 +60,8 @@ interface AppConfig {
 const {
   NODE_ENV,
   URL,
-  MONGO_URI,
-  MONGO_URI_TEST,
+  MONGO_URL,
+  MONGO_URL_TEST,
   LOGGING_DEFAULT_LEVEL,
   LOGGING_ERROR_FILE_PATH,
   LOGGING_FILE_PATH,
@@ -88,8 +88,8 @@ export abstract class Configuration {
     environment: NODE_ENV as string,
     url: URL as string,
     db: {
-      MONGO_URI,
-      MONGO_URI_TEST,
+      MONGO_URL,
+      MONGO_URL_TEST,
     } as DbConfig,
     logging: {
       defaultLevel: LOGGING_DEFAULT_LEVEL,

@@ -13,9 +13,12 @@ import {
   PersonalInfoBody,
   UserRole,
 } from '@job/common';
+import { LoggerFactory } from '@logger';
 
 @Controller('/user')
 export class UserController extends BaseController {
+  private readonly logger = LoggerFactory.getLogger('UserController');
+
   constructor(private readonly userService: UserService) {
     super();
   }
@@ -95,6 +98,7 @@ export class UserController extends BaseController {
 
       return this.sendResponse(res, HTTPCodes.OK, { user });
     } catch (error) {
+      this.logger.error(error, 'getUser');
       return this.sendResponse(res, HTTPCodes.NOT_FOUND, {
         message: 'User not found',
       });

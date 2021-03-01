@@ -4,14 +4,14 @@ import { user } from './user';
 import { paper } from './paper';
 import { file } from './file';
 import { Configuration } from '@env';
-import { connect } from '@config/db-connect';
+import { connect } from '../db-connect';
 import mongoose from 'mongoose';
 
 const { environment, db } = Configuration.appConfig;
 
 const migrate = async () => {
   try {
-    const url = environment === 'test' ? db.MONGO_URI_TEST : db.MONGO_URI;
+    const url = environment === 'test' ? db.MONGO_URL_TEST : db.MONGO_URL;
     await connect(url);
     await Promise.all([
       mongoose.connection.db.dropDatabase(),

@@ -68,10 +68,10 @@ export class OrderRepository extends BaseRepository {
   async getOrdersForEarnings(findBy: FindByOrder) {
     const Orders = await this.getOrders(findBy);
     const completed = Orders.filter(
-      (order: OrderAggregate) => order.status === 'completed' && order.paid
+      (order: OrderAggregate) => order.status === 'completed'
     );
     const notPaid = Orders.filter(
-      (order: OrderAggregate) => order.status === 'finished' && !order.paid
+      (order: OrderAggregate) => order.status === 'finished'
     );
 
     return { Orders, completed, notPaid };

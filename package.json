@@ -22,7 +22,9 @@
     "lerna:lint:ts": "lerna run lint:ts:fix",
     "lint": "yarn --cwd packages/backend lint:ts:fix; yarn --cwd packages/frontend lint:ts:fix; yarn --cwd packages/common lint:ts:fix",
     "format": "yarn --cwd packages/backend format:write; yarn --cwd packages/frontend format:write; yarn --cwd packages/common format:write",
-    "lerna:format": "lerna run format:write"
+    "lerna:format": "lerna run format:write",
+    "migrate": "yarn --cwd packages/backend migrate",
+    "seed": "yarn --cwd packages/backend seed"
   },
   "lint-staged": {
     "packages/**/*.{ts,tsx,.json,.env,.babelrc}": [
