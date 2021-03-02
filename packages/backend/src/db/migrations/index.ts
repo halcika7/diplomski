@@ -13,18 +13,24 @@ const migrate = async () => {
   try {
     const url = environment === 'test' ? db.MONGO_URL_TEST : db.MONGO_URL;
     await connect(url);
-    await Promise.all([
-      mongoose.connection.db.dropDatabase(),
-      binding(),
-      user(),
-      paper(),
-      file(),
-    ]);
+
+    if (environment === 'dev' || environment === 'test') {
+      await Promise.all([
+        mongoose.connection.db.dropDatabase(),
+        binding(),
+        user(),
+        paper(),
+        file(),
+      ]);
+    } else {
+      await Promise.all([binding(), user(), paper(), file()]);
+    }
 
     setTimeout(() => {
       process.exit();
     }, 7000);
   } catch (error) {
+    console.log('🚀 ~ file: index.ts ~ line 29 ~ migrate ~ error', error);
     setTimeout(() => {
       process.exit();
     }, 7000);

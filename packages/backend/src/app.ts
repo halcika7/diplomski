@@ -39,6 +39,8 @@ import '@controller/Dashboard';
 import { errorHandle } from './middlewares/errorHandling';
 
 const { cookie, environment, url, server, db } = Configuration.appConfig;
+console.log('🚀 ~ file: app.ts ~ line 42 ~ db', db);
+console.log('🚀 ~ file: app.ts ~ line 42 ~ environment', environment);
 
 class App {
   private readonly app: Application;
@@ -75,7 +77,7 @@ class App {
     const RedisStore = connectRedis(session);
 
     const middlewares = [
-      cors({ origin: url, credentials: true }),
+      cors({ origin: [url, '*'], credentials: true }),
       session({
         store: new RedisStore({ client: RedisService.client }),
         secret: cookie.COOKIE_SECRET,

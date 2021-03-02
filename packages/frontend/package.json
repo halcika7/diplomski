@@ -95,13 +95,14 @@
   },
   "scripts": {
     "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
+    "build": "yarn prebuild && react-app-rewired build",
     "serve": "serve -l 3000 -s build",
     "test": "NODE_ENV=test react-app-rewired test --env=jest-environment-jsdom-sixteen --verbose --collectCoverage",
     "test:coverage": "yarn test --coverage --watchAll=false",
     "eject": "react-scripts eject",
     "lint:ts:fix": "eslint . --ext .ts,.tsx --fix",
-    "format:write": "prettier --write . --ignore-path ../../.prettierignore"
+    "format:write": "prettier --write . --ignore-path ../../.prettierignore",
+    "prebuild": "node prebuild.js"
   },
   "browserslist": {
     "production": [

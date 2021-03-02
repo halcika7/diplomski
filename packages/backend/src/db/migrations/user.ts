@@ -48,6 +48,7 @@ const users = [
     blocked: false,
     email: 'haris.beslic@stu.ibu.edu.ba',
     role: 'professor',
+    createdAt: new Date(2019, 1, 1, 15, 54),
   },
 ];
 

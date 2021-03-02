@@ -25,7 +25,6 @@
     "seed": "babel-node --extensions \".ts\" src/db/seeder/index.ts"
   },
   "devDependencies": {
-    "@babel/node": "^7.13.0",
     "@types/compression": "^1.7.0",
     "@types/connect-redis": "^0.0.16",
     "@types/cookie-parser": "^1.4.2",
@@ -59,6 +58,7 @@
   "dependencies": {
     "@babel/cli": "^7.12.13",
     "@babel/core": "^7.12.13",
+    "@babel/node": "^7.13.0",
     "@babel/plugin-proposal-class-properties": "^7.12.13",
     "@babel/plugin-proposal-decorators": "^7.12.13",
     "@babel/plugin-transform-runtime": "^7.12.15",

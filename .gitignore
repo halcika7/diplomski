@@ -12,3 +12,5 @@ packages/backend/logs
 **/frontend/.next
 **/frontend/out
 
+app.json
+
