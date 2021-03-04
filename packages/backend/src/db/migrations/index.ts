@@ -30,7 +30,6 @@ const migrate = async () => {
       process.exit();
     }, 7000);
   } catch (error) {
-    console.log('🚀 ~ file: index.ts ~ line 29 ~ migrate ~ error', error);
     setTimeout(() => {
       process.exit();
     }, 7000);

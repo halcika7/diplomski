@@ -37,6 +37,7 @@ const ProfileForm = () => {
 
   const isDisabled = () => {
     const hasErrors = Object.values(errors).some(value => value !== '');
+
     if (
       (userData.facebookLink === state.facebookLink &&
         userData.twitterLink === state.twitterLink &&

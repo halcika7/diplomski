@@ -67,28 +67,44 @@ const Pricing = () => {
                     </tr>
                     <tr>
                       {papers.map(paper => (
-                        <td key={`priceblackwhite0${new Date().getTime()}`}>
+                        <td
+                          key={`priceblackwhite0${
+                            new Date().getTime() * Math.random()
+                          }`}
+                        >
                           {paper.blackWhitePrinting.upTo250} KM
                         </td>
                       ))}
                     </tr>
                     <tr>
                       {papers.map(paper => (
-                        <td key={`priceblackwhite1${new Date().getTime()}`}>
+                        <td
+                          key={`priceblackwhite1${
+                            new Date().getTime() * Math.random()
+                          }`}
+                        >
                           {paper.blackWhitePrinting.from250upTo500} KM
                         </td>
                       ))}
                     </tr>
                     <tr>
                       {papers.map(paper => (
-                        <td key={`priceblackwhite2${new Date().getTime()}`}>
+                        <td
+                          key={`priceblackwhite2${
+                            new Date().getTime() * Math.random()
+                          }`}
+                        >
                           {paper.blackWhitePrinting.from500upTo1000} KM
                         </td>
                       ))}
                     </tr>
                     <tr>
                       {papers.map(paper => (
-                        <td key={`priceblackwhite3${new Date().getTime()}`}>
+                        <td
+                          key={`priceblackwhite3${
+                            new Date().getTime() * Math.random()
+                          }`}
+                        >
                           {paper.blackWhitePrinting.from1000} KM
                         </td>
                       ))}
@@ -120,35 +136,55 @@ const Pricing = () => {
                   <tbody>
                     <tr>
                       {papers.map(paper => (
-                        <td key={`${paper.name + new Date().getTime()}color`}>
+                        <td
+                          key={`${
+                            paper.name + new Date().getTime() * Math.random()
+                          }color`}
+                        >
                           Per copy {paper.name}
                         </td>
                       ))}
                     </tr>
                     <tr>
                       {papers.map(paper => (
-                        <td key={`colorPrinting0${new Date().getTime()}`}>
+                        <td
+                          key={`colorPrinting0${
+                            new Date().getTime() * Math.random()
+                          }`}
+                        >
                           {paper.colorPrinting.upTo250} KM
                         </td>
                       ))}
                     </tr>
                     <tr>
                       {papers.map(paper => (
-                        <td key={`colorPrinting1${new Date().getTime()}`}>
+                        <td
+                          key={`colorPrinting1${
+                            new Date().getTime() * Math.random()
+                          }`}
+                        >
                           {paper.colorPrinting.from250upTo500} KM
                         </td>
                       ))}
                     </tr>
                     <tr>
                       {papers.map(paper => (
-                        <td key={`colorPrinting2${new Date().getTime()}`}>
+                        <td
+                          key={`colorPrinting2${
+                            new Date().getTime() * Math.random()
+                          }`}
+                        >
                           {paper.colorPrinting.from500upTo1000} KM
                         </td>
                       ))}
                     </tr>
                     <tr>
                       {papers.map(paper => (
-                        <td key={`colorPrinting3${new Date().getTime()}`}>
+                        <td
+                          key={`colorPrinting3${
+                            new Date().getTime() * Math.random()
+                          }`}
+                        >
                           {paper.colorPrinting.from1000} KM
                         </td>
                       ))}
@@ -163,7 +199,7 @@ const Pricing = () => {
               DOCUMENT BINDING
             </h3>
             {bindings.map(binding => (
-              <Fragment key={`heading${new Date().getTime()}`}>
+              <Fragment key={`heading${new Date().getTime() * Math.random()}`}>
                 <h4
                   style={{
                     color: '#2aabe4',

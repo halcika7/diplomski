@@ -16,13 +16,10 @@ const rejectPromise = (error: AnyDictionary | string) => Promise.resolve(error);
 
 ax.interceptors.request.use(config => {
   const newConfig = { ...config };
-  const token = `Bearer ${store.getState().auth.token}`;
+  const Authorization = `Bearer ${store.getState().auth.token}`;
   newConfig.headers = {
     ...newConfig.headers,
-    common: {
-      ...newConfig.headers.common,
-      Authorization: token,
-    },
+    common: { ...newConfig.headers.common, Authorization },
   };
 
   return newConfig;
@@ -49,6 +46,10 @@ ax.interceptors.response.use(
           if (res.data.accessToken) {
             const { accessToken } = res.data;
             // dispatch refresh success
+            originalRequest.headers = {
+              ...originalRequest.headers,
+              Authorization: `Bearer ${accessToken}`,
+            };
             store.dispatch(authSuccess(accessToken));
             // return originalRequest object with Axios.
             return axios(originalRequest);

@@ -39,8 +39,6 @@ import '@controller/Dashboard';
 import { errorHandle } from './middlewares/errorHandling';
 
 const { cookie, environment, url, server, db } = Configuration.appConfig;
-console.log('🚀 ~ file: app.ts ~ line 42 ~ db', db);
-console.log('🚀 ~ file: app.ts ~ line 42 ~ environment', environment);
 
 class App {
   private readonly app: Application;

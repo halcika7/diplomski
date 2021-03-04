@@ -24,18 +24,30 @@ const readFile = (file: File, cb: (reader: FileReader) => void) => {
 interface Props {
   image: File | undefined;
   setImage: (val: File | undefined) => void;
+  setMessage: (val: string) => void;
 }
 
-const UploadImage: FC<Props> = ({ setImage, image }): JSX.Element => {
+const UploadImage: FC<Props> = ({
+  setImage,
+  image,
+  setMessage,
+}): JSX.Element => {
   const img = useRef<HTMLImageElement>(null);
   const input = useRef<HTMLInputElement>(null);
   const [Image, SetImage] = useState<string>(defaultImage);
 
   const uploadChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || !e.target.files.length || !window.FileReader) {
+      input.current!.value = '';
+      return setMessage('File not selected');
+    }
     const { files } = e.target;
-    if (!files || !files.length || !window.FileReader) return;
-    if (!files[0].type.match('image')) return;
-    readFile(files[0], () => setImage(files[0]));
+    if (!files[0].type.match('image')) {
+      input.current!.value = '';
+      return setMessage('Invalid file type');
+    }
+    setMessage('');
+    return readFile(files[0], () => setImage(files[0]));
   };
 
   const removePicture = (e: Event<HTMLButtonElement, MouseEvent>) => {

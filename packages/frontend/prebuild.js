@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const fs = require('fs');
 const path = require('path');
 
@@ -23,23 +24,9 @@ function patchPackage(package = '@nivo/line') {
     package,
     'package.json'
   );
-  console.log(
-    '🚀 ~ file: prebuild.js ~ line 24 ~ patchPackage ~ packageJsonPath',
-    packageJsonPath
-  );
-  try {
-    const packageJson = fs.readFileSync(packageJsonPath, 'utf-8');
-    const modifiedPackageJson = packageJson.replace(
-      '"sideEffects": false,',
-      ''
-    );
-    fs.writeFileSync(packageJsonPath, modifiedPackageJson, {
-      encoding: 'utf-8',
-    });
-  } catch (error) {
-    console.log(
-      '🚀 ~ file: prebuild.js ~ line 33 ~ patchPackage ~ error',
-      error
-    );
-  }
+  const packageJson = fs.readFileSync(packageJsonPath, 'utf-8');
+  const modifiedPackageJson = packageJson.replace('"sideEffects": false,', '');
+  fs.writeFileSync(packageJsonPath, modifiedPackageJson, {
+    encoding: 'utf-8',
+  });
 }

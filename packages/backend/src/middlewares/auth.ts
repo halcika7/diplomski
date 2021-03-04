@@ -14,9 +14,7 @@ export const authMiddleware = (permission: string[] | null = null) => async (
     ? req.headers.authorization.split(' ')[1]
     : '';
 
-  if (!token) {
-    return returnUnAuthorizedRequest(res);
-  }
+  if (!token) return returnUnAuthorizedRequest(res);
 
   try {
     const decoded = JWTService.verifyToken(token) as Token;
